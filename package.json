@@ -19,6 +19,9 @@
     "@capacitor/status-bar": "6.0.0",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
+    "@polkadot/api": "^12.2.1",
+    "@polkadot/keyring": "^13.0.2",
+    "@polkadot/util-crypto": "^13.0.2",
     "ionicons": "^7.0.0",
     "vue": "^3.3.0",
     "vue-router": "^4.2.0"
