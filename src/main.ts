@@ -19,7 +19,7 @@ import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
-
+import './global.css';  // 引入全局样式文件
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
@@ -33,10 +33,12 @@ import '@ionic/vue/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import i18n from './i18n';
+
 globalThis.Buffer = Buffer;
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router).use(i18n);
 
 router.isReady().then(() => {
   app.mount('#app');

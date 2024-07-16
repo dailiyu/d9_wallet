@@ -1,5 +1,6 @@
 <template>
-  <div class="main">
+  <ion-page>
+    <div class="main">
     <div class="main_top">
       <div>
         <div class="name">Person</div>
@@ -20,17 +21,21 @@
 
     <div class="swiper">
       <div class="swiper_item">
-        <img src="@/assets/home/d9-network.png" alt="" class="">
+        <div class="logos">
+          <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
+          <div class="logo_item">
+            Digital Assets
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage } from '@ionic/vue';
 </script>
-
-
 <style lang="scss" scoped>
 .main {
   width: 100%;
@@ -80,6 +85,26 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
       box-shadow: 0px 3px 20px 1px rgba(4,44,110,0.16);
       background: #fff url('@/assets/home/card_bg.png');
       background-size: 100% auto;
+      .logos {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 3.5047vw 4.6729vw;
+        .logo_d9 {
+          width: 35.7477vw;
+          height: auto;
+        }
+        .logo_item {
+          width: 14.486vw;
+          height: 3.5047vw;
+          line-height: 3.5047vw;
+          border-radius: 9px;
+          background-color: #0065B2;
+          color: #fff;
+          font-size: 1.8692vw;
+          text-align: center;
+        }
+      }
     }
   }
 }
