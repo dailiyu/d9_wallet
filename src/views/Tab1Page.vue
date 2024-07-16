@@ -70,7 +70,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue
   }
 
   .swiper {
-    padding: 8.6449vw;
+    padding: 0 8.6449vw;
     .swiper_item {
       width: 82.9439vw;
       height: 128.7383vw;
