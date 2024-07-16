@@ -1,31 +1,37 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/TabsPage.vue'
-
+import MainPage from '../views/mainPage.vue'
+import SwitchaLanguage from '@/views/setting/switchaLanguage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/main/home'
   },
   {
-    path: '/tabs/',
-    component: TabsPage,
+    path: '/main',
+    component: MainPage,
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1'
+        redirect: '/main/home'
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        path: 'home',
+        component: () => import('@/views/home.vue')
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        path: 'discovery',
+        component: () => import('@/views/discovery.vue')
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
+        path: 'myself',
+        component:SwitchaLanguage,
+        children: [
+          {
+            path: 'setting',
+            component:SwitchaLanguage
+          }
+        ]
       }
     ]
   }
