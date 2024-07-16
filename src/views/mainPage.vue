@@ -25,4 +25,12 @@
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { ellipse, square, triangle } from 'ionicons/icons';
+
 </script>
+
+<style lang="scss" scoped>
+.tabs_pic {
+  width: 5.6075vw;
+  height: auto;
+}
+</style>
