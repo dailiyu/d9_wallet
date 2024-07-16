@@ -1,5 +1,6 @@
 <template>
   <ion-page>
+    discovery
   </ion-page>
 </template>
 

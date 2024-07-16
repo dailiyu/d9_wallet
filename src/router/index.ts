@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import MainPage from '../views/mainPage.vue'
-import SwitchaLanguage from '@/views/setting/switchaLanguage.vue'
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -25,13 +25,17 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'myself',
-        component:SwitchaLanguage,
+        component:()=>import('@/views/myself.vue'),
         children: [
           {
             path: 'setting',
-            component:SwitchaLanguage
+            component:()=>import('@/views/setting/switchaLanguage.vue'),
           }
         ]
+      },
+      {
+        path: 'setting',
+        component:()=>import('@/views/setting/switchaLanguage.vue'),
       }
     ]
   }
