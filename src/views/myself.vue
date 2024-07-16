@@ -3,9 +3,10 @@
     <div>
       <createWallet></createWallet>
       <importWallet></importWallet>
-      <div class="setting" @click="toSetting()">
+      <div  class="setting" @click="toSetting()">
         切换语言
       </div>
+      
     </div>
    </ion-page>
 </template>
@@ -17,6 +18,6 @@ import importWallet from './importWallet.vue'
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const toSetting = () => {
-  router.push('/main/myself/setting');
+  router.push('/main/setting');
 };
 </script>
