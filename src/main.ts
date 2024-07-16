@@ -19,7 +19,7 @@ import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
-import './global.css';  // 引入全局样式文件
+import './global.scss';  // 引入全局样式文件
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
