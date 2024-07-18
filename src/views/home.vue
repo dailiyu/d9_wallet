@@ -21,6 +21,7 @@
 
     <homeSwiper></homeSwiper>
     <homgTransferModal></homgTransferModal>
+    <homeAcceptModal></homeAcceptModal>
   </div>
   </ion-page>
 </template>
@@ -28,7 +29,8 @@
 <script setup lang="ts">
 import { IonPage } from '@ionic/vue';
 import homeSwiper from '@/components/home/homeSwiper.vue';
-import homgTransferModal from '@/components/home/homeTransferModal.vue'
+import homgTransferModal from '@/components/home/homeTransferModal.vue';
+import homeAcceptModal from '@/components/home/homeAcceptModal.vue'
 </script>
 <style lang="scss" scoped>
 .main {
