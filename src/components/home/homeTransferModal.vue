@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonIcon } from '@ionic/vue';
+  import { IonModal } from '@ionic/vue';
 </script>
 
 <style scoped lang="scss">

@@ -3,7 +3,7 @@
     <div class="main">
     <div class="main_top">
       <div>
-        <div class="name" id="openTransferModal">Person</div>
+        <div class="name" id="openAcceptModal">Person</div>
         <div class="account">DAUS1281******SAD3842</div>
       </div>
       <div class="functions">
