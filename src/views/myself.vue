@@ -124,7 +124,7 @@
     background-color: #F8F8F8;
     font-family: 'HarmonyOS_Sans_SC', sans-serif;
     .wrap{
-      margin: 12.8505vw 7.4766vw 0 7.4766vw;
+      margin: 12.8505vw 5.8411vw 0 5.8411vw;
       .user-message{
       height: 17.9907vw;
       display: flex;

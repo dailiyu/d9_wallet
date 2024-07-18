@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { IonModal } from '@ionic/vue';
+  import {  IonModal,IonInput } from '@ionic/vue';
 </script>
 
 <style scoped lang="scss">
