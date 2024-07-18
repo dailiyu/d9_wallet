@@ -1,8 +1,9 @@
 <template>
-  <ion-page class="main">
+  <ion-page>
+    <div class="main">
     <div class="main_top">
       <div>
-        <div class="name">Person</div>
+        <div class="name" id="openTransferModal">Person</div>
         <div class="account">DAUS1281******SAD3842</div>
       </div>
       <div class="functions">
@@ -18,17 +19,19 @@
       </div>
     </div>
 
-    <div class="swiper">
-      <div class="swiper_item"></div>
-    </div>
+    <homeSwiper></homeSwiper>
+    <homgTransferModal></homgTransferModal>
+    <homeAcceptModal></homeAcceptModal>
+  </div>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage} from '@ionic/vue';
+import { IonPage } from '@ionic/vue';
+import homeSwiper from '@/components/home/homeSwiper.vue';
+import homgTransferModal from '@/components/home/homeTransferModal.vue';
+import homeAcceptModal from '@/components/home/homeAcceptModal.vue'
 </script>
-
-
 <style lang="scss" scoped>
 .main {
   width: 100%;
@@ -69,16 +72,6 @@ import { IonPage} from '@ionic/vue';
     }
   }
 
-  .swiper {
-    padding: 8.6449vw;
-    .swiper_item {
-      width: 82.9439vw;
-      height: 128.7383vw;
-      border-radius: 25px;
-      box-shadow: 0px 3px 20px 1px rgba(4,44,110,0.16);
-      background: #fff url('@/assets/home/card_bg.png');
-      background-size: 100% auto;
-    }
-  }
+  
 }
 </style>
