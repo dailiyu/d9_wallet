@@ -35,6 +35,9 @@ import '@ionic/vue/css/palettes/dark.system.css';
 import './theme/variables.css';
 import i18n from './i18n';
 
+//引入vant样式
+import 'vant/lib/index.css';
+
 globalThis.Buffer = Buffer;
 const app = createApp(App)
   .use(IonicVue)
