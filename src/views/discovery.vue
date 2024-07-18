@@ -23,7 +23,7 @@
         </div>
         <div class="item">
           <div class="icon">
-            <img src="@/assets/discovery/Merchant.png" alt="">
+            <img src="@/assets/discovery/worldSwap.png" alt="">
           </div>
           <div class="text">
             WorldSwrap
@@ -31,7 +31,7 @@
         </div>
         <div class="item">
           <div class="icon">
-            <img src="@/assets/discovery/Merchant.png" alt="">
+            <img src="@/assets/discovery/chain.png" alt="">
           </div>
           <div class="text">
             跨链桥
@@ -39,7 +39,7 @@
         </div>
         <div class="item">
           <div class="icon">
-            <img src="@/assets/discovery/Merchant.png" alt="">
+            <img src="@/assets/discovery/fully.png" alt="">
           </div>
           <div class="text">
             满仓
@@ -67,30 +67,28 @@ import { IonPage} from '@ionic/vue';
 </script>
 
 <style lang="scss" scoped>
-  .page {
+.page {
   height: 100%;
   overflow-y: scroll;
   background-color: #F8F8F8;
   font-family: 'HarmonyOS_Sans_SC', sans-serif;
-
   .wrap {
-    margin: 12.8505vw 7.4766vw 0 7.4766vw;
+    margin: 12.8505vw 5.8411vw 0 5.8411vw;
+  
     .title-top {
       font-weight: bold;
-      font-size: 30px;
+      font-size: 8.1776vw;
       color: #272527;
       font-weight: bold;
     }
-  }
-
-  .carousel {
+    .carousel {
     margin-top: 13.0841vw;
     height: 35.0467vw;
-    width: 90.1869vw;
+    // width: 90.1869vw;
     border-radius: 3.0374vw;
     overflow: hidden;
     .my-swipe {
-       height: 35.0467vw; /* 设定轮播图的高度 */
+      height: 35.0467vw; /* 设定轮播图的高度 */
       .van-swipe-item {
         display: flex;
         align-items: center;
@@ -103,29 +101,51 @@ import { IonPage} from '@ionic/vue';
       }
     }
   }
-  .menue{
+    .menue {
     display: flex;
-    justify-content: space-between;
-    background-color:#fff ;
-    width: 90.1869vw;
-    height: 62.1495vw;
+    justify-content: flex-start; /* 改为flex-start以确保项目靠左对齐 */
+    flex-wrap: wrap;
+    background-color: #fff;
+    // width: 90.1869vw;
     border-radius: 3.0374vw;
-    margin-top: 3.0374vw;
-    .item{
-      .icon{
-        width: 65px;
-        height: 65px;
-        background: #FFFFFF;
-        border-radius: 14px 14px 14px 14px;
-        border: 1px solid #E7EBF2;
-        img{}
-        .text{
+    margin-top: 3.5047vw;
+    padding: 5.1402vw;
 
+    .item {
+      flex: 1 1 25%; /* 修改为22%，确保有间隙 */
+      max-width: 25%; /* 确保每行最多四个元素 */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2.3364vw; /* 添加间距，以便元素之间有一些间隙 */
+      margin-top: 2.3364vw;
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 15.1869vw;
+        height: 15.1869vw;
+        background: #FFFFFF;
+        border-radius: 3.271vw 3.271vw 3.271vw 3.271vw;
+        border: 0.2336vw solid #E7EBF2;
+        
+        img {
+          height: 8.7103vw;
+          width: 8.7103vw;
         }
+      }
+
+      .text {
+        font-weight: 500;
+        font-size: 2.8037vw;
+        color: #272527;
+        margin-top: 1.1682vw; 
       }
     }
   }
-
+  }
 }
+
 
 </style>
