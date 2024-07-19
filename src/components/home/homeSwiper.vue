@@ -2,9 +2,9 @@
   <swipe class="swiper" :autoplay="0" indicator-color="white" type="card">
     <swipe-item>
       <div class="swiper_item">
-          <div class="item1">
+          <div class="item1" v-show="showBalance">
             <div class="logos">
-              <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
+              <img src="@/assets/home/d9-network.png" alt="" class="logo_d9" @click="showBalance=!showBalance">
               <div class="logo_item">
                 Digital Assets
               </div>
@@ -53,7 +53,7 @@
             </div>
           </div>
   
-          <!-- <div class="item2">
+          <div class="item2" v-show="!showBalance">
             <div class="logos">
               <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
             </div>
@@ -83,12 +83,12 @@
                 </div>
                 <img src="@/assets/home/arrow-right-grey.png" alt="" class="arrow_pic">
               </div>
-              <div class="back">
+              <div class="back" @click="showBalance=!showBalance">
                 <img src="@/assets/home/return.png" alt="" class="back_pic">
                 <div>回到首页</div>
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
     </swipe-item>
 
@@ -140,13 +140,14 @@
   
 <script setup lang="ts">
 import { Swipe, SwipeItem } from 'vant';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 defineComponent({
   components: {
     Swipe,
     SwipeItem
   }
 });
+const showBalance = ref(true)
 </script>
 <style lang="scss" scoped>
  .swiper {

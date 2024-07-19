@@ -1,6 +1,10 @@
 <template>
-      <ion-modal trigger="openAcceptModal" :initial-breakpoint="1" :breakpoints="[0, 1]">
+      <van-popup :show="isShowAcceptModal" :style="{ height: '80%'}" position="top" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}">
         <div class="accept_modal">
+            <div class="accept_title">
+                <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeAcceptModal">
+                <div>收款</div>
+            </div>
             <qrcode-vue :value="payUrl" :size="150" level="H" />
             <div class="address_text">接收地址</div>
             <div class="address_detail">
@@ -9,14 +13,24 @@
             </div>
             <div class="set_btn">设置金额</div>
         </div>
-      </ion-modal>
+      </van-popup>
 </template>
   
 <script lang="ts" setup>
-    import { IonModal } from '@ionic/vue';
     import QrcodeVue from 'qrcode.vue';
     import {ref} from 'vue';
     const payUrl = ref('')
+    // const showAcceptModal = ref(false)
+    const props = defineProps({
+        isShowAcceptModal: {
+            type: Boolean,
+            required: true
+        }
+    });
+    const emit = defineEmits(['closeAcceptModal'])
+    function closeAcceptModal(){
+        emit('closeAcceptModal')
+    }
 </script>
   
 <style scoped lang="scss">
@@ -33,6 +47,19 @@ ion-modal::part(backdrop) {
     padding: 16.3551vw 0;
     overflow-y: scroll;
     text-align: center;
+    .accept_title {
+        position: relative;
+        text-align: center;
+        font-size: 4.9065vw;
+        margin-bottom: 18.2243vw;
+        .close_pic {
+            position: absolute;
+            left: 7.7103vw;
+            top: 0;
+            width: 4.9065vw;
+            height: auto;
+        }
+    }
     .address_text {
         font-size: 3.5047vw;
         margin: 7.4766vw 0 2.8037vw;
@@ -57,7 +84,7 @@ ion-modal::part(backdrop) {
         border: 1px solid #0065FF;
         color: #0065FF;
         border-radius: 9px;
-        margin: 14.7196vw auto;
+        margin: 14.7196vw auto 0;
     }
 }
 </style>

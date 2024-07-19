@@ -1,9 +1,9 @@
 <template>
   <ion-page>
-    <div class="main">
+    <div class="main" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
     <div class="main_top">
       <div>
-        <div class="name" id="openAcceptModal">Person</div>
+        <div class="name">Person</div>
         <div class="account">DAUS1281******SAD3842</div>
       </div>
       <div class="functions">
@@ -20,9 +20,10 @@
     </div>
 
     <homeSwiper></homeSwiper>
-    <homgTransferModal></homgTransferModal>
-    <homeAcceptModal></homeAcceptModal>
+    
   </div>
+  <homgTransferModal :isShowTransferModal="showTransferModal" @closeTransferModal="showTransferModal=false"></homgTransferModal>
+    <homeAcceptModal :isShowAcceptModal="showAcceptModal" @closeAcceptModal="showAcceptModal=!showAcceptModal"></homeAcceptModal>
   </ion-page>
 </template>
 
@@ -31,6 +32,34 @@ import { IonPage } from '@ionic/vue';
 import homeSwiper from '@/components/home/homeSwiper.vue';
 import homgTransferModal from '@/components/home/homeTransferModal.vue';
 import homeAcceptModal from '@/components/home/homeAcceptModal.vue'
+import { ref } from 'vue';
+
+let showAcceptModal = ref(false)
+let showTransferModal = ref(false)
+
+const startY = ref(0);
+const endY = ref(0);
+
+const handleTouchStart = (event: TouchEvent) => {
+  startY.value = event.touches[0].clientY;
+};
+
+const handleTouchMove = (event: TouchEvent) => {
+  endY.value = event.touches[0].clientY;
+};
+
+const handleTouchEnd = () => {
+  if (!endY.value) return
+  const distanceY = endY.value - startY.value;
+  if (distanceY > 50) {
+    showAcceptModal.value = true
+    console.log(222)
+  } else if (distanceY < -50) {
+    showTransferModal.value = true
+  }
+  startY.value = 0;
+  endY.value = 0;
+};
 </script>
 <style lang="scss" scoped>
 .main {
@@ -39,9 +68,6 @@ import homeAcceptModal from '@/components/home/homeAcceptModal.vue'
   background: url('@/assets/home/bg.png');
   background-size: 100% auto;
   overflow-y: scroll;
-  &::-webkit-scrollbar{
-    display: none;
-  }
   .main_top {
     display: flex;
     align-content: center;
