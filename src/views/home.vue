@@ -39,6 +39,9 @@ import homeAcceptModal from '@/components/home/homeAcceptModal.vue'
   background: url('@/assets/home/bg.png');
   background-size: 100% auto;
   overflow-y: scroll;
+  &::-webkit-scrollbar{
+    display: none;
+  }
   .main_top {
     display: flex;
     align-content: center;

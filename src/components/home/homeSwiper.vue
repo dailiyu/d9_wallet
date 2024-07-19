@@ -1,6 +1,143 @@
 <template>
-      <div class="swiper">
-        <!-- <div class="swiper_item">
+  <swipe class="swiper" :autoplay="0" indicator-color="white" type="card">
+    <swipe-item>
+      <div class="swiper_item">
+          <div class="item1">
+            <div class="logos">
+              <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
+              <div class="logo_item">
+                Digital Assets
+              </div>
+            </div>
+            <div class="wallet_detail">
+              <div class="wallet_text">
+                <div class="text_left">
+                  <div>钱包余额</div>
+                  <img src="@/assets\home/view-fill.png" alt="" class="view_pic">
+                </div>
+                <div class="text_right">
+                  <div>钱包管理</div>
+                  <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic">
+                </div>
+              </div>
+              <div class="wallet_balance">
+                <div class="balance_symbol">$</div>
+                <div class="balance_num">0.00</div>
+              </div>
+              <div class="buttons">
+                <div class="button_item">转账</div>
+                <div class="button_item">收款</div>
+              </div>
+              <div class="rate">
+                <div class="rate_item">
+                  <div class="item_left">
+                    <img src="@/assets/home/logo_d9.png" alt="" class="item_logo">
+                    <div>D9</div>
+                  </div>
+                  <div class="item_num">
+                    <div class="num1">156.6192</div>
+                    <div class="num2">≈ $0.0000</div>
+                  </div>
+                </div>
+                <div class="rate_item">
+                  <div class="item_left">
+                    <img src="@/assets/home/logo_usdt.png" alt="" class="item_logo">
+                    <div>USDT</div>
+                  </div>
+                  <div class="item_num">
+                    <div class="num1">156.6192</div>
+                    <div class="num2">≈ $0.0000</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- <div class="item2">
+            <div class="logos">
+              <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
+            </div>
+            <div class="wallet_detail" style="top: 15vw;">
+              <div class="wallet_text">
+                <div class="text_left">
+                  <div>钱包余额</div>
+                  <img src="@/assets\home/view-fill.png" alt="" class="view_pic">
+                </div>
+                <div class="text_right">
+                  <div>钱包管理</div>
+                  <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic">
+                </div>
+              </div>
+              <div class="wallet_balance">
+                <div class="balance_symbol">$</div>
+                <div class="balance_num">0.00</div>
+              </div>
+              <div class="buttons">
+                <div class="button_item">闪兑</div>
+                <div class="button_item">DPOC</div>
+              </div>
+              <div class="record">
+                <div class="r_left">
+                  <img src="@/assets/home/time-history.png" alt="" class="r_pic">
+                  <div>交易记录</div>
+                </div>
+                <img src="@/assets/home/arrow-right-grey.png" alt="" class="arrow_pic">
+              </div>
+              <div class="back">
+                <img src="@/assets/home/return.png" alt="" class="back_pic">
+                <div>回到首页</div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+    </swipe-item>
+
+    <swipe-item>
+      <div class="swiper_item">
+        <div class="logos">
+            <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
+          </div>
+          <div class="point_total">
+            <div class="total_text">
+              <div>积分总量</div>
+              <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
+            </div>
+            <div class="point_num">32,232,232.00</div>
+          </div>
+          <div class="wallet_detail">
+            <div class="title">
+              我的账户
+            </div>
+            <div class="exchanges">
+              <div class="exchange_item">
+                <div>基础可兑换</div>
+                <div>231,100.00</div>
+              </div>
+              <div class="exchange_item">
+                <div>加速可兑换</div>
+                <div>231,100.00</div>
+              </div>
+            </div>
+            <div class="exchanges">
+              <div class="current_amount">
+                <div>
+                  <div class="current_text">当前可兑换数量</div>
+                  <div class="current_num">231,100.00</div>
+                </div>
+                <div class="current_left">
+                  <div class="rate_text">当前兑换率</div>
+                  <div class="rate_num">100 = 1 D9</div>
+                </div>
+              </div>
+            </div>
+            <div class="point_btn">积分兑换</div>
+          </div>
+      </div>
+      
+    </swipe-item>
+  </swipe>
+      <!-- <div class="swiper">
+        <div class="swiper_item">
           <div class="item1">
             <div class="logos">
               <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
@@ -88,7 +225,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <div class="swiper_item">
           <div class="logos">
@@ -130,15 +267,27 @@
             <div class="point_btn">积分兑换</div>
           </div>
         </div>
-      </div>
+      </div> -->
   </template>
   
-  <script setup lang="ts">
-  import { IonPage } from '@ionic/vue';
-  </script>
-  <style lang="scss" scoped>
+<script setup lang="ts">
+import { Swipe, SwipeItem } from 'vant';
+import { defineComponent } from 'vue';
+defineComponent({
+  components: {
+    Swipe,
+    SwipeItem
+  }
+});
+</script>
+<style lang="scss" scoped>
  .swiper {
+      width: 100%;
       padding: 0 8.6449vw;
+      overflow: visible;
+      // &::-webkit-scrollbar{
+      //   display: none;
+      // }
       .swiper_item {
         position: relative;
         width: 82.9439vw;

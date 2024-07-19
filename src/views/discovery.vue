@@ -6,11 +6,11 @@
         发现
       </div>
       <div class="carousel">
-        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-          <van-swipe-item><img src="@/assets/discovery/carousel1.png" alt=""></van-swipe-item>
-          <van-swipe-item><img src="@/assets/discovery/carousel2.png" alt=""></van-swipe-item>
-          <van-swipe-item><img src="@/assets/discovery/carousel3.png" alt=""></van-swipe-item>
-        </van-swipe>
+        <swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+          <swipe-item><img src="@/assets/discovery/carousel1.png" alt=""></swipe-item>
+          <swipe-item><img src="@/assets/discovery/carousel2.png" alt=""></swipe-item>
+          <swipe-item><img src="@/assets/discovery/carousel3.png" alt=""></swipe-item>
+        </swipe>
       </div>
       <div class="menue">
         <div class="item">
@@ -61,7 +61,16 @@
 
 <script setup lang="ts">
 import { IonPage} from '@ionic/vue';
+import { Swipe, SwipeItem } from 'vant';
+import { defineComponent } from 'vue';
 
+defineComponent({
+  components: {
+    IonPage,
+    Swipe,
+    SwipeItem
+  }
+});
 
 
 </script>
