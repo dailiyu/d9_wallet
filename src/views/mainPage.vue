@@ -100,8 +100,5 @@ ion-label {
   background-image: url('@/assets/mainPage/myself-fill.png');
 }
 
-ion-tab-button {
-  --padding-top: 10px; /* Adjust padding top */
-  --padding-bottom: 10px; /* Adjust padding bottom */
-}
+
 </style>
