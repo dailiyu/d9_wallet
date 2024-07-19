@@ -65,14 +65,12 @@ import { Swipe, SwipeItem } from 'vant';
 import { defineComponent } from 'vue';
 
 defineComponent({
-  components: {
-    IonPage,
-    Swipe,
-    SwipeItem
-  }
+  components: {
+    IonPage,
+    Swipe,
+    SwipeItem
+  }
 });
-
-
 </script>
 
 <style lang="scss" scoped>

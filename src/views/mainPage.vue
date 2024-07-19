@@ -3,19 +3,43 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1" href="/main/home">
-          <ion-icon aria-hidden="true" :icon="triangle" />
-          <ion-label>Tab 1</ion-label>
+        <ion-tab-button
+          tab="tab1"
+          href="/main/home"
+          :class="{ 'selected-tab': selectedTab === 'tab1' }"
+          @click="selectedTab = 'tab1'"
+        >
+          <ion-icon
+            aria-hidden="true"
+            :class="selectedTab === 'tab1' ? 'custom-icon home-fill-icon' : 'custom-icon home-icon'"
+          ></ion-icon>
+          <ion-label :class="{ 'selected-label': selectedTab === 'tab1' }">首页</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab2" href="/main/discovery">
-          <ion-icon aria-hidden="true" :icon="ellipse" />
-          <ion-label>Tab 2</ion-label>
+        <ion-tab-button
+          tab="tab2"
+          href="/main/discovery"
+          :class="{ 'selected-tab': selectedTab === 'tab2' }"
+          @click="selectedTab = 'tab2'"
+        >
+          <ion-icon
+            aria-hidden="true"
+            :class="selectedTab === 'tab2' ? 'custom-icon discovery-fill-icon' : 'custom-icon discovery-icon'"
+          ></ion-icon>
+          <ion-label :class="{ 'selected-label': selectedTab === 'tab2' }">发现</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab3" href="/main/myself">
-          <ion-icon aria-hidden="true" :icon="square" />
-          <ion-label>Tab 3</ion-label>
+        <ion-tab-button
+          tab="tab3"
+          href="/main/myself"
+          :class="{ 'selected-tab': selectedTab === 'tab3' }"
+          @click="selectedTab = 'tab3'"
+        >
+          <ion-icon
+            aria-hidden="true"
+            :class="selectedTab === 'tab3' ? 'custom-icon myself-fill-icon' : 'custom-icon myself-icon'"
+          ></ion-icon>
+          <ion-label :class="{ 'selected-label': selectedTab === 'tab3' }">我的</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -24,13 +48,60 @@
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { ref } from 'vue';
 
+const selectedTab = ref('tab1'); // Default selected tab
 </script>
 
 <style lang="scss" scoped>
-.tabs_pic {
-  width: 5.6075vw;
-  height: auto;
+ion-tab-bar {
+  height: 18.6916vw; /* Adjust height as needed */
+}
+ion-label {
+  font-weight: bold;
+  font-size: 2.5701vw;
+  color: #8E8C8E;
+}
+
+.selected-label {
+  color: #272527; /* Color when selected */
+}
+
+.custom-icon {
+  width: 5.6075vw; /* Adjust size as needed */
+  height: 5.6075vw;
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.home-icon {
+  background-image: url('@/assets/mainPage/home.png');
+}
+
+.home-fill-icon {
+  background-image: url('@/assets/mainPage/home-fill.png');
+}
+
+.discovery-icon {
+  background-image: url('@/assets/mainPage/discovery.png');
+}
+
+.discovery-fill-icon {
+  background-image: url('@/assets/mainPage/discovery-fill.png');
+}
+
+.myself-icon {
+  background-image: url('@/assets/mainPage/myself.png');
+}
+
+.myself-fill-icon {
+  background-image: url('@/assets/mainPage/myself-fill.png');
+}
+
+ion-tab-button {
+  --padding-top: 10px; /* Adjust padding top */
+  --padding-bottom: 10px; /* Adjust padding bottom */
 }
 </style>
