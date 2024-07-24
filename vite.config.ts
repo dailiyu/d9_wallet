@@ -7,16 +7,17 @@ import { defineConfig } from 'vite'
 import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from 'unplugin-vue-components/resolvers';
 import AutoImport from 'unplugin-auto-import/vite';
+import { VarletImportResolver } from '@varlet/import-resolver'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     legacy(),
     Components({
-      resolvers: [VantResolver()],
+      resolvers: [VantResolver(),VarletImportResolver()],
     }),
     AutoImport({
-      resolvers: [VantResolver()],
+      resolvers: [VantResolver(),VarletImportResolver({ autoImport: true })],
     }),
   ],
   resolve: {

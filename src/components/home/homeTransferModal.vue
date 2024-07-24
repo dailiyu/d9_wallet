@@ -1,13 +1,10 @@
 <template>
-  <!-- <ion-header>
-    <ion-toolbar>
-      <ion-title>App</ion-title>
-    </ion-toolbar>
-  </ion-header> -->
-    <!-- <ion-button id="openTransferModal" expand="block">Open Sheet Modal</ion-button> -->
-
-    <ion-modal trigger="openTransferModal" :initial-breakpoint="1" :breakpoints="[0, 1]">
-      <div class="transfer_modal">
+  <van-popup :show="isShowTransferModal" :style="{ height: '80%'}" position="bottom" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}" @click-overlay="closeTransferModal">
+    <div class="transfer_modal">
+      <div class="accept_title">
+          <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeTransferModal">
+          <div>收款</div>
+      </div>
         <div class="transfer_title">
             <div>接收账户</div>
             <img src="@/assets/home/address-book-fill.png" alt="" class="account_pic">
@@ -56,11 +53,22 @@
         </div>
 
       </div>
-    </ion-modal>
+  </van-popup>
 </template>
 
 <script lang="ts" setup>
-  import {  IonModal,IonInput } from '@ionic/vue';
+  import {  IonInput } from '@ionic/vue';
+ 
+ defineProps({
+    isShowTransferModal: {
+            type: Boolean,
+            required: true
+        }
+  });
+  const emit = defineEmits(['closeTransferModal'])
+  function closeTransferModal(){
+    emit('closeTransferModal')
+  }
 </script>
 
 <style scoped lang="scss">
@@ -76,6 +84,19 @@ ion-modal::part(backdrop) {
 .transfer_modal {
     padding: 16.3551vw 0;
     overflow-y: scroll;
+    .accept_title {
+      position: relative;
+      text-align: center;
+      font-size: 4.9065vw;
+      margin-bottom: 18.2243vw;
+      .close_pic {
+          position: absolute;
+          left: 7.7103vw;
+          top: 0;
+          width: 4.9065vw;
+          height: auto;
+      }
+    }
     .transfer_title {
         display: flex;
         align-items: center;

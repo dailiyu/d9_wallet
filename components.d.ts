@@ -12,5 +12,8 @@ declare module 'vue' {
     HomeTransferModal: typeof import('./src/components/home/homeTransferModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VanPopup: typeof import('vant/es')['Popup']
+    VarSwipe: typeof import('@varlet/ui')['_SwipeComponent']
+    VarSwipeItem: typeof import('@varlet/ui')['_SwipeItemComponent']
   }
 }

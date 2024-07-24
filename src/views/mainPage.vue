@@ -7,7 +7,7 @@
           tab="tab1"
           href="/main/home"
           :class="{ 'selected-tab': selectedTab === 'tab1' }"
-          @click="selectedTab = 'tab1'"
+          @click="changeTab('tab1')"
         >
           <ion-icon
             aria-hidden="true"
@@ -20,7 +20,7 @@
           tab="tab2"
           href="/main/discovery"
           :class="{ 'selected-tab': selectedTab === 'tab2' }"
-          @click="selectedTab = 'tab2'"
+          @click="changeTab('tab2')"
         >
           <ion-icon
             aria-hidden="true"
@@ -33,7 +33,7 @@
           tab="tab3"
           href="/main/myself"
           :class="{ 'selected-tab': selectedTab === 'tab3' }"
-          @click="selectedTab = 'tab3'"
+          @click="changeTab('tab3')"
         >
           <ion-icon
             aria-hidden="true"
@@ -51,6 +51,10 @@ import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouter
 import { ref } from 'vue';
 
 const selectedTab = ref('tab1'); // Default selected tab
+
+ const changeTab=(tab:string)=>{
+  selectedTab.value=tab
+ }
 </script>
 
 <style lang="scss" scoped>
@@ -61,6 +65,9 @@ ion-label {
   font-weight: bold;
   font-size: 2.5701vw;
   color: #8E8C8E;
+}
+ion-icon{
+  margin: 1vw auto
 }
 
 .selected-label {
