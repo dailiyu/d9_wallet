@@ -1,10 +1,11 @@
 <template>
-  <van-popup :show="isShowTransferModal" :style="{ height: '80%'}" position="bottom" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}" @click-overlay="closeTransferModal">
-    <div class="transfer_modal">
-      <div class="accept_title">
-          <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeTransferModal">
-          <div>收款</div>
-      </div>
+  <ion-page class="ion_page" @click="closeTransferModal">
+  <!-- <van-popup :show="isShowTransferModal" :style="{ height: '80%'}" position="bottom" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}" @click-overlay="closeTransferModal"> -->
+    <div class="accept_title">
+        <img src="@/assets/home/close_white.png" alt="" class="close_pic" @click="closeTransferModal">
+        <div>转账</div>
+    </div>
+    <div class="transfer_modal" @click.stop>
         <div class="transfer_title">
             <div>接收账户</div>
             <img src="@/assets/home/address-book-fill.png" alt="" class="account_pic">
@@ -53,11 +54,14 @@
         </div>
 
       </div>
-  </van-popup>
+      
+  <!-- </van-popup> -->
+</ion-page>
 </template>
 
 <script lang="ts" setup>
-  import {  IonModal,IonInput } from '@ionic/vue';
+  import { IonPage } from '@ionic/vue';
+  import {  IonInput } from '@ionic/vue';
   const props = defineProps({
     isShowTransferModal: {
             type: Boolean,
@@ -80,22 +84,39 @@ ion-modal::part(backdrop) {
     background: #0065B2;
     opacity: 1;
 }
+.ion_page {
+    position: absolute;
+    // top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    height: 100%;
+    transition: transform 0.5s;
+    transition-timing-function: linear;
+    background-color: #0065B2;
+    justify-content: flex-start;
+}
+.accept_title {
+  position: relative;
+  text-align: center;
+  font-size: 4.9065vw;
+  margin-bottom: 18.2243vw;
+  margin-top: 9.3458vw;
+  color: #fff;
+  .close_pic {
+      position: absolute;
+      left: 7.7103vw;
+      top: 0;
+      width: 4.9065vw;
+      height: auto;
+  }
+}
 .transfer_modal {
     padding: 16.3551vw 0;
     overflow-y: scroll;
-    .accept_title {
-      position: relative;
-      text-align: center;
-      font-size: 4.9065vw;
-      margin-bottom: 18.2243vw;
-      .close_pic {
-          position: absolute;
-          left: 7.7103vw;
-          top: 0;
-          width: 4.9065vw;
-          height: auto;
-      }
-    }
+    background-color: #fff;
+    border-radius: 25px 25px 0 0;
     .transfer_title {
         display: flex;
         align-items: center;

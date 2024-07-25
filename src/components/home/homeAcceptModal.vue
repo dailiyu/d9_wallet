@@ -1,6 +1,7 @@
 <template>
-      <van-popup :show="isShowAcceptModal" :style="{ height: '80%'}" position="top" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}">
-        <div class="accept_modal">
+    <ion-page class="ion_page" @click="closeAcceptModal">
+    <!-- <van-popup :show="isShowAcceptModal" :style="{ height: '80%'}" position="top" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}" @close="closeAcceptModal" ref="receivePopup"> -->
+        <div class="accept_modal" @click.stop>
             <div class="accept_title">
                 <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeAcceptModal">
                 <div>收款</div>
@@ -13,10 +14,16 @@
             </div>
             <div class="set_btn">设置金额</div>
         </div>
-      </van-popup>
+      <!-- </van-popup> -->
+       <div class="receive_info">
+        <img src="@/assets/home/white_d9.png" alt="" class="d9_pic">
+        <div>Person (3842)</div>
+       </div>
+    </ion-page>
 </template>
   
 <script lang="ts" setup>
+    import { IonPage } from '@ionic/vue';
     import QrcodeVue from 'qrcode.vue';
     import {ref} from 'vue';
     const payUrl = ref('')
@@ -31,6 +38,7 @@
     function closeAcceptModal(){
         emit('closeAcceptModal')
     }
+    const receivePopup = ref()
 </script>
   
 <style scoped lang="scss">
@@ -43,10 +51,25 @@ ion-modal::part(backdrop) {
     background: #0065B2;
     opacity: 1;
 }
+.ion_page {
+    position: absolute;
+    // top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(-100%);
+    height: 100%;
+    transition: transform 0.5s;
+    transition-timing-function: linear;
+    background-color: #0065B2;
+    justify-content: flex-start;
+}
 .accept_modal {
     padding: 16.3551vw 0;
     overflow-y: scroll;
     text-align: center;
+    background-color: #fff;
+    border-radius: 0 0 25px 25px;
     .accept_title {
         position: relative;
         text-align: center;
@@ -85,6 +108,20 @@ ion-modal::part(backdrop) {
         color: #0065FF;
         border-radius: 9px;
         margin: 14.7196vw auto 0;
+    }
+}
+.receive_info {
+    color: #fff;
+    font-size:4.2056vw;
+    margin-top: 12.8505vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    .d9_pic {
+        width: 5.6075vw;
+        height: auto;
+        margin-right: .9346vw;
     }
 }
 </style>

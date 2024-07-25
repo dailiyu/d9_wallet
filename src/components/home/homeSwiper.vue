@@ -1,8 +1,9 @@
 <template>
-  <swipe class="swiper" :autoplay="0" indicator-color="white" type="card">
+  <ion-page>
+  <swipe class="swiper" :autoplay="0" indicator-color="white" type="card" :show-indicators="false">
     <swipe-item>
-      <div class="swiper_item">
-          <div class="item1" v-show="showBalance">
+      <div :class="['swiper_item', {'rotate':!showBalance}]">
+          <div class="item1" ref="item1">
             <div class="logos">
               <img src="@/assets/home/d9-network.png" alt="" class="logo_d9" @click="showBalance=!showBalance">
               <div class="logo_item">
@@ -13,7 +14,7 @@
               <div class="wallet_text">
                 <div class="text_left">
                   <div>钱包余额</div>
-                  <img src="@/assets\home/view-fill.png" alt="" class="view_pic">
+                  <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
                 </div>
                 <div class="text_right">
                   <div>钱包管理</div>
@@ -45,7 +46,7 @@
                     <div>USDT</div>
                   </div>
                   <div class="item_num">
-                    <div class="num1">156.6192</div>
+                    <div class="num1" style="color: #0E932E;">156.6192</div>
                     <div class="num2">≈ $0.0000</div>
                   </div>
                 </div>
@@ -53,7 +54,7 @@
             </div>
           </div>
   
-          <div class="item2" v-show="!showBalance">
+          <div class="item2">
             <div class="logos">
               <img src="@/assets/home/d9-network.png" alt="" class="logo_d9">
             </div>
@@ -83,7 +84,7 @@
                 </div>
                 <img src="@/assets/home/arrow-right-grey.png" alt="" class="arrow_pic">
               </div>
-              <div class="back" @click="showBalance=!showBalance">
+              <div class="back" @click="back()">
                 <img src="@/assets/home/return.png" alt="" class="back_pic">
                 <div>回到首页</div>
               </div>
@@ -136,11 +137,13 @@
       
     </swipe-item>
   </swipe>
+</ion-page>
   </template>
   
 <script setup lang="ts">
+import { IonPage } from '@ionic/vue';
 import { Swipe, SwipeItem } from 'vant';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref, nextTick  } from 'vue';
 defineComponent({
   components: {
     Swipe,
@@ -148,15 +151,36 @@ defineComponent({
   }
 });
 const showBalance = ref(true)
+
+const back = () => {
+  showBalance.value = !showBalance.value;
+};
+
 </script>
 <style lang="scss" scoped>
+ .ion-page {
+  justify-content: flex-end;
+ }
  .swiper {
       width: 100%;
-      padding: 0 8.6449vw;
-      overflow: visible;
-      // &::-webkit-scrollbar{
-      //   display: none;
-      // }
+      padding-left: 8.6449vw;
+      overflow-y: visible;
+      padding-bottom: 20px;
+      .rotate {
+          transform: rotateY(180deg);
+          
+      }
+      .item1, .item2 {
+        position: absolute;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+      }
+      .item2 {
+        transform:rotateY(180deg);
+        backface-visibility:hidden;
+      }
       .swiper_item {
         position: relative;
         width: 82.9439vw;
@@ -165,6 +189,9 @@ const showBalance = ref(true)
         box-shadow: 0px 3px 20px 1px rgba(4,44,110,0.16);
         background: #fff url('@/assets/home/card_bg.png');
         background-size: 100% auto;
+        transition: all 0.5s;
+        transform-style: preserve-3d;
+        
         .logos {
           display: flex;
           align-items: center;
