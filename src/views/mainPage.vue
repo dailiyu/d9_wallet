@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-tabs>
+    <ion-tabs mode="ios">
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
         <ion-tab-button
