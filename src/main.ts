@@ -38,10 +38,14 @@ import i18n from './i18n';
 //引入vant样式
 import 'vant/lib/index.css';
 
+import Varlet from '@varlet/ui'
+import '@varlet/ui/es/style'
+
+
 globalThis.Buffer = Buffer;
 const app = createApp(App)
   .use(IonicVue)
-  .use(router).use(i18n);
+  .use(router).use(i18n).use(Varlet);
 
 router.isReady().then(() => {
   app.mount('#app');

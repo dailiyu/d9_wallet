@@ -28,7 +28,7 @@
     import {ref} from 'vue';
     const payUrl = ref('')
     // const showAcceptModal = ref(false)
-    const props = defineProps({
+  defineProps({
         isShowAcceptModal: {
             type: Boolean,
             required: true
