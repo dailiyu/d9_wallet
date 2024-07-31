@@ -41,8 +41,8 @@ const startY = ref(0);
 const endY = ref(0);
 
 const handleTouchStart = (event: TouchEvent) => {
-  event.stopPropagation()
-  event.preventDefault();
+  // event.stopPropagation()
+  // event.preventDefault();
   startY.value = event.touches[0].screenY;
   
 };
@@ -51,8 +51,8 @@ const receiveMoneyModal = ref()
 const transferModal = ref()
 const screenHeight = window.innerHeight
 const handleTouchMove = (event: TouchEvent) => {
-  event.stopPropagation()
-  event.preventDefault();
+  // event.stopPropagation()
+  // event.preventDefault();
   endY.value = event.touches[0].screenY;
   // console.log(event.touches[0]);
   
@@ -70,8 +70,8 @@ const handleTouchMove = (event: TouchEvent) => {
 };
 
 const handleTouchEnd = (event: TouchEvent) => {
-  event.stopPropagation()
-  event.preventDefault();
+  // event.stopPropagation()
+  // event.preventDefault();
   if (!endY.value) return
   const distanceY = endY.value - startY.value;
   

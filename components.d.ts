@@ -16,8 +16,11 @@ declare module 'vue' {
     'HomeTransferModal.vue.BASE': typeof import('./src/components/home/homeTransferModal.vue.BASE.vue')['default']
     'HomeTransferModal.vue.LOCAL': typeof import('./src/components/home/homeTransferModal.vue.LOCAL.vue')['default']
     'HomeTransferModal.vue.REMOTE': typeof import('./src/components/home/homeTransferModal.vue.REMOTE.vue')['default']
+    NavBar: typeof import('./src/components/navBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VanPopup: typeof import('vant/es')['Popup']
+    VarSwipe: typeof import('@varlet/ui')['_SwipeComponent']
+    VarSwipeItem: typeof import('@varlet/ui')['_SwipeItemComponent']
   }
 }

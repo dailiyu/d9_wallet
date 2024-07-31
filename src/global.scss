@@ -46,3 +46,27 @@
 *::-webkit-scrollbar{
   display: none;
 }
+
+.button_active_full {
+  height: 12.6168vw;
+  background-color: #0065FF;
+  font-size: 4.2056vw;
+  font-weight: 500;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.button_active_plain {
+  height: 12.6168vw;
+  background-color: #fff;
+  font-size: 4.2056vw;
+  font-weight: 500;
+  border-radius: 9px;
+  border: 1px solid #0065FF;
+  color: #0065FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
