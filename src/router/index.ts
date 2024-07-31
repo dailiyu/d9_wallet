@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'home',
-        component: () => import('@/views/home.vue')
+        component: () => import('@/views/home.vue'),
       },
       {
         path: 'discovery',
@@ -36,6 +36,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'setting',
         component:()=>import('@/views/setting/switchaLanguage.vue'),
+      },
+      {
+        path: 'addWallet',
+        component:()=>import('@/views/createWallet.vue'),
       }
     ]
   }

@@ -38,7 +38,7 @@
     function closeAcceptModal(){
         emit('closeAcceptModal')
     }
-    const receivePopup = ref()
+
 </script>
   
 <style scoped lang="scss">
