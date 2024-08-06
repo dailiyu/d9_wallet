@@ -38,6 +38,14 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('@/views/setting/switchaLanguage.vue'),
       }
     ]
+  },
+  {
+    path: '/index',
+    component: ()=>import('@/views/login/index.vue'),
+  },
+  {
+    path: '/createWallet',
+    component: ()=>import('@/views/login/createWallet.vue'),
   }
 ]
 
