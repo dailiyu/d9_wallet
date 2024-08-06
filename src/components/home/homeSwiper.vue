@@ -46,7 +46,7 @@
                     <div>USDT</div>
                   </div>
                   <div class="item_num">
-                    <div class="num1" style="color: #0E932E;">156.6192</div>
+                    <div class="num1" style="color: #0E932E;">{{ usdtBalance?.results?.balance_usdt }}</div>
                     <div class="num2">≈ $0.0000</div>
                   </div>
                 </div>
@@ -140,6 +140,18 @@
   
   <script setup lang="ts">
   import {  ref, computed} from 'vue';
+  import { onMounted } from 'vue';
+import {postUsdtBalance} from "@/services/http/usdt"
+
+const usdtBalance=ref()
+
+onMounted(async() => {
+  usdtBalance.value=await postUsdtBalance({
+    keypair:"blast curve early try fold fall plastic hobby donkey tomato crater diet",
+    account_id:"Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z"
+})
+})
+
   const showBalance = ref(true)
   const back = () => {
     showBalance.value = !showBalance.value;
