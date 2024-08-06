@@ -1,4 +1,3 @@
-// storage.ts
 import { Drivers, Storage } from '@ionic/storage';
 
 class StorageManager {
@@ -21,23 +20,43 @@ class StorageManager {
   }
 
   async set(key: string, value: any) {
-    await this.storage.set(key, value);
+    try {
+      const serializedValue = typeof value === 'string' ? value : JSON.stringify(value);
+      await this.storage.set(key, serializedValue);
+    } catch (error) {
+      console.error('Error setting value in storage:', error);
+    }
   }
 
   async get(key: string) {
-    return await this.storage.get(key);
+    try {
+      const value = await this.storage.get(key);
+      return typeof value === 'string' ? JSON.parse(value) : value;
+    } catch (error) {
+      console.error('Error getting value from storage:', error);
+      return null;
+    }
   }
 
   async remove(key: string) {
-    await this.storage.remove(key);
+    try {
+      await this.storage.remove(key);
+    } catch (error) {
+      console.error('Error removing value from storage:', error);
+    }
   }
 
   async clear() {
-    await this.storage.clear();
+    try {
+      await this.storage.clear();
+    } catch (error) {
+      console.error('Error clearing storage:', error);
+    }
   }
 }
 
 // 创建多个 Storage 实例
 export const storageAccounts = new StorageManager('storageAccounts');
 export const storage2 = new StorageManager('storage2');
+
 

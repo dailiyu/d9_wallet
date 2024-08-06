@@ -64,6 +64,14 @@ export const useWalletService = () => {
       address: address.value,
     };
   };
+//清空钱包
+  const removeWallet=async ()=> {
+    accountStore.removeWalletAction()
+  }
+  //改变当前的钱包
+  const changeActiveWallet=async(index:number)=>{
+    accountStore.changeActiveWallet(index)
+  }
 
   return {
     mnemonic,
@@ -73,5 +81,7 @@ export const useWalletService = () => {
     createMnemonic,
     preCreateWallet,
     importFromMnemonic,
+    removeWallet,
+    changeActiveWallet
   };
 };

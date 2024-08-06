@@ -2,8 +2,14 @@
 <ion-page>
   <div>
     <button @click="generateWallet">生成钱包</button>
-   <div class="container">
-    <div v-for="(walletDetails,) in accountStore.walletList" :key="walletDetails.address">
+    <br>
+    <br>
+    <button @click="clearWallet">清空钱包</button>
+    <div class="current">
+      当前钱包{{accountStore.activeWallet.mnemonic  }}
+    </div>
+    <div class="container">
+    <div v-for="(walletDetails,index) in accountStore.walletList" :key="walletDetails.address" class="item"  @click="changeWallet(index)">
       <p>助记词: {{ walletDetails.mnemonic.join(" ") }}</p>
       <p>公钥: {{ walletDetails.publicKey }}</p>
       <p>私钥: {{ walletDetails.secretKey }}</p>
@@ -22,10 +28,8 @@ import { IonPage } from '@ionic/vue';
 
 
 
-// 定义组件的 props
-
 // 使用钱包服务
-const { preCreateWallet } = useWalletService();
+const { preCreateWallet,removeWallet ,changeActiveWallet} = useWalletService();
 const accountStore = useLoginStore();
 
 
@@ -37,10 +41,22 @@ onMounted(() => {
 const generateWallet = async () => {
   await preCreateWallet();
 };
+
+const  clearWallet=async () => {
+  await removeWallet();
+};
+const changeWallet=async (index:number)=>{
+  await changeActiveWallet(index)
+}
 </script>
 
 <style scoped lang="scss">
 .container{
-  overflow-y: scroll;
+  overflow: scroll;
+  height: 90%;
+  .item{
+    border: 1px solid ;
+    margin-top: 20px;
+  }
 }
 </style>
