@@ -41,11 +41,15 @@ import 'vant/lib/index.css';
 import Varlet from '@varlet/ui'
 import '@varlet/ui/es/style'
 
+//使用pinia
+import store from './store'
+
+
 
 globalThis.Buffer = Buffer;
 const app = createApp(App)
   .use(IonicVue)
-  .use(router).use(i18n).use(Varlet);
+  .use(router).use(i18n).use(Varlet).use(store);
 
 router.isReady().then(() => {
   app.mount('#app');

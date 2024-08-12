@@ -62,12 +62,7 @@
 <script lang="ts" setup>
   import { IonPage } from '@ionic/vue';
   import {  IonInput } from '@ionic/vue';
-  const props = defineProps({
-    isShowTransferModal: {
-            type: Boolean,
-            required: true
-        }
-  });
+ 
   const emit = defineEmits(['closeTransferModal'])
   function closeTransferModal(){
     emit('closeTransferModal')

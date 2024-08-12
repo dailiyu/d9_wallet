@@ -36,6 +36,11 @@ import homeAcceptModal  from '@/components/home/homeAcceptModal.vue'
 import walletList from '@/components/home/walletList.vue';
 import { ref } from 'vue';
 
+
+
+
+
+
 const showAcceptModal = ref(false)
 const showTransferModal = ref(false)
 

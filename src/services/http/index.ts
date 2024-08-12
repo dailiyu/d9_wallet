@@ -1,9 +1,9 @@
 import { BASE_URL, TIME_OUT } from './config'
-import LYRequest from './request'
+import HttpRequest from './request'
 // import { LOGIN_TOKEN } from '@/global/constants'
 // import { localCache } from '@/utils/cache'
 
-const httpRequest = new LYRequest({
+const httpRequest = new HttpRequest({
   baseURL: BASE_URL,
   timeout: TIME_OUT,
   interceptors: {
@@ -20,3 +20,10 @@ const httpRequest = new LYRequest({
 })
 
 export default httpRequest
+
+
+
+
+
+
+

@@ -9,11 +9,11 @@
 let BASE_URL = ''
 if (import.meta.env.PROD) {
   // 生产环境
-  BASE_URL = 'https://files.q6z4kzhr.uk'
+  BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
 }
 else {
   // 开发环境
-  BASE_URL = 'https://files.q6z4kzhr.uk'
+  BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
 }
 
 // console.log(BASE_URL)
