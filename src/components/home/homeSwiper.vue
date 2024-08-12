@@ -30,7 +30,7 @@
                 <div class="button_item">收款</div>
               </div>
               <div class="rate">
-                <div class="rate_item">
+                <div class="rate_item" @click="toRecord()">
                   <div class="item_left">
                     <img src="@/assets/home/logo_d9.png" alt="" class="item_logo">
                     <div>D9</div>
@@ -140,6 +140,7 @@
   
   <script setup lang="ts">
   import {  ref, computed} from 'vue';
+import { useRouter } from 'vue-router';
   const showBalance = ref(true)
   const back = () => {
     showBalance.value = !showBalance.value;
@@ -167,9 +168,13 @@
  const changeIndex=(index:number)=>{
   swipeIndex.value=index
 }
-  </script>
+const router = useRouter()
+function toRecord(){
+  router.push('/main/assetRecord')
+}
+</script>
   
-  <style scoped lang="scss">
+<style scoped lang="scss">
 
 .swipe{
 position: relative;
@@ -197,7 +202,10 @@ position: relative;
 }
 .swipe_item2{
   padding-right: 19.8598vw;
-  
+  .swiper_item {
+    background: #fff url('@/assets/home/card_bg_2.png');
+    background-size: 100% auto;
+  }
 }
 
 

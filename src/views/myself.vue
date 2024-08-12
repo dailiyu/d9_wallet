@@ -51,7 +51,7 @@
      </div>
       </div>
       <div class="setting-menue">
-        <div class="item">
+        <div class="item" @click="toAddress()">
           <div class="left"> 
               <img class="icon" src="../assets/myself/address-book.png" alt="">
               <div class="text">地址簿</div>
@@ -62,7 +62,7 @@
             </div>
           </div>
         </div>
-        <div class="item">
+        <div class="item" @click="toSetting()">
           <div class="left"> 
               <img class="icon" src="../assets/myself/settings.png" alt="">
               <div class="text">系统设置</div>
@@ -108,6 +108,7 @@
 
 <script setup lang="ts">
  import { IonPage} from '@ionic/vue';
+import { useRouter } from 'vue-router';
 // import createWallet from './createWallet.vue';
 // import importWallet from './importWallet.vue'
 // import { useRouter } from 'vue-router';
@@ -115,6 +116,13 @@
 // const toSetting = () => {
 //   router.push('/main/setting');
 // };
+const router = useRouter()
+function toAddress(){
+  router.push('/addressBook')
+}
+function toSetting(){
+  router.push('/systemSetting')
+}
 </script>
 
 <style scoped lang="scss">

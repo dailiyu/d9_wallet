@@ -7,7 +7,7 @@
         <div class="account">DAUS1281******SAD3842</div>
       </div>
       <div class="functions">
-        <div class="function_item">
+        <div class="function_item" @click="showWalletList = !showWalletList">
           <img src="@/assets/home/list.png" alt="" class="function_pic">
           <div class="function_ch">钱包列表</div>
           
@@ -23,7 +23,8 @@
     
   </div>
   <homgTransferModal :isShowTransferModal="showTransferModal" @closeTransferModal="closeTransferModal()" ref="transferModal"></homgTransferModal>
-    <homeAcceptModal :isShowAcceptModal="showAcceptModal" @closeAcceptModal="closeAcceptModal()" ref="receiveMoneyModal"></homeAcceptModal>
+  <homeAcceptModal :isShowAcceptModal="showAcceptModal" @closeAcceptModal="closeAcceptModal()" ref="receiveMoneyModal"></homeAcceptModal>
+  <walletList :showWalletList="showWalletList" @close="showWalletList=false"></walletList>
   </ion-page>
 </template>
 
@@ -32,6 +33,7 @@ import { IonPage } from '@ionic/vue';
 import homeSwiper from '@/components/home/homeSwiper.vue';
 import homgTransferModal from '@/components/home/homeTransferModal.vue';
 import homeAcceptModal  from '@/components/home/homeAcceptModal.vue'
+import walletList from '@/components/home/walletList.vue';
 import { ref } from 'vue';
 
 const showAcceptModal = ref(false)
@@ -97,6 +99,8 @@ const closeAcceptModal = ()=>{
 const closeTransferModal = ()=>{
   transferModal.value.$el.style.transform = 'translateY(100%)'
 }
+
+const showWalletList = ref(false)
 </script>
 <style lang="scss" scoped>
 .main {

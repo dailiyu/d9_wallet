@@ -20,6 +20,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/home.vue')
       },
       {
+        path: 'assetRecord',
+        component:()=>import('@/views/assetRecord.vue'),
+      },
+      {
         path: 'discovery',
         component: () => import('@/views/discovery.vue')
       },
@@ -46,6 +50,39 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/createWallet',
     component: ()=>import('@/views/login/createWallet.vue'),
+  },
+  {
+    path: '/backupTips',
+    component: ()=>import('@/views/login/backupTips.vue'),
+  },
+  {
+    path: '/backupWords',
+    component: ()=>import('@/views/login/backupWords.vue'),
+  },
+  {
+    path: '/confirmWords',
+    component: ()=>import('@/views/login/confirmWords.vue'),
+  },
+  {
+    path: '/importAccount',
+    component: ()=>import('@/views/login/importAccount.vue'),
+  },
+  {
+    path: '/importAccountInfo',
+    component: ()=>import('@/views/login/importAccountInfo.vue'),
+  },
+  
+  {
+    path: '/addressBook',
+    component: ()=>import('@/views/addressBook.vue'),
+  },
+  {
+    path: '/addAddress',
+    component: ()=>import('@/views/addAddress.vue'),
+  },
+  {
+    path: '/systemSetting',
+    component: ()=>import('@/views/setting/systemSetting.vue'),
   }
 ]
 
