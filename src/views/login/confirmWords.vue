@@ -106,7 +106,9 @@ function reset(){
       font-weight: 500;
       .words_item {
         width: 25.7009vw;
-        padding: 1.4019vw;
+        height: 6.7757vw;
+        line-height: 6.7757vw;
+        // padding: 1.4019vw;
         text-align: center;
         border-radius: 9px;
         margin: 0 2.8037vw 4.4393vw 0;

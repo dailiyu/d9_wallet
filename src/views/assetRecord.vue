@@ -3,8 +3,9 @@
     <navBar title="资产记录"></navBar>
     <div class="content">
       <div class="asset_nav">
-        <img src="@/assets/home/logo_d9.png" alt="" class="logo">
-        <div class="balance">15,661.92</div>
+        <img src="@/assets/home/logo_d9.png" alt="" class="logo" v-if="type=='d9'">
+        <img src="@/assets/home/logo_usdt.png" alt="" class="logo" v-if="type=='usdt'">
+        <div class="balance" :style="{'color':type=='d9'?'#0065B2':'#0E932E'}">15,661.92</div>
         <div class="total">$ 7,210.80</div>
       </div>
       <van-cell-group inset>
@@ -28,8 +29,8 @@
         </div>
       </div>
       <div class="btns">
-        <div class="transfer button_active_full">转账</div>
-        <div class="transfer button_active_plain">收款</div>
+        <div class="transfer button_active_plain">转账</div>
+        <div class="transfer button_active_full">收款</div>
       </div>
     </div>
   </ion-page>
@@ -38,8 +39,11 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 // import navBar from '@/components/navBar.vue'
 const price = ref('')
+const route = useRoute()
+const type = route.query.type
 </script>
 
 <style lang="scss"scoped>
@@ -83,6 +87,9 @@ const price = ref('')
     align-items: center;
     border-bottom: 1px solid #E7EBF2;
     padding-bottom: 3.7383vw;
+    &:last-child {
+      border: none;
+    }
     .sell_icon {
       width: 6.5421vw;
       margin-right: 3.0374vw;
@@ -116,6 +123,7 @@ const price = ref('')
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-top: 5.1402vw;
   .transfer {
     width: 33.4112vw;
   }

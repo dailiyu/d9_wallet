@@ -79,6 +79,8 @@ onBeforeUpdate(() => {
 });
 const router = useRouter()
 function toNext(){
+
+    if (current.data.length !== 3) return
     router.push('/backupWords')
 }
 </script>
