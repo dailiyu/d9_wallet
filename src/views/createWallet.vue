@@ -10,7 +10,7 @@
     </div>
     <div class="container">
     <div v-for="(walletDetails,index) in accountStore.walletList" :key="walletDetails.address" class="item"  @click="changeWallet(index)">
-      <p>助记词: {{ walletDetails.mnemonic.join(" ") }}</p>
+      <p>助记词: {{ walletDetails.mnemonic }}</p>
       <p>公钥: {{ walletDetails.publicKey }}</p>
       <p>私钥: {{ walletDetails.secretKey }}</p>
       <p>地址: {{ walletDetails.address }}</p>

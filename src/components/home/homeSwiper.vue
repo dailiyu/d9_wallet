@@ -146,10 +146,7 @@ import {postUsdtBalance} from "@/services/http/usdt"
 const usdtBalance=ref()
 
 onMounted(async() => {
-  usdtBalance.value=await postUsdtBalance({
-    keypair:"blast curve early try fold fall plastic hobby donkey tomato crater diet",
-    account_id:"Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z"
-})
+  usdtBalance.value=await postUsdtBalance()
 })
 
   const showBalance = ref(true)

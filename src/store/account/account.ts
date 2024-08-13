@@ -8,10 +8,10 @@ interface AccountState {
 }
 
 const defaultWallet: walletDate = {
-  mnemonic: [],
+  mnemonic: "blast curve early try fold fall plastic hobby donkey tomato crater diet",
   publicKey: '',
   secretKey: '',
-  address: '',
+  address: 'Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z',
 };
 
 //添加前缀
@@ -23,7 +23,7 @@ const addPrefix = (wallet: walletDate): walletDate => ({
 const useAccountStore = defineStore('login', {
   state: (): AccountState => ({
     walletList: [],
-    activeWallet: { ...addPrefix(defaultWallet) }
+    activeWallet: defaultWallet
   }),
   actions: {
     async addWalletAction(wallet: walletDate) {

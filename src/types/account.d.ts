@@ -1,5 +1,5 @@
 export interface walletDate {
-  mnemonic: string[];
+  mnemonic: string;
   publicKey: string;
   secretKey: string;
   address: string;

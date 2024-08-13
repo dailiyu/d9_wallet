@@ -38,7 +38,7 @@ export const useWalletService = () => {
     secretKey.value = Buffer.from(keypair.encodePkcs8()).toString('hex');
     address.value = keypair.address;
     const walletDate:walletDate={
-      mnemonic: generatedMnemonic.split(' '),
+      mnemonic: generatedMnemonic,
       publicKey: publicKey.value,
       secretKey: secretKey.value,
       address: address.value,

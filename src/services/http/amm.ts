@@ -2,8 +2,6 @@ import httpRequest from ".";
 
 //增加流动性
 export function postAddLiquidity(queryInfo: {
-    keypair:string,
-    account_id:string,
     usdt_amount:number,
     d9_amount:number
 }) {
@@ -21,156 +19,182 @@ export function postAddLiquidity(queryInfo: {
 }
   */
 
-//计算usdt，d9之间的转换
-export function postCalculateExchange(queryInfo: {
-    keypair:string,
-    from_currency:'USDT'|'d9',
-    to_currency:'USDT'|'d9',
-    from_amount:number
+//????检查新的流动资金
+export function postCheckNewLiquidity(queryInfo: {
+  usdt_liquidity:number,
+  d9_liquidity:number,
 }) {
-    return httpRequest.post({
-      url: '/amm/add-liquidity/',
-      data: queryInfo
-    })
-  }
-  /*postCalculateExchange
-   {"results":3047.772740276768}
-  */
-
-//????
-   export function postCheckNewLiquidity(queryInfo: {
-    keypair:string,
-    usdt_liquidity:number,
-    d9_liquidity:number,
-}) {
-    return httpRequest.post({
-      url: '/amm/check-new-liquidity/',
-      data: queryInfo
-    })
-  }
+  return httpRequest.post({
+    url: '/amm/check-new-liquidity/',
+    data: queryInfo
+  })
+}
 /*postCheckNewLiquidity
 {
-    "results": null
+  "results": null
 }
-    or
-    {
-    "results": []
+  or
+  {
+  "results": []
 }
 */
 
 
 //检查钱包usdt是否足够amount
 export function postCheckUsdtBalance(queryInfo: {
-    keypair:string,
-    from_currency:'USDT'|'d9',
-    to_currency:'USDT'|'d9',
-    from_amount:number
+  from_currency:'USDT'|'d9',
+  to_currency:'USDT'|'d9',
 }) {
-    return httpRequest.post({
-      url: '/amm/estimate-exchange/',
-      data: queryInfo
-    })
-  }
+  return httpRequest.post({
+    url: '/amm/compute/exchange/rate/',
+    data: queryInfo
+  })
+}
 /*
- 够
+够
 {
-    "results": []
+  "results": []
 }
 不够
 {
-    "results": []
+    "results": "USDTBalanceInsufficient"
 }
 */
 
-//类似或同postCalculateExchange
-export function postEstimateExchange(queryInfo: {
-    keypair:string,
-    account_id:string,
-    amount:number,
-}) {
-    return httpRequest.post({
-      url: '/amm/check-usdt-balance/',
-      data: queryInfo
-    })
-  }
-  /*
-  {
-    "results": 3047.8976884210188
-}
-  */
+//崩
+export function postComputeExchangeRate(queryInfo: {
+  from_currency:'USDT'|'d9',
+  to_currency:'USDT'|'d9',
 
-//将usdt兑换成d9
-export function postGetD9(queryInfo: {
-    keypair:string,
-    usdt:number
 }) {
-    return httpRequest.post({
-      url: '/amm/get-d9/',
-      data: queryInfo
-    })
-  }
+  return httpRequest.post({
+    url: '/amm/check/usdt/balance/',
+    data: queryInfo
+  })
+}
+
+
+//usdt与dusdt与d9转换的大概估算
+export function postEstimateExchange(queryInfo: {
+  from_currency:'USDT'|'d9',
+  to_currency:'USDT'|'d9',
+  from_amount:number
+}) {
+  return httpRequest.post({
+    url: '/amm/check/usdt/balance/',
+    data: queryInfo
+  })
+}
 /*
 {
     "results": {
-        "block_hash": "0x4952fea0c4d48883e0beaa66b40676d7dc7117da422fcef4c4e0b73d2a3a0959",
-        "extrinsic_hash": "0x7e1f7b05079df6f8266171dd7546020a7ba6b95fac9220589b7f8eb17b1e5869"
+        "rate": {
+            "usdt": "200.00",
+            "d9": "3025.54"
+        },
+        "meta_data": {
+            "usdt": 20000,
+            "d9": 3025549326718422
+        }
     }
 }
-    超出余额返回错误html
 */
+
+//将usdt兑换成d9
+export function postGetD9(queryInfo: {
+  amount:number
+}) {
+  return httpRequest.post({
+    url: '/amm/check/usdt/balance/',
+    data: queryInfo
+  })
+}
+/*
+{
+    "results": {
+        "block_hash": "0x534ea07a5a9012a43a260582e9f4e7856270abe4b54696f8b88faa9a000183f8",
+        "extrinsic_hash": "0x72305e25b274d22382358086c80c0778364b7ecd51b907dce8be8bfb37fcd839"
+    }
+}
+*/
+
+//流动性代币数量和汇率
+export function postGetReserves() {
+  return httpRequest.post({
+    url: '/amm/get/reserves/',
+    
+  })
+}
+/*
+{
+    "results": {
+        "d9_token": "22285734.94",
+        "usdt_token": "1472771.50",
+        "d9_rate": 15.1318,
+        "usdt_rate": 0.06609
+    }
+}
+*/
+
 
 
 //将d9兑换成usdt
 export function postGetUsdt(queryInfo: {
-    keypair:string,
-    d9_amount:number
+  amount:number
 }) {
-    return httpRequest.post({
-      url: '/amm/get-usdt/',
-      data: queryInfo
-    })
-  }
-
-
-//http://d9-test-server.q6z4kzhr.uk/api/amm/liquidity-provider/   跑不通
+  return httpRequest.post({
+    url: '/amm/get/usdt/',
+    data: queryInfo
+  })
+}
+/*
+{
+    "results": {
+        "block_hash": "0x74668dc533cc724c15df375bb6ce05fea7225b551f07590f1129329fde57154f",
+        "extrinsic_hash": "0xebfcdf477142ef31e7b12797cd83fd47bca572a8bebe0ece28b02115364f1070"
+    }
+}
+*/
 
 
 //移除流动性
 export function postRemoveLiquidity(queryInfo: {
-    keypair:string,
+  keypair:string,
 }) {
-    return httpRequest.post({
-      url: '/amm/remove-liquidity/',
-      data: queryInfo
-    })
-  }
-  /*
-  {
-    "results": {
-        "block_hash": "0xf17239bbba2794c5e288eb82c117f938ea26d0c9c2eadc41bc06b8a655b87bdd",
-        "extrinsic_hash": "0x2099ee4b6b7489da9cf5d1d986e7208206f691efc4ddbea9914b31452e9404ee"
-    }
+  return httpRequest.post({
+    url: '/amm/remove/liquidity/',
+    data: queryInfo
+  })
 }
-  */
+/*
+{
+  "results": {
+      "block_hash": "0xf17239bbba2794c5e288eb82c117f938ea26d0c9c2eadc41bc06b8a655b87bdd",
+      "extrinsic_hash": "0x2099ee4b6b7489da9cf5d1d986e7208206f691efc4ddbea9914b31452e9404ee"
+  }
+}
+*/
 
 
-//????账户余额？
-export function postRereserves(queryInfo: {
-    keypair:string,
-}) {
-    return httpRequest.post({
-      url: '/amm/reserves/',
-      data: queryInfo
-    })
-  }
-  /*
-  {
-    "results": {
-        "d9": "22354978.28",
-        "usdt": "1466684.07"
-    }
-}
-  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

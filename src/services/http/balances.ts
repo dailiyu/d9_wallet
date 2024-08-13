@@ -2,49 +2,28 @@ import httpRequest from ".";
 
 
 //获取账户D9余额
-export function postGetD9Balances(queryInfo: {
-    keypair:string,
-    account_id:string
-}) {
+export function postGetD9Balances() {
     return httpRequest.post({
-      url: '/balances/get-balances/',
-      data: queryInfo
+      url: '/balances/get/',
+     
     })
   }
   /*
-  {
+ {
     "results": {
-        "account_id": "Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z",
-        "balance_d9": "1641.8489"
+        "balance_d9": "3931.2249"
     }
-}
-  */
-
-//锁定的资产？？？
-export function postGetLocks(queryInfo: {
-    keypair:string,
-    account_id:string
-}) {
-    return httpRequest.post({
-      url: '/balances/get-locks/',
-      data: queryInfo
-    })
-  } 
-  /*
-  {
-    "results": []
 }
   */
 
 
 //d9转账
 export function postTransfer(queryInfo: {
-    keypair:string,
     to_address:string,
     amount:number//d9数量
 }) {
     return httpRequest.post({
-      url: '/balances/get-locks/',
+      url: '/balances/transfers/',
       data: queryInfo
     })
   }
