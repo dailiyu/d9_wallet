@@ -9,7 +9,7 @@
         <div class="total">$ 7,210.80</div>
       </div>
       <van-cell-group inset>
-        <van-field v-model="price" label="价格" input-align="right" >
+        <van-field v-model="price" label="价格" input-align="right" readonly >
           <template #right-icon>
             <img src="@/assets/home/arrow-right-grey.png" alt="" class="arrow_icon">
           </template>
@@ -17,7 +17,7 @@
       </van-cell-group>
       <div class="title">交易记录</div>
       <div class="record_list">
-        <div class="list_item">
+        <div class="list_item" @click="toDetail()">
           <img src="@/assets/home/sell.png" alt="" class="sell_icon">
           <!-- <img src="@/assets/home/buy.png" alt="" class="sell_icon"> -->
           <div class="list_info">
@@ -39,14 +39,18 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 // import navBar from '@/components/navBar.vue'
 const price = ref('')
 const route = useRoute()
 const type = route.query.type
+const router = useRouter()
+function toDetail(){
+  router.push('/main/transactionDetail')
+}
 </script>
 
-<style lang="scss"scoped>
+<style lang="scss" scoped>
 .asset_nav {
   text-align: center;
   .logo {
@@ -71,6 +75,7 @@ const type = route.query.type
   border-radius: 13px;
   border: 1px solid #E7EBF2;
   margin-top: 4.6729vw;
+  
 }
 .title {
   font-size: 3.5047vw;
@@ -79,7 +84,6 @@ const type = route.query.type
 }
 .van-field__label {
   color: #8E8C8E;
-  --van-field-label-color: #8E8C8E;
 }
 .record_list {
   .list_item {
