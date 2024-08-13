@@ -21,7 +21,7 @@
             商家联盟
           </div>
         </div>
-        <div class="item">
+        <div class="item" @click="toWorldSwap()">
           <div class="icon">
             <img src="@/assets/discovery/worldSwap.png" alt="">
           </div>
@@ -63,6 +63,7 @@
 import { IonPage} from '@ionic/vue';
 import { Swipe, SwipeItem } from 'vant';
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 
 defineComponent({
   components: {
@@ -71,6 +72,10 @@ defineComponent({
     SwipeItem
   }
 });
+const router = useRouter()
+function toWorldSwap(){
+  router.push('/main/worldSwap')
+}
 </script>
 
 <style lang="scss" scoped>

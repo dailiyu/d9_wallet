@@ -1,6 +1,7 @@
 <template>
   <div class="navBar">
-    <img src="@/assets/login/arrow_right.png" alt="" class="arrow_pic" @click="back()">
+    <!-- <img src="@/assets/login/arrow_right.png" alt="" class="arrow_pic" @click="back()"> -->
+    <van-icon name="arrow-left" :color="iconColor" @click="back()" class="arrow_pic" />
     <text>{{ title }}</text>
   </div>
 </template>
@@ -9,7 +10,14 @@
 import { useRouter } from 'vue-router';
 
 defineProps({
-    title: ''
+    title: {
+      type: String,
+      default: ''
+    },
+    iconColor: {
+      type: String,
+      default: '#000'
+    }
 })
 
 const router = useRouter()

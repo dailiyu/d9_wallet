@@ -24,8 +24,16 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('@/views/assetRecord.vue'),
       },
       {
+        path: 'transactionDetail',
+        component:()=>import('@/views/transactionDetail.vue'),
+      },
+      {
         path: 'discovery',
         component: () => import('@/views/discovery.vue')
+      },
+      {
+        path: 'worldSwap',
+        component: () => import('@/views/worldSwap.vue')
       },
       {
         path: 'myself',
@@ -54,6 +62,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/createWallet',
     component: ()=>import('@/views/login/createWallet.vue'),
+  },
+  {
+    path: '/loginAccount',
+    component: ()=>import('@/views/login/loginAccount.vue'),
   },
   {
     path: '/backupTips',

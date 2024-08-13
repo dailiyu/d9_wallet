@@ -40,7 +40,8 @@ import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
 const router = useRouter()
 function toNext(){
-    router.push('/backupTips')
+    // router.push('/backupTips')
+    router.push('/loginAccount')
 }
 </script>
 
