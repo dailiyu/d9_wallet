@@ -24,14 +24,14 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { useWalletService } from "../services/walletService";
-import useLoginStore from "@/store/account/account";
+import useAccountStore from "@/store/account/account";
 import { IonPage } from '@ionic/vue';
 
 
 
 // 使用钱包服务
-const { preCreateWallet,removeWallet ,changeActiveWallet} = useWalletService();
-const accountStore = useLoginStore();
+const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet } = useWalletService();
+const accountStore = useAccountStore();
 
 
 onMounted(() => {
@@ -40,7 +40,7 @@ onMounted(() => {
 
 // 定义生成钱包的方法
 const generateWallet = async () => {
-  await preCreateWallet();
+  await addWallet ();
 };
 
 const  clearWallet=async () => {

@@ -5,13 +5,14 @@ import type { walletDate } from '@/types/account';
 interface AccountState {
   walletList: walletDate[];
   activeWallet: walletDate;
+  temporaryWallet:walletDate
 }
 
 const defaultWallet: walletDate = {
-  mnemonic: "blast curve early try fold fall plastic hobby donkey tomato crater diet",
+  mnemonic: "",
   publicKey: '',
   secretKey: '',
-  address: 'Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z',
+  address: '',
 };
 
 //添加前缀
@@ -23,7 +24,8 @@ const addPrefix = (wallet: walletDate): walletDate => ({
 const useAccountStore = defineStore('login', {
   state: (): AccountState => ({
     walletList: [],
-    activeWallet: defaultWallet
+    activeWallet: defaultWallet,
+    temporaryWallet:defaultWallet
   }),
   actions: {
     async addWalletAction(wallet: walletDate) {
@@ -32,6 +34,10 @@ const useAccountStore = defineStore('login', {
       const newWalletList: walletDate[] = [...oldWalletList.map(addPrefix), wallet];
       await storageAccounts.set('walletList', newWalletList);
       this.walletList = newWalletList;
+    },
+    async addtemporaryWalletAction(wallet: walletDate){
+      wallet = addPrefix(wallet);
+      this.temporaryWallet=wallet
     },
     async removeWalletAction() {
       await storageAccounts.remove('walletList');

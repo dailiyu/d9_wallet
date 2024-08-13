@@ -3,12 +3,12 @@
     <div class="main">
       <img src="@/assets/home/d9-network.png" alt="" class="logo_pic">
       <div class="add_btn button_active_full" @click="toCreateAccount">新建账户</div>
-      <div class="import_btn button_active_plain">导入账户</div>
+      <div class="import_btn button_active_plain" @click="toImportAccount">导入账户</div>
     </div>
   </ion-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { IonPage } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 
@@ -16,11 +16,18 @@ const router = useRouter()
 function toCreateAccount(){
   router.push("/createWallet");
 }
+function toImportAccount(){
+  // router.push('/importAccount')
+  router.push('/importAccountInfo')
+}
 </script>
 
 <style lang="scss" scoped>
 .main {
-    text-align: center;
+  height: 100%;
+  text-align: center;
+  background: #fff url('@/assets/login/login-bg.png');
+  background-size: 100% auto;
 }
 .logo_pic {
     width: 47.4299vw;
