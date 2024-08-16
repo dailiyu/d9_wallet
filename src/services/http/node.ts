@@ -102,7 +102,7 @@ export function postGetNumberCandidates() {
     "results": 129
 }
 */
-//???
+//获取节点排名
 export function postGetRank() {
   return httpRequest.post({
     url: '/votings/get/rank/',
@@ -244,7 +244,7 @@ export function postGetRank() {
 }
 */
 
-//获取节点列表？？好像没有按照票数排序
+//获取节点列表？？好像没有按照票数排序xxx
 export function postGetSessionNodeList(queryInfo: {
   session_index:number
 }) {
@@ -390,7 +390,7 @@ export function postGetSessionNodeList(queryInfo: {
 */
 
 
-//????
+//获取某个节点被哪些人投了多少票
 export function postNodeUserVoteTotals(queryInfo: {
   node_id:string,
 }) {
@@ -502,7 +502,7 @@ export function postNodeUserVoteTotals(queryInfo: {
 }
 */
 
-//???
+//???xxx
 export function postValidatorStats(queryInfo: {
   validator_id:string,
 }) {

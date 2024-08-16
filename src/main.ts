@@ -43,6 +43,11 @@ import '@varlet/ui/es/style'
 
 //使用pinia
 import store from './store'
+import { StatusBar, Style } from '@capacitor/status-bar';
+// 配置状态栏
+StatusBar.setStyle({ style: Style.Light });
+StatusBar.setOverlaysWebView({ overlay: true });
+StatusBar.setBackgroundColor({ color: 'transparent' });
 
 
 
@@ -54,3 +59,8 @@ const app = createApp(App)
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+
+
+
+

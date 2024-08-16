@@ -75,11 +75,11 @@ export function postUsersProfile() {
         "expiry_date": "1764914046000",//？？？商家码有效截止时间？？？
         "merchant_profile": {
             "green_points": "1053175.34",//积分总量
-            "relationship_green_points": "0.00",
-            "relationship_red_points": "0.00",
+            "relationship_green_points": "0.00",//
+            "relationship_red_points": "0.00",//
             "last_conversion": "1723006299000",//上次兑换时间
             "redeemed_usdt": "0.00",
-            "redeemed_d9": "4948.59",
+            "redeemed_d9": "4948.59",//基本+加速可兑换
             "created_at": "1715666208000"
         }
     }
