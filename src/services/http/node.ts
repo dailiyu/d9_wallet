@@ -1,9 +1,9 @@
 import httpRequest from ".";
 
 
-//????
+//销毁代币增加投票 接口2？？？
 export function postAddVotingInterest(queryInfo: {
-  amount_to_burn:number
+  amount_to_burn:number//销毁的数量
 }) {
   return httpRequest.post({
     url: '/votings/add/voting/interest/',
@@ -12,7 +12,7 @@ export function postAddVotingInterest(queryInfo: {
 }
 
 
-//修改节点名称？？？
+//修改节点名称
 export function postChangeCandidateName(queryInfo: {
   name:string
 }) {
@@ -22,7 +22,7 @@ export function postChangeCandidateName(queryInfo: {
   })
 }
 
-//？？？
+//修改节点分红比例
 export function postChangeCandidateSupportShare(queryInfo: {
   percent:string
 }) {
@@ -32,7 +32,7 @@ export function postChangeCandidateSupportShare(queryInfo: {
   })
 }
 
-//???获取当前的会议届数？？？
+//???获取当前的会议届数？？？xxx
 export function postCurrentSessionIndex() {
   return httpRequest.post({
     url: '/votings/current/session/index/',
@@ -45,10 +45,10 @@ export function postCurrentSessionIndex() {
 }
 */
 
-//投票？？报错
+//投票
 export function postDelegateVotes(queryInfo: {
   candidate:string,//候选人地址？？
-  amount:number
+  amount:number//投票数量
 }) {
   return httpRequest.post({
     url: '/votings/delegate/votes/',
@@ -59,7 +59,6 @@ export function postDelegateVotes(queryInfo: {
 //获取某个节点的票数
 export function postNodeAccumulativeVotes(queryInfo: {
   node_id:string,
-
 }) {
   return httpRequest.post({
     url: 'votings/get/node/accumulative/votes/',
@@ -86,7 +85,7 @@ export function postGetNodeMetadata(queryInfo: {
 {
     "results": {
         "name": "xq13491",
-        "sharing_percent": 40,
+        "sharing_percent": 40,//分红比例
         "index_of_last_percent_change": 3//??
     }
 }

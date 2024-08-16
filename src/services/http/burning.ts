@@ -1,7 +1,7 @@
 import httpRequest from ".";
 
 
-//????
+//????xxx
 export function postBurningAncestors(queryInfo: {
     keypair:string,
     account_id:string
@@ -63,7 +63,7 @@ export function postBurningPortfolio(queryInfo: {
   */
 
 
-//销毁代币
+//销毁代币接口1
 export function postBurningToken(queryInfo: {
     keypair:string,
     account_id:string,
@@ -103,7 +103,7 @@ export function postBurningTotals(queryInfo: {
 }
   */
 
-//????
+//每天提取可提代币
 export function postBurningWithdraw(queryInfo: {
     keypair:string
   }) {

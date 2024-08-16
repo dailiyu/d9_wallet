@@ -71,17 +71,17 @@ export function postMerchantGivePointsUsdt(queryInfo: {
 }
 
 
-  //????
+  //积分兑换
   export function postMerchantRedeemD9() {
     return httpRequest.post({
       url:'/merchant/redeem/d9/',
     })
   }
 
-  //崩
+  //用d9转账给商家
   export function postSendD9Payment(queryInfo: {
     keypair:string,
-    merchant_id:string,
+    merchant_id:string,//账号地址
     amount:number
   }) {
     return httpRequest.post({
@@ -90,24 +90,24 @@ export function postMerchantGivePointsUsdt(queryInfo: {
     })
   }
 
-//崩
+//用usdt转账给商家
   export function postSendUsdtPayment(queryInfo: {
     keypair:string,
     merchant_id:string,
     amount:number
   }) {
     return httpRequest.post({
-      url:'/merchant/send/d9/payment/',
+      url:'/merchant/send/usdt/payment/',
       data: queryInfo
     })
   }
 
 
 
-//开通商家码？？跑不通
+//开通商家码
 export function postMerchantSubscribe(queryInfo: {
   keypair:string,
-  usdt_base_units:number
+  usdt_base_units:number//月数的十倍
 }) {
   return httpRequest.post({
     url:'/merchant/subscribe/',
@@ -116,17 +116,22 @@ export function postMerchantSubscribe(queryInfo: {
 }
 
 
-//生成二维码
+//生成二维码???
 export function postQrcodeGenerate(queryInfo: {
-  amount:number
+  amount:number//设置收款金额 默认0即可
 }) {
   return httpRequest.post({
     url:'/qrcode/generate/',
     data: queryInfo
   })
 }
+/*
+{
+    "results": "http://d9-test-server.q6z4kzhr.uk/api/qrcode/process/?account_id=Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z&amount=1"
+}
+*/
 
-//?????发什么返什么
+//扫码用的
 export function getQrcodeProcessList(queryInfo: {
   amount:number
 }) {
@@ -144,7 +149,7 @@ export function getQrcodeProcessList(queryInfo: {
 }
 */
 
-//???
+//空投次数
 export function postReferralsGetDirectCount() {
   return httpRequest.get({
     url:'/referrals/get/direct/count/'

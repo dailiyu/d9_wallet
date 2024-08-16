@@ -53,7 +53,7 @@ export const useWalletService = () => {
   }
 
   //导入钱包
-  const importFromMnemonic = async (inputMnemonic: string,): Promise<{ mnemonic: string[], publicKey: string, secretKey: string, address: string }> => {
+  const importFromMnemonic = async (inputMnemonic: string,): Promise<{ mnemonic: string, publicKey: string, secretKey: string, address: string }> => {
     await cryptoWaitReady();
     const keypair = keyring.addFromMnemonic(inputMnemonic);
 
@@ -62,7 +62,7 @@ export const useWalletService = () => {
     address.value = keypair.address;
 
     return {
-      mnemonic: inputMnemonic.split(' '),
+      mnemonic: inputMnemonic,
       publicKey: publicKey.value,
       secretKey: secretKey.value,
       address: address.value,

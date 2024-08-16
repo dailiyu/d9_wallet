@@ -5,7 +5,7 @@
         <div class="title">设置钱包名称</div>
         <van-cell-group inset>
             <van-field
-                v-model="message"
+                v-model="name"
                 rows="1"
                 autosize
                 type="textarea"
@@ -14,7 +14,7 @@
         <div class="title">设置钱包密码</div>
         <van-cell-group inset>
             <van-field
-                v-model="message"
+                v-model="password"
                 rows="1"
                 autosize
                 type="textarea"
@@ -27,7 +27,7 @@
         <div class="title">确认钱包密码</div>
         <van-cell-group inset>
             <van-field
-                v-model="message"
+                v-model="ensurePassword"
                 rows="1"
                 autosize
                 type="textarea"
@@ -51,11 +51,20 @@ import { IonPage } from '@ionic/vue';
 import { ref } from 'vue'
 import navBar from '@/components/navBar.vue'
 import {useRouter } from 'vue-router';
-
+import useAccountStore from "@/store/account/account";
+const accountStore = useAccountStore();
+const name = ref('')
+const password = ref('')
+const ensurePassword = ref('')
 const message = ref('')
 const router = useRouter()
-function toNext(){
-  router.push('/backupTips')
+const toNext=async()=>{
+    if(ensurePassword.value===password.value){
+      await  accountStore.addtemporaryNameAction(name.value)
+      await  accountStore.changePasswordAction(password.value)
+        router.push('/backupTips')
+    }
+
 }
 </script>
 <style lang="scss"scoped>

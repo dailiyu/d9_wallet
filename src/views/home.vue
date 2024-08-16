@@ -3,8 +3,8 @@
     <div class="main" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
     <div class="main_top">
       <div>
-        <div class="name">Person</div>
-        <div class="account">{{ obscureString(accountStore.temporaryWallet.address)}}</div>
+        <div class="name">{{ accountStore.activeWallet.name }}</div>
+        <div class="account">{{ obscureString(accountStore.activeWallet.address)}}</div>
       </div>
       <div class="functions">
         <div class="function_item" @click="showWalletList = !showWalletList">
@@ -37,10 +37,17 @@ import walletList from '@/components/home/walletList.vue';
 import { ref } from 'vue';
 import useAccountStore from "@/store/account/account";
 import {obscureString} from "@/utils/index"
+import useMarketStore from '@/store/market/market';
+import { onMounted } from 'vue';
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+const  userProfileStore= useUserProfileStore();
 const accountStore = useAccountStore();
-const wordsList = accountStore.temporaryWallet.mnemonic.split(' ')
+const marketStore=useMarketStore()
 
-
+onMounted(async() => {
+ await  marketStore.fetchAllData()
+ await  userProfileStore.fetchAllData()
+})
 
 
 

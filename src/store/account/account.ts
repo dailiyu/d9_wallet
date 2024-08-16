@@ -1,3 +1,4 @@
+
 import { defineStore } from 'pinia';
 import { storageAccounts } from '@/storage';
 import type { walletDate } from '@/types/account';
@@ -6,6 +7,9 @@ interface AccountState {
   walletList: walletDate[];
   activeWallet: walletDate;
   temporaryWallet:walletDate
+  password:string,
+  temporaryName:string
+
 }
 
 const defaultWallet: walletDate = {
@@ -13,6 +17,7 @@ const defaultWallet: walletDate = {
   publicKey: '',
   secretKey: '',
   address: '',
+  name:""
 };
 
 //添加前缀
@@ -21,11 +26,14 @@ const addPrefix = (wallet: walletDate): walletDate => ({
   address: wallet.address.startsWith('Dn') ? wallet.address : `Dn${wallet.address}`
 });
 
-const useAccountStore = defineStore('login', {
+const useAccountStore = defineStore('account', {
   state: (): AccountState => ({
     walletList: [],
     activeWallet: defaultWallet,
-    temporaryWallet:defaultWallet
+    temporaryWallet:defaultWallet,
+    password:'',
+    temporaryName:'',
+
   }),
   actions: {
     async addWalletAction(wallet: walletDate) {
@@ -38,6 +46,12 @@ const useAccountStore = defineStore('login', {
     async addtemporaryWalletAction(wallet: walletDate){
       wallet = addPrefix(wallet);
       this.temporaryWallet=wallet
+    },
+    async addtemporaryNameAction(name: string){
+      this.temporaryName=name
+    },
+    async changePasswordAction(password: string){
+      this.password=password
     },
     async removeWalletAction() {
       await storageAccounts.remove('walletList');
@@ -52,7 +66,8 @@ const useAccountStore = defineStore('login', {
     async changeActiveWallet(index: number) {
       this.activeWallet = addPrefix(this.walletList[index] ?? { ...defaultWallet });
       await storageAccounts.set('activeWallet', this.activeWallet);
-    }
+    },
+  
   }
 });
 

@@ -7,7 +7,7 @@ export function postAddLiquidity(queryInfo: {
 }) {
     return httpRequest.post({
       url: '/amm/add/liquidity/',
-      data: queryInfo
+      data: queryInfo 
     })
   }
   /*postAddLiquidity
@@ -19,7 +19,7 @@ export function postAddLiquidity(queryInfo: {
 }
   */
 
-//????检查新的流动资金
+//????检查新的流动资金xx
 export function postCheckNewLiquidity(queryInfo: {
   usdt_liquidity:number,
   d9_liquidity:number,
@@ -62,16 +62,23 @@ export function postCheckUsdtBalance(queryInfo: {
 */
 
 //崩
-export function postComputeExchangeRate(queryInfo: {
-  from_currency:'USDT'|'d9',
-  to_currency:'USDT'|'d9',
+// export function postComputeExchangeRate(queryInfo: {
+//   from_currency:'USDT'|'d9',
+//   to_currency:'USDT'|'d9',
 
-}) {
-  return httpRequest.post({
-    url: '/amm/check/usdt/balance/',
-    data: queryInfo
-  })
-}
+// }) {
+//   return httpRequest.post({
+//     url: '/amm/check/usdt/balance/',
+//     data: queryInfo
+//   })
+// }
+
+//{
+//   "results": {
+//       "rate": "14.15",
+//       "meta_data": 14.152819650959568
+//   }
+// }
 
 
 //usdt与dusdt与d9转换的大概估算
@@ -128,8 +135,8 @@ export function postGetReserves() {
 /*
 {
     "results": {
-        "d9_token": "22285734.94",
-        "usdt_token": "1472771.50",
+        "d9_token": "22285734.94",//流动性代币
+        "usdt_token": "1472771.50",//
         "d9_rate": 15.1318,
         "usdt_rate": 0.06609
     }

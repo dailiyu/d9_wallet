@@ -1,18 +1,20 @@
 import httpRequest from ".";
 
 
-//跑不通
+//
 export function postgetAccumulativeRewardPool(queryInfo: {
   keypair:string,
 }) {
   return httpRequest.post({
-    url:'/mining/get-merchant-volume/',
+    url:'/mining/get/accumulative/reward/pool/',
     data: queryInfo
   })
 }
 /*
 {
-  "results": "638277956830868276"
+    "results": {
+        "totals": "393168.17"
+    }
 }
 */
 
