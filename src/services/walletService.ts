@@ -4,11 +4,11 @@ import { mnemonicGenerate, mnemonicValidate, cryptoWaitReady } from '@polkadot/u
 import type {walletDate} from '@/types/account'
 
 
-import useLoginStore from '@/store/account/account';
+import useAccountStore from '@/store/account/account';
 
 const keyring = new Keyring({ type: 'sr25519', ss58Format: 9 });
 
-const accountStore=useLoginStore()
+const accountStore=useAccountStore()
 
 
 
@@ -29,7 +29,7 @@ export const useWalletService = () => {
     return mnemonic.value;
   };
 
-  //创建钱包
+  //创建一个钱包数据
   const preCreateWallet = async ()=> {
     await cryptoWaitReady();
     const generatedMnemonic = createMnemonic();
@@ -38,18 +38,22 @@ export const useWalletService = () => {
     secretKey.value = Buffer.from(keypair.encodePkcs8()).toString('hex');
     address.value = keypair.address;
     const walletDate:walletDate={
-      mnemonic: generatedMnemonic.split(' '),
+      mnemonic: generatedMnemonic,
       publicKey: publicKey.value,
       secretKey: secretKey.value,
       address: address.value,
     }
-
-    accountStore.addWalletAction(walletDate)
-    
+    return walletDate
   };
 
+  //添加钱包
+  const addWallet = async ()=>{
+    const walletDate=await preCreateWallet()
+    accountStore.addWalletAction(walletDate)
+  }
+
   //导入钱包
-  const importFromMnemonic = async (inputMnemonic: string,): Promise<{ mnemonic: string[], publicKey: string, secretKey: string, address: string }> => {
+  const importFromMnemonic = async (inputMnemonic: string,): Promise<{ mnemonic: string, publicKey: string, secretKey: string, address: string }> => {
     await cryptoWaitReady();
     const keypair = keyring.addFromMnemonic(inputMnemonic);
 
@@ -58,7 +62,7 @@ export const useWalletService = () => {
     address.value = keypair.address;
 
     return {
-      mnemonic: inputMnemonic.split(' '),
+      mnemonic: inputMnemonic,
       publicKey: publicKey.value,
       secretKey: secretKey.value,
       address: address.value,
@@ -80,6 +84,7 @@ export const useWalletService = () => {
     address,
     createMnemonic,
     preCreateWallet,
+    addWallet,
     importFromMnemonic,
     removeWallet,
     changeActiveWallet

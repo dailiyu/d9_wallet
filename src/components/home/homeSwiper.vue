@@ -23,7 +23,7 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">0.00</div>
+                <div class="balance_num">{{Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)}}</div>
               </div>
               <div class="buttons">
                 <div class="button_item">转账</div>
@@ -36,8 +36,8 @@
                     <div>D9</div>
                   </div>
                   <div class="item_num">
-                    <div class="num1">156.6192</div>
-                    <div class="num2">≈ $0.0000</div>
+                    <div class="num1">{{ userProfileStore.d9Balance }}</div>
+                    <div class="num2">≈ ${{ (userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)}}</div>
                   </div>
                 </div>
                 <div class="rate_item" @click="toRecord('usdt')">
@@ -46,8 +46,8 @@
                     <div>USDT</div>
                   </div>
                   <div class="item_num">
-                    <div class="num1" style="color: #0E932E;">156.6192</div>
-                    <div class="num2">≈ $0.0000</div>
+                    <div class="num1" style="color: #0E932E;">{{ userProfileStore.usdtBalance }}</div>
+                    <div class="num2">≈ ${{ userProfileStore.usdtBalance }}</div>
                   </div>
                 </div>
               </div>
@@ -102,7 +102,7 @@
               <div>积分总量</div>
               <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
             </div>
-            <div class="point_num">32,232,232.00</div>
+            <div class="point_num">{{ userProfileStore.greenPoints }}</div>
           </div>
           <div class="wallet_detail">
             <div class="title">
@@ -143,14 +143,25 @@
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 import {postUsdtBalance} from "@/services/http/usdt"
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
 
-const usdtBalance=ref()
+const marketStore=useMarketStore()
+const  userProfileStore= useUserProfileStore();
+
+const totalValue = computed<number>(() => {
+  const d9Balance = userProfileStore.d9Balance || 0;
+  const exchangeRate = marketStore.exchangeRateD9ToUsdt || 0;
+  const usdtBalance = userProfileStore.usdtBalance || 0;
+
+  // 返回数字类型的 totalValue，确保返回值不会是 NaN 或 undefined
+  return parseFloat(((d9Balance * exchangeRate) + usdtBalance).toFixed(4));
+});
+
 
 onMounted(async() => {
-  usdtBalance.value=await postUsdtBalance({
-    keypair:"blast curve early try fold fall plastic hobby donkey tomato crater diet",
-    account_id:"Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z"
-})
+  userProfileStore.getUsdtBalanceAction()
+  userProfileStore.getD9BalanceAction()
 })
 
   const showBalance = ref(true)

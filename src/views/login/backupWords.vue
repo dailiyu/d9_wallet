@@ -3,7 +3,7 @@
     <navBar title="备份助记词"></navBar>
     <div class="content">
         <div class="account">
-          DAUS1281******SAD3842
+         {{ obscureString(accountStore.temporaryWallet.address) }}
       </div>
       <div class="title">备份助记词</div>
       <div class="tips">
@@ -35,9 +35,10 @@ import { IonPage } from '@ionic/vue';
 import { reactive } from 'vue'
 import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
-const wordsList = reactive([
-  'ugly', 'never', 'love', 'video', 'doctor', 'recipe', 'finger', 'ribbon', 'flat', 'magnet', 'present', 'exception'
-])
+import useAccountStore from "@/store/account/account";
+import {obscureString} from "@/utils/index"
+const accountStore = useAccountStore();
+const wordsList = accountStore.temporaryWallet.mnemonic.split(' ')
 const router = useRouter()
 function toNext(){
   router.push('/confirmWords')

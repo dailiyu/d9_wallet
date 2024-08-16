@@ -11,11 +11,11 @@
             <div>钱包列表</div>
             <div class="manage">管理</div>
         </div>
-        <div class="wallet_item">
+        <div class="wallet_item " :class="activeWalletIndex===index?'':'inactive'" v-for="(wallet,index) in walletList" @click="selectWallet(index)">
             <div class="wallet_top">
                 <div>
-                    <div class="name">Person</div>
-                    <div class="account">DAUS1281******SAD3842</div>
+                    <div class="name">{{ wallet.name }}</div>
+                    <div class="account">{{ obscureString(wallet.address) }}</div>
                 </div>
                 <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon">
             </div>
@@ -32,22 +32,48 @@
             </div>
             <div class="balance">$ 51,082.00</div>
         </div>
+        
     </div>
   </van-popup>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import useAccountStore from "@/store/account/account";
+import { obscureString } from "@/utils/index";
+import { ref, computed } from "vue";
+
+const accountStore = useAccountStore();
+
+const walletList = computed(() => accountStore.walletList);
+const activeWallet = computed(() => accountStore.activeWallet);
+
+const selectedIndex = ref<number>();
+
 defineProps({
     showWalletList: {
         type: Boolean,
         default: false
     }
-})
-const emit = defineEmits(['close'])
-function closePop(){
-    emit('close')
+});
+
+const emit = defineEmits(['close']);
+
+function closePop() {
+    emit('close');
 }
+
+const selectWallet = async (index: number) => {
+    await accountStore.changeActiveWallet(index);
+    selectedIndex.value = index;
+};
+
+// 计算属性：计算walletList中与activeWallet地址匹配的索引值
+const activeWalletIndex = computed(() => {
+    return walletList.value.findIndex((wallet: { address: any; }) => wallet.address === activeWallet.value.address);
+});
+
 </script>
+
 
 <style lang="scss" scoped>
 .bottom_pop {

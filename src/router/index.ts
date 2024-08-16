@@ -72,6 +72,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'addWallet',
         component:()=>import('@/views/createWallet.vue'),
+      },
+      {
+        path: 'importWallet',
+        component:()=>import('@/views/importWallet.vue'),
       }
     ]
   },

@@ -42,6 +42,10 @@ import { IonPage } from '@ionic/vue';
 import navBar from '@/components/navBar.vue'
 import { IonCheckbox, IonItem, IonList } from '@ionic/vue';
 import { ref, reactive, onBeforeUpdate } from 'vue';
+import useAccountStore from "@/store/account/account";
+import { useWalletService } from "@/services/walletService";
+const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet } = useWalletService();
+const accountStore = useAccountStore();
 import { useRouter } from 'vue-router';
 const checked = ref([]);
 const list = reactive([
@@ -71,16 +75,16 @@ const toggle = (index:number) => {
         
     }
     
-    
   checkboxRefs.value[index].toggle();
 };
 onBeforeUpdate(() => {
   checkboxRefs.value = [];
 });
 const router = useRouter()
-function toNext(){
-
+const toNext=async()=>{
     if (current.data.length !== 3) return
+   const newWalletData= await preCreateWallet()
+   await accountStore.addtemporaryWalletAction(newWalletData)
     router.push('/backupWords')
 }
 </script>

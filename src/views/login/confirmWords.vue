@@ -24,7 +24,7 @@
           {{item}}
         </div>
       </div>
-      <div class="btn button_active_full">确认</div>
+      <div class="btn button_active_full" @click="toNext()">确认</div>
     </div>
   </ion-page>
 </template>
@@ -32,12 +32,13 @@
 import { IonPage } from '@ionic/vue';
 import { ref, reactive } from 'vue'
 import navBar from '@/components/navBar.vue'
-
-
+import useAccountStore from "@/store/account/account";
+import {stringArraysEqual} from "@/utils/index"
+import { useRouter } from 'vue-router';
+const accountStore = useAccountStore();
+const router = useRouter()
 const wordList = reactive({
-  origin: [
-   'ugly', 'never', 'love', 'video', 'doctor', 'recipe', 'finger', 'ribbon', 'flat', 'magnet', 'present', 'exception'
-  ],
+  origin: accountStore.temporaryWallet.mnemonic.split(' '),
   selectedWord: [] as string[]
 })
 function selectWord(item:string){
@@ -47,6 +48,15 @@ function selectWord(item:string){
 function reset(){
   wordList.selectedWord = []
 }
+
+const toNext=async()=>{
+  if(stringArraysEqual(wordList.origin,wordList.selectedWord)){
+   await accountStore.addWalletAction({...accountStore.temporaryWallet,name:accountStore.temporaryName})
+   await accountStore.changeActiveWallet(accountStore.walletList.length-1)
+    router.push('/main/home')
+  }
+}
+
 </script>
 <style lang="scss"scoped>
 .content {
