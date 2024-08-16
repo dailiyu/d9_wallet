@@ -74,7 +74,7 @@
                 <div class="balance_num">0.00</div>
               </div>
               <div class="buttons">
-                <div class="button_item">闪兑</div>
+                <div class="button_item" @click="toSwap()">闪兑</div>
                 <div class="button_item">DPOC</div>
               </div>
               <div class="record">
@@ -183,6 +183,9 @@ onMounted(async() => {
 const router = useRouter()
 function toRecord(type:string){
   router.push({path:'/main/assetRecord', query: {type}})
+}
+function toSwap(){
+  router.push('/main/swap')
 }
 </script>
   

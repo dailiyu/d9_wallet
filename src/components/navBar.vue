@@ -2,7 +2,8 @@
   <div class="navBar">
     <!-- <img src="@/assets/login/arrow_right.png" alt="" class="arrow_pic" @click="back()"> -->
     <van-icon name="arrow-left" :color="iconColor" @click="back()" class="arrow_pic" />
-    <text>{{ title }}</text>
+    <text :style="{'color': iconColor?iconColor:'#000'}">{{ title }}</text>
+    <img :src="bgLink" alt="" class="nav_bg" v-if="bgLink">
   </div>
 </template>
 
@@ -17,6 +18,10 @@ defineProps({
     iconColor: {
       type: String,
       default: '#000'
+    },
+    bgLink: {
+      type: String,
+      default: ''
     }
 })
 
@@ -37,6 +42,15 @@ function back (){
     font-weight: 500;
     padding-top: 9.3458vw;
     background-color: #fff;
+    z-index: 10;
+    .nav_bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: auto;
+      z-index: -1;
+    }
     .arrow_pic {
         position: absolute;
         left: 7.7103vw;

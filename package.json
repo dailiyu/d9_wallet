@@ -25,6 +25,7 @@
     "@polkadot/keyring": "^13.0.2",
     "@polkadot/util-crypto": "^13.0.2",
     "@varlet/ui": "^3.3.9",
+    "apexcharts": "^3.52.0",
     "axios": "^1.7.2",
     "ionicons": "^7.0.0",
     "localforage": "^1.10.0",
