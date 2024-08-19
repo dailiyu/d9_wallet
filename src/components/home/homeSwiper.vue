@@ -16,7 +16,7 @@
                   <div>钱包余额</div>
                   <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
                 </div>
-                <div class="text_right">
+                <div class="text_right" @click="toWalletManagement()">
                   <div>钱包管理</div>
                   <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic">
                 </div>
@@ -198,6 +198,9 @@ function toRecord(type:string){
 function toSwap(){
   router.push('/main/swap')
 }
+function toWalletManagement(){
+  router.push('/walletManagement')
+}
 </script>
   
 <style scoped lang="scss">
@@ -356,6 +359,7 @@ position: relative;
                   color: #0065B2;
                   font-size: 3.5047vw;
                   font-weight: 500;
+                  text-align: right;
                 }
                 .num2 {
                   font-size: 2.5701vw;

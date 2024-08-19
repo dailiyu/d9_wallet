@@ -128,7 +128,7 @@ const showWalletList = ref(false)
     display: flex;
     align-content: center;
     justify-content: space-between;
-    padding: 8.6449vw;
+    padding: 12.8505vw;
     color: #fff;
     .name {
       font-size: 7.0093vw;

@@ -18,7 +18,7 @@
                     :title="item.text"
                     :border="true"
                     @click="toggle(index)"
-                    :class="{'active':current.data.indexOf(index)!==-1}"
+                    :class="{'active':current.indexOf(index)!==-1}"
                     >
                     <template #right-icon>
                         <van-checkbox
@@ -63,15 +63,13 @@ const list = reactive([
     }
     ])
 const checkboxRefs = ref([]);
-const current = reactive({
-    data: [] as number[]
-})
+const current = reactive<number[]>([])
 const toggle = (index:number) => {
-    if (current.data.indexOf(index) == -1) {
-        current.data.push(index)
+    if (current.indexOf(index) == -1) {
+        current.push(index)
         
     } else {
-        current.data.splice(current.data.indexOf(index), 1)
+        current.splice(current.indexOf(index), 1)
         
     }
     
@@ -82,7 +80,7 @@ onBeforeUpdate(() => {
 });
 const router = useRouter()
 const toNext=async()=>{
-    if (current.data.length !== 3) return
+    if (current.length !== 3) return
    const newWalletData= await preCreateWallet()
    await accountStore.addtemporaryWalletAction(newWalletData)
     router.push('/backupWords')
