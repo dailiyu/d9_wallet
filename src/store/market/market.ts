@@ -22,10 +22,10 @@ const useMarketStore = defineStore('market', {
   actions: {
    async getExchangeRateAction(){
     const metaData=await postGetReserves()
-    this.exchangeRateD9ToUsdt=metaData.results.usdt_rate
-    this.exchangeRateUsdtToD9=metaData.results.d9_rate
-    this.d9LiquidityToken=metaData.results.d9_rate
-    this.usdtLiquidityToken=metaData.results.usdt_rate
+    this.exchangeRateD9ToUsdt=metaData.data.results.usdt_rate
+    this.exchangeRateUsdtToD9=metaData.data.results.d9_rate
+    this.d9LiquidityToken=metaData.data.results.d9_token
+    this.usdtLiquidityToken=metaData.data.results.usdt_token
     console.log(this.exchangeRateD9ToUsdt,this.exchangeRateUsdtToD9,this.d9LiquidityToken, this.usdtLiquidityToken)
     
    },

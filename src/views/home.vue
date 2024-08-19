@@ -40,14 +40,18 @@ import {obscureString} from "@/utils/index"
 import useMarketStore from '@/store/market/market';
 import { onMounted } from 'vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
+import {postUsersProfile} from "@/services/http/main"
 const  userProfileStore= useUserProfileStore();
 const accountStore = useAccountStore();
-const marketStore=useMarketStore()
+const marketStore=useMarketStore();
 
 onMounted(async() => {
+ setInterval(() => {
+   postUsersProfile()
+ }, 1000*60*10);
  await  marketStore.fetchAllData()
  await  userProfileStore.fetchAllData()
-})
+}) 
 
 
 

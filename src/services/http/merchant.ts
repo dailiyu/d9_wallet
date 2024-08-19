@@ -16,7 +16,7 @@ export function postGetMerchantExpiry() {
 */
 
 
-//？？积分兑换页信息
+//积分兑换页信息
 export function postGetUserProfile() {
   return httpRequest.post({
     url:'/merchant/get/user/profile/',
@@ -25,12 +25,12 @@ export function postGetUserProfile() {
 /*
 {
     "results": {
-        "green_points": "1051360.02",//积分总量
-        "relationship_green_points": "0.00",//
-        "relationship_red_points": "0.00",//
+        "green_points": "1051360.02",//积分总量          
+        "relationship_green_points": "0.00",//基础可兑换
+        "relationship_red_points": "0.00",//加速兑换
         "last_conversion": "1722843390000",//最后兑换时间
-        "redeemed_usdt": "0.00",
-        "redeemed_d9": "4870.18",
+        "redeemed_usdt": "0.00",//可兑换
+        "redeemed_d9": "4870.18",//xx
         "created_at": "1715666208000"
     }
 }

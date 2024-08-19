@@ -524,28 +524,9 @@ export function postValidatorStats(queryInfo: {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//？？？？
+//获取节点待领取奖励数量
 export function postGetNodeRewardsData(queryInfo: {
-    node_id:string//？？？
+    node_id:string//当前账号id
   }) {
     return httpRequest.post({
       url: '/node/reward/get/node/rewards/data/',
@@ -554,7 +535,7 @@ export function postGetNodeRewardsData(queryInfo: {
   }
 /*
 {
-    "results": null//??
+    "results": null//
 }
 */
 
@@ -581,6 +562,23 @@ export function postWithdrawReward(queryInfo: {
     })
   }
 
+
+
+  //http://d9-test-server.q6z4kzhr.uk/api/votings/users/voting/interests/
+//获取总票数和可投票数
+  export function postvoteNumber() {
+    return httpRequest.post({
+      url: '/votings/users/voting/interests/',
+    })
+  }
+  /*
+  {
+    "results": {
+        "total": 2978,
+        "delegated": 112
+    }
+}
+  */
 
   
 

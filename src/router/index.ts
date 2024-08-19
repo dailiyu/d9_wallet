@@ -28,12 +28,32 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('@/views/transactionDetail.vue'),
       },
       {
+        path: 'swap',
+        component:()=>import('@/views/swap.vue'),
+      },
+      {
         path: 'discovery',
         component: () => import('@/views/discovery.vue')
       },
       {
         path: 'worldSwap',
         component: () => import('@/views/worldSwap.vue')
+      },
+      {
+        path: 'crossBridge',
+        component: () => import('@/views/crossBridge.vue')
+      },
+      {
+        path: 'nodeVoting',
+        component: () => import('@/views/nodeVoting.vue')
+      },
+      {
+        path: 'votingDetail',
+        component: () => import('@/views/votingDetail.vue')
+      },
+      {
+        path: 'myNode',
+        component: () => import('@/views/myNode.vue')
       },
       {
         path: 'myself',

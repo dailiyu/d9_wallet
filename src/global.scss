@@ -79,22 +79,13 @@ img {
 }
 .content {
   min-height: 100vh;
-  padding: 8.8785vw 8.6449vw;
-}
-
-body, .your-main-container {
+  padding: 8.8785vw 4.6729vw;
+  overflow-y: scroll;
   // padding-top: env(safe-area-inset-top);
+  // padding-bottom: env(safe-area-inset-bottom);
+}
+
+body{
+  padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  margin: 0;
-  box-sizing: border-box;
-}
-
-ion-header ion-toolbar:first-of-type {
-  padding-top: var(--status-bar-height) !important;
-}
-
-ion-page {
-  overflow: initial;
 }

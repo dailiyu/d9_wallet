@@ -14,7 +14,7 @@ class HttpRequest {
     )
 
     this.instance.interceptors.response.use(
-      (response: AxiosResponse) => response.data,
+      (response: AxiosResponse) => response,
       (error: any) => Promise.reject(error)
     )
 

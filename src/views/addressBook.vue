@@ -2,18 +2,18 @@
   <ion-page>
     <navBar title="地址簿"></navBar>
     <div class="content">
-        <div class="address_item">
+        <div class="address_item" v-for="(addressMessage,index) in addressBookStore.addressBooks">
             <div class="info_box">
                 <div>
-                    <div class="name">Person</div>
+                    <div class="name">{{ addressMessage.name }}</div>
                     <div class="">
-                        <span class="account">DAUS1281******SAD3842</span>
+                        <span class="account">{{ obscureString(addressMessage.address) }}</span>
                         <img src="@/assets/myself/copy.png" alt="" class="pic">
                     </div>
                 </div>
                 <img src="@/assets/myself/arrow-right-2.png" alt="" class="arrow_right">
             </div>
-            <div class="notes">备注</div>
+            <div class="notes">备注:{{ addressMessage.message }}</div>
         </div>
     </div>
     <div class="btn button_active_full" @click="toAdd">添加地址</div>
@@ -24,6 +24,9 @@ import { IonPage } from '@ionic/vue';
 import { reactive } from 'vue'
 import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
+import useAddressBookStore from "@/store/addressBook/addressBook"
+import {obscureString} from "@/utils/index"
+ const addressBookStore=useAddressBookStore()
 const router = useRouter()
 function toAdd(){
     router.push('/addAddress')

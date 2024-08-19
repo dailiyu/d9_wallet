@@ -6,11 +6,11 @@
                 <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeAcceptModal">
                 <div>收款</div>
             </div>
-            <qrcode-vue :value="payUrl" :size="150" level="H" />
+            <img :src="qrCodeUrl" alt=""  >
             <div class="address_text">接收地址</div>
             <div class="address_detail">
-                <div>TLfx7QZB6bgWVg4SVZAas17yJrsVcjN9ol</div>
-                <img src="@/assets/home/copy.png" alt="" class="copy_pic">
+                <div>{{ accountStore.activeWallet.address }}</div>
+                <img src="@/assets/home/copy.png" @click="copyAddress()" alt="" class="copy_pic">
             </div>
             <div class="set_btn">设置金额</div>
         </div>
@@ -25,9 +25,20 @@
 <script lang="ts" setup>
     import { IonPage } from '@ionic/vue';
     import QrcodeVue from 'qrcode.vue';
-    import {ref} from 'vue';
+    import {onMounted, ref} from 'vue';
+    import { Clipboard } from '@capacitor/clipboard';
+    import useAccountStore from "@/store/account/account";
+    import {obscureString} from "@/utils/index"
+    import QRCode from 'qrcode';
+    const accountStore = useAccountStore();
     const payUrl = ref('')
+ 
     // const showAcceptModal = ref(false)
+    // 定义一个 ref 来存储生成的二维码 URL
+
+
+    const qrCodeUrl = ref<string | undefined>(undefined);
+
   defineProps({
         isShowAcceptModal: {
             type: Boolean,
@@ -38,6 +49,29 @@
     function closeAcceptModal(){
         emit('closeAcceptModal')
     }
+
+   const  copyAddress=async()=>{
+    Clipboard.write({
+        string: accountStore.activeWallet.address
+    }).then(() => {
+        // 这里可以加一个反馈，提示用户复制成功
+        alert("success")
+        console.log('Address copied to clipboard');
+    });
+   }
+   onMounted(async() => {
+     await  generateQrCode()
+   })
+
+   // 定义生成二维码的函数
+const generateQrCode = async () => {
+  try {
+    qrCodeUrl.value = await QRCode.toDataURL(accountStore.activeWallet.address, { width: 300, margin: 2 });
+  } catch (err) {
+    console.error('Failed to generate QR code:', err);
+  }
+};
+
 
 </script>
   

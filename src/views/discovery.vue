@@ -29,7 +29,7 @@
             WorldSwrap
           </div>
         </div>
-        <div class="item">
+        <div class="item" @click="toCrossBridge()">
           <div class="icon">
             <img src="@/assets/discovery/chain.png" alt="">
           </div>
@@ -45,7 +45,7 @@
             满仓
           </div>
         </div>
-        <div class="item">
+        <div class="item" @click="tonodeVoting()">
           <div class="icon">
             
           </div>
@@ -75,6 +75,12 @@ defineComponent({
 const router = useRouter()
 function toWorldSwap(){
   router.push('/main/worldSwap')
+}
+function toCrossBridge(){
+  router.push('/main/crossBridge')
+}
+function tonodeVoting(){
+  router.push('/main/nodeVoting')
 }
 </script>
 
