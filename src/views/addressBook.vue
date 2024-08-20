@@ -15,8 +15,9 @@
             </div>
             <div class="notes">备注</div>
         </div>
+        <div class="btn button_active_full" @click="toAdd">添加地址</div>
     </div>
-    <div class="btn button_active_full" @click="toAdd">添加地址</div>
+    
   </ion-page>
 </template>
 <script lang="ts" setup>
@@ -65,9 +66,11 @@ function toAdd(){
     }
 }
 .btn {
-    position: absolute;
-    bottom: 54.4393vw;
-    left: 29.6729vw;
-    right: 29.6729vw;
+    // position: absolute;
+    // bottom: 54.4393vw;
+    // left: 29.6729vw;
+    // right: 29.6729vw;
+    width: 40.8879vw;
+    margin: 23.3645vw auto;
 }
 </style>

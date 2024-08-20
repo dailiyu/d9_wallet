@@ -17,20 +17,9 @@
                     <div class="name">{{ wallet.name }}</div>
                     <div class="account">{{ obscureString(wallet.address) }}</div>
                 </div>
-                <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon">
+                <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon" v-if="activeWalletIndex===index">
             </div>
             <div class="balance">$ 0.00</div>
-        </div>
-        
-        <div class="wallet_item inactive">
-            <div class="wallet_top">
-                <div>
-                    <div class="name">David</div>
-                    <div class="account">DAUS1281******SAD3842</div>
-                </div>
-                <!-- <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon"> -->
-            </div>
-            <div class="balance">$ 51,082.00</div>
         </div>
         
     </div>
@@ -103,7 +92,6 @@ const activeWalletIndex = computed(() => {
         &.inactive {
             color: #8E8C8E;
             border: 1px solid #E7EBF2;
-            margin-bottom: 0;
             .balance {
                 font-size: 4.6729vw;
             }

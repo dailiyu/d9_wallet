@@ -14,7 +14,7 @@ export default defineConfig({
     vue(),
     legacy(),
     Components({
-      resolvers: [VantResolver(),VarletImportResolver()],
+      resolvers: [VantResolver({importStyle: false,}),VarletImportResolver()],
     }),
     AutoImport({
       resolvers: [VantResolver(),VarletImportResolver({ autoImport: true })],

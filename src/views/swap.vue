@@ -7,7 +7,7 @@
                 <div class="item_top">
                     <img src="@/assets/home/logo_usdt.png" alt="" class="u_logo">
                     <div class="unit">USDT</div>
-                    <van-icon name="play" color="#0065FF" size="1.4019vw" />
+                    <van-icon name="play" color="#0065FF" size="2.4019vw" />
                 </div>
                 <div class="item_bottom">
                     <div class="num">61,20</div>
@@ -16,11 +16,12 @@
                     </van-cell-group>
                 </div>
             </div>
+            <img src="@/assets/home/swap_change.png" alt="" class="swap_icon">
             <div class="swap_item">
                 <div class="item_top">
                     <img src="@/assets/home/logo_d9.png" alt="" class="u_logo">
                     <div class="unit">D9</div>
-                    <van-icon name="play" />
+                    <van-icon name="play" color="#0065FF" size="2.4019vw" />
                 </div>
                 <div class="item_bottom">
                     <div class="num">61,20</div>
@@ -106,9 +107,18 @@ function toAll(){
 <style lang="scss" scoped>
 .content {
     .swap_box {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        .swap_icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            z-index: 10;
+        }
         .swap_item {
             flex: 1;
             margin-right: 4.2056vw;
