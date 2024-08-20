@@ -57,6 +57,6 @@ class StorageManager {
 
 // 创建多个 Storage 实例
 export const storageAccounts = new StorageManager('storageAccounts');
-export const storage2 = new StorageManager('storage2');
+export const storageAddress = new StorageManager('storageAddress');
 
 

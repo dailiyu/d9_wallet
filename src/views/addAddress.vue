@@ -4,12 +4,12 @@
     <div class="content">
         <div class="title">名称</div>
         <van-cell-group inset>
-            <van-field v-model="value" />
+            <van-field v-model="name" />
         </van-cell-group>
         <div class="title">地址</div>
         <van-cell-group inset>
             <van-field 
-            v-model="value"
+            v-model="address"
             >
             <template #right-icon>
                 <img src="@/assets/myself/scan.png" alt="" class="scan_pic">
@@ -21,18 +21,29 @@
             <span style="color: #8E8C8E;">（选填）</span>
         </div>
         <van-cell-group inset>
-            <van-field v-model="value" />
+            <van-field v-model="message" />
         </van-cell-group>
     </div>
     <!-- <div class="btn button_active_full">保存</div> -->
-    <div class="btn button_active_full" style="background-color: #BDC5D7;">保存</div>
+    <div class="btn button_active_full" style="background-color: #BDC5D7;" @click="saveAddress()">保存</div>
   </ion-page>
 </template>
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { reactive, ref } from 'vue'
 import navBar from '@/components/navBar.vue'
-const value = ref('')
+import useAddressBookStore from "@/store/addressBook/addressBook"
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const addressBookStore=useAddressBookStore()
+const name = ref<string>('')
+const address = ref<string>('')
+const message = ref<string>('')
+const saveAddress=async()=>{
+    const newAddressMessage={name:name.value,address:address.value,message:message.value}
+   await addressBookStore.addAddressAction(newAddressMessage)
+   router.push('/addressBook')
+}
 </script>
 <style lang="scss"scoped>
 .content {

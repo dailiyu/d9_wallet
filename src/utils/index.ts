@@ -1,5 +1,8 @@
 
-//处理地址字符串
+import QRCode from 'qrcode';
+
+
+//处理地址字符串s
 export function obscureString(input: string): string {
     if (input.length <= 15) {
         return input; // 如果字符串长度小于等于15个字符，则不做处理，直接返回
@@ -11,11 +14,22 @@ export function obscureString(input: string): string {
     
     return obscured;
 }
-
+//判断两个字符串是否相等
  export function stringArraysEqual(arr1: string[], arr2: string[]): boolean {
     if (arr1.length !== arr2.length) return false;
     return arr1.every((value, index) => value === arr2[index]);
 }
+
+
+
+export const generateQRCode = async (text: string): Promise<string> => {
+  try {
+    return await QRCode.toDataURL(text, { width: 300, margin: 2 });
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
 
 
 

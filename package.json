@@ -12,12 +12,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@capacitor-community/barcode-scanner": "^4.0.1",
     "@capacitor/android": "6.1.0",
     "@capacitor/app": "6.0.0",
+    "@capacitor/clipboard": "^6.0.1",
     "@capacitor/core": "6.1.0",
     "@capacitor/haptics": "6.0.0",
     "@capacitor/keyboard": "6.0.1",
-    "@capacitor/status-bar": "6.0.0",
+    "@capacitor/status-bar": "^6.0.0",
     "@ionic/storage": "^4.0.0",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
@@ -30,6 +32,7 @@
     "ionicons": "^7.0.0",
     "localforage": "^1.10.0",
     "pinia": "^2.2.0",
+    "qrcode": "^1.5.4",
     "qrcode.vue": "^3.4.1",
     "swiper": "^8.4.7",
     "vant": "^4.9.2",
@@ -41,6 +44,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "6.1.0",
+    "@types/qrcode": "^1.5.5",
     "@varlet/import-resolver": "^3.3.9",
     "@vitejs/plugin-legacy": "^5.0.0",
     "@vitejs/plugin-vue": "^4.0.0",

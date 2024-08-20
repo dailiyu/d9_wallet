@@ -102,7 +102,7 @@
               <div>积分总量</div>
               <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
             </div>
-            <div class="point_num">{{ userProfileStore.greenPoints }}</div>
+            <div class="point_num">{{ userProfileStore.totalIntegral }}</div>
           </div>
           <div class="wallet_detail">
             <div class="title">
@@ -111,18 +111,18 @@
             <div class="exchanges">
               <div class="exchange_item">
                 <div>基础可兑换</div>
-                <div>231,100.00</div>
+                <div>{{userProfileStore.basicConvertibility  }}</div>
               </div>
               <div class="exchange_item">
                 <div>加速可兑换</div>
-                <div>231,100.00</div>
+                <div>{{ userProfileStore.acceleratedConvertibility }}</div>
               </div>
             </div>
             <div class="exchanges">
               <div class="current_amount">
                 <div>
                   <div class="current_text">当前可兑换数量</div>
-                  <div class="current_num">231,100.00</div>
+                  <div class="current_num">{{ userProfileStore.convertibility }}</div>
                 </div>
                 <div class="current_left">
                   <div class="rate_text">当前兑换率</div>
@@ -130,7 +130,7 @@
                 </div>
               </div>
             </div>
-            <div class="point_btn">积分兑换</div>
+            <div class="point_btn" @click="pointsRedemption()">积分兑换</div>
           </div>
       </div>
       </var-swipe-item>
@@ -145,18 +145,11 @@ import { onMounted } from 'vue';
 import {postUsdtBalance} from "@/services/http/usdt"
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
-
+import {postMerchantRedeemD9}  from "@/services/http/merchant"
 const marketStore=useMarketStore()
 const  userProfileStore= useUserProfileStore();
 
-const totalValue = computed<number>(() => {
-  const d9Balance = userProfileStore.d9Balance || 0;
-  const exchangeRate = marketStore.exchangeRateD9ToUsdt || 0;
-  const usdtBalance = userProfileStore.usdtBalance || 0;
 
-  // 返回数字类型的 totalValue，确保返回值不会是 NaN 或 undefined
-  return parseFloat(((d9Balance * exchangeRate) + usdtBalance).toFixed(4));
-});
 
 
 onMounted(async() => {
@@ -198,6 +191,14 @@ function toRecord(type:string){
 function toSwap(){
   router.push('/main/swap')
 }
+
+//积分兑换
+const pointsRedemption=async()=>{
+  await postMerchantRedeemD9()
+  
+}
+
+
 function toWalletManagement(){
   router.push('/walletManagement')
 }

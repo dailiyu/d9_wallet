@@ -45,19 +45,18 @@ export function postBurningPortfolio(queryInfo: {
     account_id:string
   }) {
     return httpRequest.post({
-      url:'/burning/portfolio/',
+      url:'/main/mining/get/user/burning/profile/',
       data: queryInfo
     })
   }
   /*
-  {
+ {
     "results": {
-        "account_id": "Dnxp16SpiC59BHY4ppAoZeGRwR4x74DqRt2wKD8yHiTNaQB8z",
-        "amount_burned": "2100.00",
-        "balance_due": "6299.40",
+        "amount_burned": "1400.00",//销毁总数量
+        "balance_due": "4199.40",//剩余产出总量
         "balance_paid": "0.60",//总提币数
-        "last_withdrawal": "1719664029000",//上次提取
-        "last_burn": "1721809947000"//上次燃烧
+        "last_withdrawal": "1719664029000",//最后提取时间
+        "last_burn": "1723714638000"//最后燃烧时间
     }
 }
   */

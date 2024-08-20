@@ -43,6 +43,19 @@ import '@varlet/ui/es/style'
 
 //使用pinia
 import store from './store'
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { Capacitor } from '@capacitor/core';
+// 配置状态栏
+if (!Capacitor.isNativePlatform()) {
+  // 如果是 Web 平台，不执行任何状态栏配置
+  console.log('Running on web platform, StatusBar plugin is not used.');
+} else {
+  // 仅在原生平台（iOS/Android）上使用 StatusBar 插件
+  StatusBar.setStyle({ style: Style.Light });
+  StatusBar.setOverlaysWebView({ overlay: true });
+  StatusBar.setBackgroundColor({ color: 'transparent' });
+}
+
 
 
 
@@ -54,3 +67,8 @@ const app = createApp(App)
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+
+
+
+

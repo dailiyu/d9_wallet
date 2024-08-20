@@ -41,7 +41,7 @@ export function postGetAllVolume(queryInfo: {
 export function postGetMerchantVolume(queryInfo: {
   keypair:string,
 }) {
-  return httpRequest.post({
+  return httpRequest.post({          
     url:'/mining/get/merchant/volume/',
     data: queryInfo
   })
