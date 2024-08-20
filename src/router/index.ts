@@ -32,6 +32,14 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('@/views/swap.vue'),
       },
       {
+        path: 'swapRecords',
+        component:()=>import('@/views/swapRecords.vue'),
+      },
+      {
+        path: 'swapAllRecords',
+        component:()=>import('@/views/swapAllRecords.vue'),
+      },
+      {
         path: 'discovery',
         component: () => import('@/views/discovery.vue')
       },
@@ -123,6 +131,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/systemSetting',
     component: ()=>import('@/views/setting/systemSetting.vue'),
+  },
+  {
+    path: '/walletManagement',
+    component: ()=>import('@/views/walletManagement.vue'),
   }
 ]
 

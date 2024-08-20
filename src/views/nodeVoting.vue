@@ -17,7 +17,7 @@
         </div>
         <div class="vote_amount">
             <div class="vote_text">我的节点</div>
-            <div class="node_num">HST023</div>
+            <div class="node_num">{{ myNodes.length!!&&myNodes[0].node_name||'blank' }}</div>
             <div class="detail" @click="toMyNode()">
                 <div>详情</div>
                 <img src="@/assets/home/arrow-right.png" alt="" class="arrow_icon">
@@ -33,9 +33,9 @@
         </div>
 
         <van-cell-group inset>
-            <van-field v-model="value" placeholder="搜索节点">
+            <van-field v-model="keyWord" placeholder="搜索节点">
                 <template #right-icon>
-                    <img src="@/assets/discovery/search.png" alt="" class="search_icon">
+                    <img src="@/assets/discovery/search.png" alt="" class="search_icon" @click="search()">
                 </template>
             </van-field>
         </van-cell-group>
@@ -50,27 +50,27 @@
             <van-col span="6">
                 <div class="grid_t">当前票数</div>
             </van-col>
-            <van-col span="5">
+            <!-- <van-col span="5">
                 <div class="grid_t">分成比例</div>
-            </van-col>
+            </van-col> -->
             <van-col span="3">
                 <div class="grid_t">投票</div>
             </van-col>
         </van-row>
-        <van-row :gutter="[6, 0]" class="grid_table">
+        <van-row :gutter="[6, 0]" class="grid_table" v-for="(nodeData,index) in filteredNodeRankList">
             <van-col span="3">
-                <div class="amount padding">1</div>
+                <div class="amount padding">{{ index+1 }}</div>
             </van-col>
             <van-col span="7">
-                <div class="amount padding">TCSC3t……dz8Rhl</div>
+                <div class="amount padding">{{obscureString( nodeData.node_name)}}</div>
             </van-col>
             <van-col span="6">
-                <div class="time padding">847,279,162</div>
+                <div class="time padding">{{ nodeData.accumulative_votes }}</div>
             </van-col>
-            <van-col span="5">
-                <div class="time padding">3%</div>
-            </van-col>
-            <van-col span="3">
+            <!-- <van-col span="5">
+                <div class="time padding">{{nodeData.sharing_percent}}%</div>
+            </van-col> -->
+            <van-col span="3" @click="vote(nodeData)">
                 <div class="padding">
                     <img src="@/assets/discovery/template-success-fill.png" alt="" class="de_icon padding">
                 </div>
@@ -81,16 +81,26 @@
 </template>
 
 <script lang="ts" setup>
-import { postWithdrawReward } from '@/services/http/node';
+import { postDelegateVotes, postWithdrawReward } from '@/services/http/node';
 import useUserProfileStore from '@/store/usersProfile/userProfile';
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import useAccountStore from  "@/store/account/account"
+import useMarketStore from "@/store/market/market"
+import { obscureString } from '@/utils';
+
+const marketStore=useMarketStore()
  const  accountStore=useAccountStore()
 const userProfileStore=useUserProfileStore()
+const filteredNodeRankList = ref(marketStore.nodeRankList);
+const myNodes = ref(
+  marketStore.nodeRankList.filter(
+    (nodeData) => nodeData.node_id === accountStore.activeWallet.address
+  )
+);
 // import navBar from '@/components/navBar.vue'
-const value = ref('')
+const keyWord = ref('')
 const router = useRouter()
 function toVotingDetail(){
     router.push('/main/votingDetail')
@@ -110,6 +120,34 @@ const withdrawReward=async()=>{
  
     
 }
+
+
+const search = () => {
+  const lowerCaseKeyWord = keyWord.value.toLowerCase();
+
+  if (!lowerCaseKeyWord) {
+    // 如果关键字为空，返回原始的 nodeRankList
+    filteredNodeRankList.value = marketStore.nodeRankList;
+  } else {
+    filteredNodeRankList.value = marketStore.nodeRankList.filter((nodeData) => {
+      return (
+        nodeData.node_id.toLowerCase().includes(lowerCaseKeyWord) ||
+        nodeData.node_name.toLowerCase().includes(lowerCaseKeyWord)
+      );
+    });
+  }
+};
+
+ const vote=async(nodeData:{
+    node_id: string,
+    node_name: string,
+    sharing_percent: number,
+    accumulative_votes: number,
+  })=>{
+    await postDelegateVotes({candidate:nodeData.node_id,amount:1})
+    await userProfileStore.fetchAllData()
+}
+
 </script>
 
 <style lang="scss" scoped>

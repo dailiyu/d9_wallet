@@ -40,14 +40,14 @@ import {obscureString} from "@/utils/index"
 import useMarketStore from '@/store/market/market';
 import { onMounted } from 'vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
-import {postUsersProfile} from "@/services/http/main"
+import {postRefreshUsersProfile} from "@/services/http/main"
 const  userProfileStore= useUserProfileStore();
 const accountStore = useAccountStore();
 const marketStore=useMarketStore();
 
 onMounted(async() => {
  setInterval(() => {
-   postUsersProfile()
+  postRefreshUsersProfile()
  }, 1000*60*10);
  await  marketStore.fetchAllData()
  await  userProfileStore.fetchAllData()
@@ -132,7 +132,7 @@ const showWalletList = ref(false)
     display: flex;
     align-content: center;
     justify-content: space-between;
-    padding: 8.6449vw;
+    padding: 12.8505vw;
     color: #fff;
     .name {
       font-size: 7.0093vw;

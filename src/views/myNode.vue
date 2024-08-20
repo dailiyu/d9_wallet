@@ -4,9 +4,9 @@
     <div class="content">
         <div class="title">
             <div>我的节点</div>
-            <img src="@/assets/discovery/edit.png" alt="" class="edit_icon">
+            <img src="@/assets/discovery/edit.png" alt="" class="edit_icon" @click="changeNodeName()">
         </div>
-        <div class="node">HST023</div>
+        <div class="node">{{ myNodes.length!!&&myNodes[0].node_name||'blank' }}</div>
         <div class="node" style="background-color: #E7EBF2;">
             <div>提案所需费用</div>
             <div>0.0000 D9</div>
@@ -58,6 +58,32 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
+import useMarketStore from "@/store/market/market"
+import { ref } from 'vue';
+import useAccountStore from  "@/store/account/account"
+import { postChangeCandidateName } from '@/services/http/node';
+
+const  accountStore=useAccountStore()
+const marketStore=useMarketStore()
+const Newname=ref<string>('')
+const myNodes = ref(
+  marketStore.nodeRankList.filter(
+    (nodeData) => nodeData.node_id === accountStore.activeWallet.address
+  )
+);
+
+const changeNodeName=async ()=>{
+    try {
+        console.log("验证密码");
+        await postChangeCandidateName({name:Newname.value})
+        await marketStore.fetchAllData()
+        console.log("修改成功");
+        
+    } catch (error) {
+        console.log('修改失败');
+        
+    }
+}
 </script>
 
 <style lang="scss" scoped>

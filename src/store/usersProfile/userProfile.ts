@@ -3,11 +3,19 @@
 import { defineStore } from 'pinia';
 import { postUsdtBalance } from '@/services/http/usdt';
 import {postGetD9Balances} from "@/services/http/balances"
-import { postUsersProfile } from '@/services/http/main';
-import { postGetUserProfile } from '@/services/http/merchant';
+import { postProfileGetUserNodeVote, postRefreshUsersProfile } from '@/services/http/main';
+import { postGetUserProfile, postReferralsGetDirectCount } from '@/services/http/merchant';
 import {postGetNodeRewardsData, postvoteNumber} from "@/services/http/node"
 import useAccountStore from '../account/account';
  const  accountStore=useAccountStore()
+
+
+interface voteData {
+  node_id: string
+  node_name: string,
+  vote: number
+}
+
 interface userProfileState {
     usdtBalance:number,
     d9Balance:number,
@@ -19,7 +27,9 @@ interface userProfileState {
     convertibility:number,
     totalVotes:number,
     votesSpent:number,
-    rewardsNumber:number
+    rewardsNumber:number,
+    voteList:voteData[],
+    airdropsNumber:number
 }
 
 
@@ -35,7 +45,9 @@ const useUserProfileStore = defineStore('userProfile', {
     convertibility:0,
     totalVotes:0,
     votesSpent:0,
-    rewardsNumber:0
+    rewardsNumber:0,
+    voteList:[],
+    airdropsNumber:0
   }),
   actions: {
     async getUsdtBalanceAction(){
@@ -59,13 +71,20 @@ const useUserProfileStore = defineStore('userProfile', {
       },
       async getVoteNumberActon(){
        const metaData=  await postvoteNumber()
-        this.totalVotes=metaData.data.results.total
-        this.votesSpent=metaData.data.results.delegated
+        this.totalVotes=metaData?.data?.results?.total
+        this.votesSpent=metaData?.data?.results?.delegated
       },
       async getNodeRewardsDataAction(){
         const metaData=await postGetNodeRewardsData({node_id:accountStore.activeWallet.address})
-
         this.rewardsNumber=metaData.data.results
+      },
+      async getVoteListAction(){
+        const metaData= await postProfileGetUserNodeVote()
+        this.voteList=metaData.data.results
+      },
+      async getAirdropNumberAction(){
+        const metaData=  await postReferralsGetDirectCount()
+        this.airdropsNumber=metaData.data.results
       },
       async fetchAllData(){
         this.getUsdtBalanceAction()
@@ -73,6 +92,8 @@ const useUserProfileStore = defineStore('userProfile', {
         this.getUserProfileAction()
         this.getVoteNumberActon()
         this.getNodeRewardsDataAction()
+        this.getVoteListAction()
+        this.getAirdropNumberAction()
       },
     
 }

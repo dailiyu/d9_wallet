@@ -16,8 +16,8 @@
                   <div>钱包余额</div>
                   <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
                 </div>
-                <div class="text_right">
-                  <div>钱包管理</div>
+                <div class="text_right" @click="toWalletManagement()">
+   z               <div>钱包管理</div>
                   <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic">
                 </div>
               </div>
@@ -149,14 +149,7 @@ import {postMerchantRedeemD9}  from "@/services/http/merchant"
 const marketStore=useMarketStore()
 const  userProfileStore= useUserProfileStore();
 
-const totalValue = computed<number>(() => {
-  const d9Balance = userProfileStore.d9Balance || 0;
-  const exchangeRate = marketStore.exchangeRateD9ToUsdt || 0;
-  const usdtBalance = userProfileStore.usdtBalance || 0;
 
-  // 返回数字类型的 totalValue，确保返回值不会是 NaN 或 undefined
-  return parseFloat(((d9Balance * exchangeRate) + usdtBalance).toFixed(4));
-});
 
 
 onMounted(async() => {
@@ -206,6 +199,9 @@ const pointsRedemption=async()=>{
 }
 
 
+function toWalletManagement(){
+  router.push('/walletManagement')
+}
 </script>
   
 <style scoped lang="scss">
@@ -364,6 +360,7 @@ position: relative;
                   color: #0065B2;
                   font-size: 3.5047vw;
                   font-weight: 500;
+                  text-align: right;
                 }
                 .num2 {
                   font-size: 2.5701vw;

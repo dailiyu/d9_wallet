@@ -41,7 +41,10 @@
 import useAccountStore from "@/store/account/account";
 import { obscureString } from "@/utils/index";
 import { ref, computed } from "vue";
+import useUserProfileStore from "@/store/usersProfile/userProfile"
+import { postRefreshUsersProfile } from "@/services/http/main";
 
+const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
 
 const walletList = computed(() => accountStore.walletList);
@@ -64,6 +67,8 @@ function closePop() {
 
 const selectWallet = async (index: number) => {
     await accountStore.changeActiveWallet(index);
+    await postRefreshUsersProfile()
+    userProfileStore.fetchAllData()
     selectedIndex.value = index;
 };
 

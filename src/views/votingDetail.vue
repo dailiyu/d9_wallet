@@ -14,15 +14,15 @@
             </van-col>
         </van-row>
 
-        <van-row :gutter="[6, 0]" class="grid_table">
+        <van-row :gutter="[6, 0]" class="grid_table" v-for="(voteData,index) in userProfileStore.voteList">
             <van-col span="10">
-                <div class="amount padding">TCSC3t……dz8Rhl</div>
+                <div class="amount padding">{{ obscureString(voteData.node_id) }}</div>
             </van-col>
             <van-col span="8">
-                <div class="time padding">100</div>
+                <div class="time padding">{{ voteData.vote }}</div>
             </van-col>
             <van-col span="6">
-                <div class="amount padding" style="color: #0065FF;">撤销</div>
+                <div class="amount padding" style="color: #0065FF;" @click="cancelVote(voteData.node_id)">撤销</div>
             </van-col>
         </van-row>
     </div>
@@ -32,7 +32,28 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
+import { obscureString } from '@/utils';
+import useUserProfileStore from "@/store/usersProfile/userProfile"
+import { postCancelVotes } from '@/services/http/node';
+
+const userProfileStore=useUserProfileStore()
 // import navBar from '@/components/navBar.vue'
+
+
+ const cancelVote=async(node_id:string)=>{
+   try {
+    console.log("正在撤销投票");
+    await  postCancelVotes({node_id,votes:1})
+    await userProfileStore.fetchAllData()
+    console.log("撤销成功");
+    
+   } catch (error) {
+    console.log("撤销失败");
+    
+   }
+ }
+
+
 </script>
 
 <style lang="scss" scoped>

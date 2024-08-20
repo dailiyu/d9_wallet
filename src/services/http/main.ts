@@ -54,7 +54,7 @@ export function postMiningWithdraw() {
 
 
   //获取用户部分信息
-export function postUsersProfile() {
+export function postRefreshUsersProfile() {
     return httpRequest.post({
       url: '/users_profile/get/',
     })

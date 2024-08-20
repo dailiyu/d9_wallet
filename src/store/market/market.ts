@@ -1,15 +1,23 @@
 
 import { postGetReserves } from '@/services/http/amm';
+import { postGetRank } from '@/services/http/node';
 import { defineStore } from 'pinia';
+
+ interface nodeData{
+    node_id: string,
+    node_name: string,
+    sharing_percent: number,
+    accumulative_votes: number,
+  }
 
 
 interface AccountState {
     exchangeRateD9ToUsdt:number,
     exchangeRateUsdtToD9:number,
     d9LiquidityToken:number,
-    usdtLiquidityToken:number
+    usdtLiquidityToken:number,
+    nodeRankList:nodeData[]
 }
-
 
 
 const useMarketStore = defineStore('market', {
@@ -17,7 +25,8 @@ const useMarketStore = defineStore('market', {
     exchangeRateD9ToUsdt:0,
     exchangeRateUsdtToD9:0,
     d9LiquidityToken:0,
-    usdtLiquidityToken:0
+    usdtLiquidityToken:0,
+    nodeRankList:[]
   }),
   actions: {
    async getExchangeRateAction(){
@@ -29,8 +38,15 @@ const useMarketStore = defineStore('market', {
     console.log(this.exchangeRateD9ToUsdt,this.exchangeRateUsdtToD9,this.d9LiquidityToken, this.usdtLiquidityToken)
     
    },
+   async getRankAction(){
+      const metaData=await postGetRank()
+      this.nodeRankList=metaData.data.results
+
+   },
   async fetchAllData(){
-    await this.getExchangeRateAction()
+   this.getExchangeRateAction()
+   this.getRankAction()
+
    }
 }
 });

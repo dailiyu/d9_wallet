@@ -151,7 +151,7 @@ export function getQrcodeProcessList(queryInfo: {
 
 //空投次数
 export function postReferralsGetDirectCount() {
-  return httpRequest.get({
+  return httpRequest.post({
     url:'/referrals/get/direct/count/'
   })
 }
@@ -202,14 +202,10 @@ export function postMerchantD9Payment(queryInfo: {
   }
 
 
-//？？？
-  export function postGetAccount(queryInfo: {
-    keypair:string,
-    account_id:string
-  }) {
+//崩
+  export function postRefreshGetAccount() {
     return httpRequest.post({
       url:'/merchant/get-account/',
-      data: queryInfo
     })
   }
 /*
