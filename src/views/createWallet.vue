@@ -29,12 +29,9 @@ import { useWalletService } from "../services/walletService";
 import useAccountStore from "@/store/account/account";
 import { IonPage } from '@ionic/vue';
 
-
-
 // 使用钱包服务
 const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet } = useWalletService();
 const accountStore = useAccountStore();
-
 
 onMounted(() => {
   accountStore.loadLocalCacheAction()

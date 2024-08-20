@@ -55,6 +55,16 @@ export function postDelegateVotes(queryInfo: {
     data: queryInfo
   })
 }
+//取消投票
+export function postCancelVotes(queryInfo: {
+  node_id:string,//候选人地址
+  votes:number//撤销投票数量
+}) {
+  return httpRequest.post({
+    url: '/votings/try/remove/votes/from/candidate/',
+    data: queryInfo
+  })
+}
 
 //获取某个节点的票数
 export function postNodeAccumulativeVotes(queryInfo: {
@@ -102,7 +112,7 @@ export function postGetNumberCandidates() {
     "results": 129
 }
 */
-//???
+//获取节点排名
 export function postGetRank() {
   return httpRequest.post({
     url: '/votings/get/rank/',
@@ -111,140 +121,20 @@ export function postGetRank() {
 /*
 {
     "results": [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-    ]
+        {
+            "node_id": "DnxyajwdiSuuBVysRSvF1Yk61ApmXQccw9KbvKVkkt6LzhVEo",
+            "node_name": "Fmabcde",
+            "sharing_percent": 40,
+            "accumulative_votes": 24869431,
+            "created_at": "2024-08-05T11:03:52.327660Z",
+            "updated_at": "2024-08-20T02:24:11.310075Z"
+        }
 }
 */
 
-//获取节点列表？？好像没有按照票数排序
+
+
+//获取节点列表？？好像没有按照票数排序xxx
 export function postGetSessionNodeList(queryInfo: {
   session_index:number
 }) {
@@ -390,7 +280,7 @@ export function postGetSessionNodeList(queryInfo: {
 */
 
 
-//????
+//获取某个节点被哪些人投了多少票
 export function postNodeUserVoteTotals(queryInfo: {
   node_id:string,
 }) {
@@ -502,7 +392,7 @@ export function postNodeUserVoteTotals(queryInfo: {
 }
 */
 
-//???
+//???xxx
 export function postValidatorStats(queryInfo: {
   validator_id:string,
 }) {
@@ -524,28 +414,9 @@ export function postValidatorStats(queryInfo: {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//？？？？
+//获取节点待领取奖励数量
 export function postGetNodeRewardsData(queryInfo: {
-    node_id:string//？？？
+    node_id:string//当前账号id
   }) {
     return httpRequest.post({
       url: '/node/reward/get/node/rewards/data/',
@@ -554,7 +425,7 @@ export function postGetNodeRewardsData(queryInfo: {
   }
 /*
 {
-    "results": null//??
+    "results": null//
 }
 */
 
@@ -581,6 +452,23 @@ export function postWithdrawReward(queryInfo: {
     })
   }
 
+
+
+  //http://d9-test-server.q6z4kzhr.uk/api/votings/users/voting/interests/
+//获取总票数和可投票数
+  export function postvoteNumber() {
+    return httpRequest.post({
+      url: '/votings/users/voting/interests/',
+    })
+  }
+  /*
+  {
+    "results": {
+        "total": 2978,
+        "delegated": 112
+    }
+}
+  */
 
   
 

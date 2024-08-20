@@ -6,7 +6,7 @@
             总流动性
         </div>
         <div class="total">
-            <div class="total_num">$ 1,137,841,231</div>
+            <div class="total_num">$ {{(Number(( marketStore.d9LiquidityToken*marketStore.exchangeRateD9ToUsdt).toFixed(4))+Number(marketStore.usdtLiquidityToken)).toFixed(4)}}</div>
             <div class="btns">
                 <div class="btn_item button_active_full">增加流动性</div>
                 <div class="btn_item button_active_full">交易</div>
@@ -56,11 +56,11 @@
             </div>
             <div class="detail">
                 <div>
-                    1 D9 ≈ 0.159971 USDT
+                    1 D9 ≈ {{ marketStore.exchangeRateD9ToUsdt }} USDT
                 </div>
                 <!-- <img src="" alt="" class="d_pic"> -->
                 <div>
-                    1 USDT~ 3339.159971 D9
+                    1 USDT~ {{ marketStore.exchangeRateUsdtToD9 }} D9
                 </div>
             </div>
             <div class="logo_item">
@@ -116,6 +116,9 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 // import navBar from '@/components/navBar.vue'
 import ApexCharts from 'apexcharts'
+import useMarketStore from "@/store/market/market"
+
+const marketStore=useMarketStore()
 
 onMounted(()=>{
     var options = {

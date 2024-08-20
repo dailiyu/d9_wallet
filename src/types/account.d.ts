@@ -7,3 +7,11 @@ export interface walletDate {
   password?:string,
   value?:number
 }
+
+
+
+export interface addressData{
+  name:string,
+  address:string,
+  message?:string
+}

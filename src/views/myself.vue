@@ -15,7 +15,7 @@
         </div>
         <div class="right">
           <div class="top">您好</div>
-          <div class="bottom">DAUS*****3842</div>
+          <div class="bottom">{{ obscureString(accountStore.activeWallet.address) }}</div>
         </div>
       </div>
       <div class="wallet-box">
@@ -26,7 +26,7 @@
           </div>
           <div class="balance-number">
              <span class="icon">$</span>
-             <span class="number">0.00</span>
+             <span class="number">{{Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)}}</span>
           </div>
         </div>
         <div class="wallet-bottom">
@@ -42,7 +42,7 @@
       <div class="mini-box">
         <div class="top">有效空投</div>
         <div class="bottom">
-          <div class="left">5</div>
+          <div class="left">{{ userProfileStore.airdropsNumber }}</div>
           <div class="right">
             <img class="arrow-right" src="../assets/myself/right-btn.png" alt="">
           </div>
@@ -109,6 +109,8 @@
 <script setup lang="ts">
  import { IonPage} from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import { obscureString } from '@/utils';
+import useAccountStore from  "@/store/account/account"
 // import createWallet from './createWallet.vue';
 // import importWallet from './importWallet.vue'
 // import { useRouter } from 'vue-router';
@@ -116,6 +118,11 @@ import { useRouter } from 'vue-router';
 // const toSetting = () => {
 //   router.push('/main/setting');
 // };
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
+const marketStore=useMarketStore()
+const  accountStore=useAccountStore()
+const  userProfileStore= useUserProfileStore();
 const router = useRouter()
 function toAddress(){
   router.push('/addressBook')

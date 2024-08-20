@@ -3,7 +3,7 @@
     <navBar title="跨链桥" iconColor="#fff" bgLink="src/assets/discovery/cb_bg.png"></navBar>
     <div class="content">
         <div class="title">当前钱包地址</div>
-        <div class="w_address">DAUS1281******SAD3842</div>
+        <div class="w_address">{{ obscureString(accountStore.activeWallet.address) }}</div>
 
         <div class="title">接收地址</div>
         <van-cell-group inset>
@@ -21,7 +21,7 @@
                 </van-cell-group>
                 <div class="trans_text">
                     <div>余额</div>
-                    <div class="trans_num">15,661.92</div>
+                    <div class="trans_num">{{ profileState.d9Balance }}</div>
                 </div>
             </div>
             <div class="icon_box">
@@ -61,6 +61,11 @@
 import { IonPage } from '@ionic/vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import useAccountStore from "@/store/account/account";
+import {obscureString} from "@/utils/index"
+const accountStore = useAccountStore();
+import userProfileState from "@/store/usersProfile/userProfile"
+const profileState=userProfileState()
 // import navBar from '@/components/navBar.vue'
 const value = ref('')
 </script>
