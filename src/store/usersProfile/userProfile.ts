@@ -3,11 +3,12 @@
 import { defineStore } from 'pinia';
 import { postUsdtBalance } from '@/services/http/usdt';
 import {postGetD9Balances} from "@/services/http/balances"
-import { postProfileGetUserNodeVote, postRefreshUsersProfile } from '@/services/http/main';
-import { postGetUserProfile, postReferralsGetDirectCount } from '@/services/http/merchant';
+import { postProfileGetUserNodeVote,  } from '@/services/http/main';
+import { postGetUserProfile, postQrcodeGenerate, postReferralsGetDirectCount } from '@/services/http/merchant';
 import {postGetNodeRewardsData, postvoteNumber} from "@/services/http/node"
 import useAccountStore from '../account/account';
- const  accountStore=useAccountStore()
+
+const  accountStore=useAccountStore()
 
 
 interface voteData {
@@ -29,7 +30,8 @@ interface userProfileState {
     votesSpent:number,
     rewardsNumber:number,
     voteList:voteData[],
-    airdropsNumber:number
+    airdropsNumber:number,
+    merchantCodeString:string
 }
 
 
@@ -47,7 +49,8 @@ const useUserProfileStore = defineStore('userProfile', {
     votesSpent:0,
     rewardsNumber:0,
     voteList:[],
-    airdropsNumber:0
+    airdropsNumber:0,
+    merchantCodeString:''
   }),
   actions: {
     async getUsdtBalanceAction(){
@@ -69,7 +72,7 @@ const useUserProfileStore = defineStore('userProfile', {
         this.acceleratedConvertibility=metaData.data.results.relationship_red_points
         this.convertibility=metaData.data.results.redeemed_usdt
       },
-      async getVoteNumberActon(){
+      async getVoteNumberAction(){
        const metaData=  await postvoteNumber()
         this.totalVotes=metaData?.data?.results?.total
         this.votesSpent=metaData?.data?.results?.delegated
@@ -83,18 +86,28 @@ const useUserProfileStore = defineStore('userProfile', {
         this.voteList=metaData.data.results
       },
       async getAirdropNumberAction(){
+        try {
+          const metaData=  await postReferralsGetDirectCount()
+          this.airdropsNumber=metaData.data.results
+        } catch (error) {
+          console.log('airdrop',error);
+        }
         const metaData=  await postReferralsGetDirectCount()
         this.airdropsNumber=metaData.data.results
       },
-      async fetchAllData(){
-        this.getUsdtBalanceAction()
-        this.getD9BalanceAction()
-        this.getUserProfileAction()
-        this.getVoteNumberActon()
-        this.getNodeRewardsDataAction()
-        this.getVoteListAction()
-        this.getAirdropNumberAction()
+      async merchantQrcodeGenerate(amount:number=0){
+        const metaData=await postQrcodeGenerate({amount})
+        this.merchantCodeString=metaData.data.results
       },
+      async fetchAllData() {
+         this.getUsdtBalanceAction();
+         this.getD9BalanceAction();
+         this.getUserProfileAction();
+         this.merchantQrcodeGenerate()
+         this.getVoteNumberAction();  
+         this.getNodeRewardsDataAction();
+         this.getAirdropNumberAction();
+      } 
     
 }
 });

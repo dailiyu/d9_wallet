@@ -38,6 +38,7 @@ const accountStore = useAccountStore();
 
 const walletList = computed(() => accountStore.walletList);
 const activeWallet = computed(() => accountStore.activeWallet);
+const activeWalletIndex = computed(() => accountStore.activeIndex);
 
 const selectedIndex = ref<number>();
 
@@ -57,14 +58,14 @@ function closePop() {
 const selectWallet = async (index: number) => {
     await accountStore.changeActiveWallet(index);
     await postRefreshUsersProfile()
-    userProfileStore.fetchAllData()
+   await userProfileStore.fetchAllData()
     selectedIndex.value = index;
 };
 
 // 计算属性：计算walletList中与activeWallet地址匹配的索引值
-const activeWalletIndex = computed(() => {
-    return walletList.value.findIndex((wallet: { address: any; }) => wallet.address === activeWallet.value.address);
-});
+// const activeWalletIndex = computed(() => {
+//     return walletList.value.findIndex((wallet: { address: any; }) => wallet.address === activeWallet.value.address);
+// });
 
 </script>
 

@@ -9,7 +9,7 @@ interface AccountState {
   temporaryWallet:walletDate
   password:string,
   temporaryName:string
-
+  activeIndex:number
 }
 
 const defaultWallet: walletDate = {
@@ -33,7 +33,7 @@ const useAccountStore = defineStore('account', {
     temporaryWallet:defaultWallet,
     password:'',
     temporaryName:'',
-
+    activeIndex:0
   }),
   actions: {
     async addWalletAction(wallet: walletDate) {
@@ -52,6 +52,16 @@ const useAccountStore = defineStore('account', {
     },
     async changePasswordAction(password: string){
       this.password=password
+      await storageAccounts.set('password',password)
+    },
+    async changeNameAction(newName:string){
+      const index = await storageAccounts.get('activeIndex')
+      console.log("activeIndex",index);
+  
+      this.walletList[index].name=newName
+      await storageAccounts.set('walletList',this.walletList);
+      await storageAccounts.set('activeWallet', this.activeWallet);
+      this.activeWallet.name=newName
     },
     async removeWalletAction() {
       await storageAccounts.remove('walletList');
@@ -62,12 +72,21 @@ const useAccountStore = defineStore('account', {
     async loadLocalCacheAction() {
       this.walletList = (await storageAccounts.get('walletList') ?? []).map(addPrefix);
       this.activeWallet = addPrefix(await storageAccounts.get('activeWallet') ?? { ...defaultWallet });
+      this.password= await storageAccounts.get('password')
+      this.activeIndex=await storageAccounts.get('activeIndex')
     },
     async changeActiveWallet(index: number) {
       this.activeWallet = addPrefix(this.walletList[index] ?? { ...defaultWallet });
       await storageAccounts.set('activeWallet', this.activeWallet);
+      this.activeIndex=index
+      await storageAccounts.set('activeIndex', index);
     },
-  
+    async deleteWalletAction(){
+      this.walletList.splice(this.activeIndex,1)
+      this.activeWallet=this.walletList[0]
+      this.activeIndex=0
+      await storageAccounts.set('walletList', this.walletList);
+    }
   }
 });
 

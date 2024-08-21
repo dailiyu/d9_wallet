@@ -39,18 +39,21 @@ import useAccountStore from "@/store/account/account";
 import {obscureString} from "@/utils/index"
 import useMarketStore from '@/store/market/market';
 import { onMounted } from 'vue';
-import useUserProfileStore from "@/store/usersProfile/userProfile";
 import {postRefreshUsersProfile} from "@/services/http/main"
-const  userProfileStore= useUserProfileStore();
+import useAddressBookStore from '@/store/addressBook/addressBook';
+import useUserProfileStore from '@/store/usersProfile/userProfile';
+ const addressBookStore=useAddressBookStore()
+ const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
 const marketStore=useMarketStore();
 
 onMounted(async() => {
+   userProfileStore.fetchAllData()
+   marketStore.fetchAllData()
+ await addressBookStore.loadLocalCacheAction()
  setInterval(() => {
   postRefreshUsersProfile()
  }, 1000*60*10);
- await  marketStore.fetchAllData()
- await  userProfileStore.fetchAllData()
 }) 
 
 
@@ -100,13 +103,18 @@ const handleTouchEnd = (event: TouchEvent) => {
     // showAcceptModal.value = true
     // receiveMoneyModal.value.$el.style.top = '0%'
     receiveMoneyModal.value.$el.style.transform = 'translateY(0%)'
+    
   } else if (0<distanceY&&distanceY<100) {
     receiveMoneyModal.value.$el.style.transform = 'translateY(-100%)'
+    
   } else if (distanceY < -100) {
     // showTransferModal.value = true
     transferModal.value.$el.style.transform = 'translateY(0%)'
+    
   } else if (distanceY>-100&&distanceY<0) {
     transferModal.value.$el.style.transform = 'translateY(100%)'
+    
+    
   }
   startY.value = 0;
   endY.value = 0;
