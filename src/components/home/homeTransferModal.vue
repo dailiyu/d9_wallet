@@ -100,12 +100,14 @@ import { IonInput } from "@ionic/vue";
 import useAccountStore from "@/store/account/account";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+
 const type = ref("");
 const showPasswordPop = ref(false);
 import { ref } from "vue";
 import { postTransfer } from "@/services/http/balances";
 import ValidatePassword from "../validatePassword.vue";
 import { validateInfo } from "@/types";
+import { postUsdtTransfer } from "@/services/http/usdt";
 const userProfileStore = useUserProfileStore();
 const accountStore = useAccountStore();
 const emit = defineEmits(["closeTransferModal"]);
@@ -130,6 +132,12 @@ const onToAddressInputChange=(event: Event) => {
 const transferD9=async()=>{
   await postTransfer({to_address:toAddress.value||'',amount:transferAmount.value||0})
 }
+
+const transferUsdt=async()=>{
+  await postUsdtTransfer({to_address:toAddress.value||'',amount:transferAmount.value||0})
+}
+
+
  const confirm= async(info: validateInfo)=>{
   if (info.password == accountStore.password){
     const Toast = showLoadingToast({
