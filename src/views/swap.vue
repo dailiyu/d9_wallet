@@ -2,8 +2,8 @@
     <ion-page class="main_page">
     <navBar title="闪兑" ></navBar>
     <div class="content">
-        <div class="swap_box">
-            <div class="swap_item">
+        <div class="swap_box" :style="{'flex-direction':swapExchange?'row-reverse':'unset'}">
+            <div class="swap_item" :style="{'margin-right':swapExchange?'0':'4.2056vw'}">
                 <div class="item_top">
                     <img src="@/assets/home/logo_usdt.png" alt="" class="u_logo">
                     <div class="unit">USDT</div>
@@ -16,8 +16,8 @@
                     </van-cell-group>
                 </div>
             </div>
-            <img src="@/assets/home/swap_change.png" alt="" class="swap_icon">
-            <div class="swap_item">
+            <img src="@/assets/home/swap_change.png" alt="" class="swap_icon" @click="swapExchange=!swapExchange">
+            <div class="swap_item" :style="{'margin-right':swapExchange?'4.2056vw':'0'}">
                 <div class="item_top">
                     <img src="@/assets/home/logo_d9.png" alt="" class="u_logo">
                     <div class="unit">D9</div>
@@ -102,6 +102,7 @@ function toRecords(){
 function toAll(){
     router.push('/main/swapAllRecords')
 }
+const swapExchange = ref(false)
 </script>
 
 <style lang="scss" scoped>
@@ -125,7 +126,7 @@ function toAll(){
             border-radius: 13px;
             // background-color: #E7EBF2;
             &:last-child {
-                margin-right: 0;
+                // margin-right: 0;
                 .item_bottom {
                     .num {
                         color: #0065B2;

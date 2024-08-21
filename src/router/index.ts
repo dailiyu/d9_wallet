@@ -40,12 +40,20 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('@/views/swapAllRecords.vue'),
       },
       {
+        path: 'DPOC',
+        component:()=>import('@/views/DPOC.vue'),
+      },
+      {
         path: 'discovery',
         component: () => import('@/views/discovery.vue')
       },
       {
         path: 'worldSwap',
         component: () => import('@/views/worldSwap.vue')
+      },
+      {
+        path: 'addLiquidity',
+        component: () => import('@/views/addLiquidity.vue')
       },
       {
         path: 'crossBridge',
