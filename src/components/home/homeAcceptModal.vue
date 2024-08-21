@@ -29,10 +29,12 @@
     import { Clipboard } from '@capacitor/clipboard';
     import useAccountStore from "@/store/account/account";
     import {obscureString} from "@/utils/index"
+    
     import QRCode from 'qrcode';
+    import useUserProfileStore from '@/store/usersProfile/userProfile';
     const accountStore = useAccountStore();
     const payUrl = ref('')
- 
+    const userProfileStore=useUserProfileStore()
     // const showAcceptModal = ref(false)
     // 定义一个 ref 来存储生成的二维码 URL
 
@@ -60,13 +62,14 @@
     });
    }
    onMounted(async() => {
+     await userProfileStore.merchantQrcodeGenerate()
      await  generateQrCode()
    })
 
    // 定义生成二维码的函数
 const generateQrCode = async () => {
   try {
-    qrCodeUrl.value = await QRCode.toDataURL(accountStore.activeWallet.address, { width: 300, margin: 2 });
+    qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString, { width: 300, margin: 2 });
   } catch (err) {
     console.error('Failed to generate QR code:', err);
   }

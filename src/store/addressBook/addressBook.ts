@@ -12,12 +12,12 @@ interface addressBookState {
 }
 
 
-const useAddressBookStore = defineStore('userProfile', {
+const useAddressBookStore = defineStore('addressBooks', {
   state: (): addressBookState => ({
     addressBooks:[]
   }),
   actions: {
-    async addAddressAction(newAddressMessage:addressData){
+    async addAddressAction(newAddressMessage:addressData){ 
       newAddressMessage = addPrefix(newAddressMessage);
       const oldAddressBooks: addressData[] = await storageAddress.get('addressBooks') ?? [];
       const newAddressBooks: addressData[] = [...oldAddressBooks.map(addPrefix), newAddressMessage];
@@ -29,7 +29,12 @@ const useAddressBookStore = defineStore('userProfile', {
       const newAddressBooks=oldAddressBooks.splice(index,1)
       await storageAddress.set('addressBooks', newAddressBooks);
       this.addressBooks = newAddressBooks;
-    }
+    },
+    async loadLocalCacheAction(){
+      const oldAddressBooks=await storageAddress.get('addressBooks');
+      this.addressBooks=oldAddressBooks
+    },
+
 }
 });
 

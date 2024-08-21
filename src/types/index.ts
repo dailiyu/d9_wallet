@@ -12,3 +12,10 @@ declare module 'qrcode' {
     ): Promise<string>;
   }
   
+
+  export type validateInfo = {
+    password: string,
+    name: string,
+    newPassword1: string,
+    newPassword2: string,
+}

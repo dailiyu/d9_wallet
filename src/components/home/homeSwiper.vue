@@ -142,7 +142,6 @@
   import {  ref, computed} from 'vue';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
-import {postUsdtBalance} from "@/services/http/usdt"
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
 import {postMerchantRedeemD9}  from "@/services/http/merchant"
@@ -153,10 +152,9 @@ const  userProfileStore= useUserProfileStore();
 
 
 onMounted(async() => {
-  userProfileStore.getUsdtBalanceAction()
-  userProfileStore.getD9BalanceAction()
-})
 
+})
+ 
   const showBalance = ref(true)
   const back = () => {
     showBalance.value = !showBalance.value;
