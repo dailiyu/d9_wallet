@@ -1,8 +1,11 @@
 <template>
   <div class="navBar">
     <!-- <img src="@/assets/login/arrow_right.png" alt="" class="arrow_pic" @click="back()"> -->
-    <van-icon name="arrow-left" :color="iconColor" @click="back()" class="arrow_pic" />
-    <text :style="{'color': iconColor?iconColor:'#000'}">{{ title }}</text>
+    <div class="nav_item">
+      <van-icon name="arrow-left" :color="iconColor" @click="back()" class="arrow_pic" />
+      <text :style="{'color': iconColor?iconColor:'#000'}">{{ title }}</text>
+    </div>
+
     <img :src="bgLink" alt="" class="nav_bg" v-if="bgLink">
   </div>
 </template>
@@ -43,6 +46,17 @@ function back (){
     padding-top: 9.3458vw;
     background-color: #fff;
     z-index: 10;
+    .nav_item {
+      position: relative;
+      .arrow_pic {
+        position: absolute;
+        left: 7.7103vw;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2.8037vw;
+        height: auto;
+      }
+    }
     .nav_bg {
       position: absolute;
       top: 0;
@@ -51,13 +65,6 @@ function back (){
       height: auto;
       z-index: -1;
     }
-    .arrow_pic {
-        position: absolute;
-        left: 7.7103vw;
-        top: 50%;
-        transform: translateY(50%);
-        width: 2.8037vw;
-        height: auto;
-    }
+    
 }
 </style>

@@ -75,7 +75,7 @@
               </div>
               <div class="buttons">
                 <div class="button_item" @click="toSwap()">闪兑</div>
-                <div class="button_item">DPOC</div>
+                <div class="button_item" @click="toDPOC">DPOC</div>
               </div>
               <div class="record">
                 <div class="r_left">
@@ -199,6 +199,9 @@ const pointsRedemption=async()=>{
 
 function toWalletManagement(){
   router.push('/walletManagement')
+}
+function toDPOC(){
+  router.push('/main/DPOC')
 }
 </script>
   

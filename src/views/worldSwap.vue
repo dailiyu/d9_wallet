@@ -8,7 +8,7 @@
         <div class="total">
             <div class="total_num">$ {{(Number(( marketStore.d9LiquidityToken*marketStore.exchangeRateD9ToUsdt).toFixed(4))+Number(marketStore.usdtLiquidityToken)).toFixed(4)}}</div>
             <div class="btns">
-                <div class="btn_item button_active_full">增加流动性</div>
+                <div class="btn_item button_active_full" @click="toAddLiquidity">增加流动性</div>
                 <div class="btn_item button_active_full">交易</div>
             </div>
         </div>
@@ -113,7 +113,7 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { onMounted, reactive, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 // import navBar from '@/components/navBar.vue'
 import ApexCharts from 'apexcharts'
 import useMarketStore from "@/store/market/market"
@@ -178,6 +178,11 @@ const currentTime = ref('1d')
 function chooseTime(time:string){
     currentTime.value = time
 }
+
+const router = useRouter()
+function toAddLiquidity(){
+    router.push('/main/addLiquidity')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -186,7 +191,7 @@ function chooseTime(time:string){
 //     color: #fff;
 // }
 .content {
-    // background-color: #F8F8F8;
+    background-color: #F8F8F8;
     padding-top: 16.8785vw;
     .title {
         font-weight: 500;
