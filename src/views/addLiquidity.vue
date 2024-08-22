@@ -5,17 +5,17 @@
         <div class="title">总流动性</div>
         <div class="total_box">
             <div class="total_num">
-                $ 1,137,841,231
+                $ {{(Number(( marketStore.d9LiquidityToken*marketStore.exchangeRateD9ToUsdt).toFixed(4))+Number(marketStore.usdtLiquidityToken)).toFixed(4)}}
             </div>
             <div class="unit">
                 <img src="@/assets/home/logo_d9.png" alt="" class="logo_icon">
                 <div>D9</div>
-                <div class="num">15,661.92</div>
+                <div class="num">{{ marketStore.d9LiquidityToken }}</div>
             </div>
             <div class="unit">
                 <img src="@/assets/home/logo_usdt.png" alt="" class="logo_icon">
                 <div>USDT</div>
-                <div class="num" style="color: #0E932E;">15,661.92</div>
+                <div class="num" style="color: #0E932E;">{{marketStore.usdtLiquidityToken}}</div>
             </div>
         </div>
         <!-- <van-tabs :active="current" background="#E7EBF2" title-active-color="#0065FF" title-inactive-color="#8E8C8E" swipeable>
@@ -62,14 +62,14 @@
                     <van-icon name="play" color="#0065FF" size="3vw" />
                     <van-cell-group inset>
                         <van-field
-                            v-model="number"
+                            v-model="d9Number"
                             placeholder="请输入增加数量"
                             type="number"
                         />
                     </van-cell-group>
                     <div class="c_balance">
                         <div>余额</div>
-                        <div class="c_num">15,661.92</div>
+                        <div class="c_num">{{ userProfileStore.d9Balance }}</div>
                     </div>
                 </div>
             
@@ -79,14 +79,14 @@
                     <van-icon name="play" color="#0065FF" size="3vw" />
                     <van-cell-group inset>
                         <van-field
-                            v-model="number"
+                            v-model="usdtNumber"
                             placeholder="请输入增加数量"
                             type="number"
                         />
                     </van-cell-group>
                     <div class="c_balance">
                         <div>余额</div>
-                        <div class="c_num">15,661.92</div>
+                        <div class="c_num">{{  userProfileStore.usdtBalance }}</div>
                     </div>
                 </div>
             </div>
@@ -116,10 +116,15 @@ import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
 // import navBar from '@/components/navBar.vue'
 import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/vue';
-
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
+const marketStore=useMarketStore();
+const userProfileStore = useUserProfileStore();
 const current = ref(0)
-const number = ref('')
+const d9Number = ref(0)
+const usdtNumber=ref(0)
 const value = ref(0)
+
 type event = {
     detail: {value: number}
 }
