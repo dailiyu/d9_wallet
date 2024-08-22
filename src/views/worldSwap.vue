@@ -9,7 +9,7 @@
             <div class="total_num">$ {{(Number(( marketStore.d9LiquidityToken*marketStore.exchangeRateD9ToUsdt).toFixed(4))+Number(marketStore.usdtLiquidityToken)).toFixed(4)}}</div>
             <div class="btns">
                 <div class="btn_item button_active_full" @click="toAddLiquidity">增加流动性</div>
-                <div class="btn_item button_active_full">交易</div>
+                <div class="btn_item button_active_full" @click="toSwap">交易</div>
             </div>
         </div>
         <div class="title">
@@ -182,6 +182,9 @@ function chooseTime(time:string){
 const router = useRouter()
 function toAddLiquidity(){
     router.push('/main/addLiquidity')
+}
+function toSwap(){
+    router.push('/main/swap')
 }
 </script>
 

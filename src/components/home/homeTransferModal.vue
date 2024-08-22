@@ -1,5 +1,6 @@
 <template>
-  <ion-page class="ion_page" @click="closeTransferModal">
+  <IonPage class="ion_page" >
+    <div @click="closeTransferModal">
     <!-- <van-popup :show="isShowTransferModal" :style="{ height: '80%'}" position="bottom" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}" @click-overlay="closeTransferModal"> -->
     <div class="accept_title">
       <img
@@ -76,7 +77,7 @@
         </div>
       </div>
 
-      <div class="confirm_btn" @click="showPasswordPop = true">确认</div>
+      <div class="confirm_btn" @click="confirmTransfer">确认</div>
 
       <div class="personal_info">
         <img src="@/assets/home/square_d9.png" alt="" class="logo" />
@@ -84,14 +85,15 @@
       </div>
     </div>
 
-    <validatePassword
-    style="z-index: 100;"
+    
+  </div>
+  <validatePassword
       @confirm="confirm"
       type="verify"
       :isShow="showPasswordPop"
       @close="showPasswordPop= false"
     ></validatePassword>
-  </ion-page>
+  </IonPage>
 </template>
 
 <script lang="ts" setup>
@@ -151,6 +153,9 @@ const transferUsdt=async()=>{
   }else{
     showFailToast("密码错误");
   }
+ }
+ function confirmTransfer(){
+  showPasswordPop.value = true
  }
 
 

@@ -59,7 +59,6 @@
                 <div class="content_item">
                     <img src="@/assets/home/logo_d9.png" alt="" class="c_logo">
                     <div class="c_unit">D9</div>
-                    <van-icon name="play" color="#0065FF" size="3vw" />
                     <van-cell-group inset>
                         <van-field
                             v-model="d9Number"
@@ -76,7 +75,6 @@
                 <div class="content_item">
                     <img src="@/assets/home/logo_usdt.png" alt="" class="c_logo">
                     <div class="c_unit">USDT</div>
-                    <van-icon name="play" color="#0065FF" size="3vw" />
                     <van-cell-group inset>
                         <van-field
                             v-model="usdtNumber"
@@ -119,17 +117,14 @@ import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
 const marketStore=useMarketStore();
-const userProfileStore = useUserProfileStore();
+const userProfileStore = useUserProfileStore();import { IonSegmentCustomEvent, SegmentChangeEventDetail  } from '@ionic/core';
+
 const current = ref(0)
 const d9Number = ref(0)
 const usdtNumber=ref(0)
 const value = ref(0)
-
-type event = {
-    detail: {value: number}
-}
-function changeTab(event:event){
-    current.value = event.detail.value
+function changeTab(event:IonSegmentCustomEvent<SegmentChangeEventDetail>){
+    current.value = event.detail.value as number
 }
 function changeProgress(number:number) {
     value.value = number
@@ -283,9 +278,6 @@ function changeProgress(number:number) {
                 font-size: 2.8037vw;
                 color: #0065B2;
                 margin-right: 5.1402vw;
-            }
-            .van-icon {
-                transform: rotate(90deg);
             }
             .c_balance {
                 text-align: right;
