@@ -18,7 +18,7 @@
             <img src="@/assets/discovery/Merchant.png" alt="">
           </div>
           <div class="text">
-            商家联盟
+            消费挖矿
           </div>
         </div>
         <div class="item" @click="toWorldSwap()">
@@ -47,7 +47,7 @@
         </div>
         <div class="item" @click="tonodeVoting()">
           <div class="icon">
-            
+            <img src="@/assets/discovery/node.png" alt="">
           </div>
           <div class="text">
             节点投票

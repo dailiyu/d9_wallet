@@ -28,8 +28,6 @@
     <van-popup v-model:show="showLanguage" round :style="{ padding: '8.8785vw', width: '88.3178vw' }" duration="0" :overlay-style="{opacity: '0.4'}">
         <div class="multilanguage_pop">
             <div class="title">选择语言</div>
-            <!-- <div class="lan_btn button_active_full">中文</div>
-            <div class="lan_btn button_active_plain">英语</div> -->
             <van-radio-group v-model="checked" shape="dot">
                 <van-radio name="1" checked-color="#0065FF" icon-size="3.5047vw">简体中文</van-radio>
                 <van-radio name="2" checked-color="#0065FF" icon-size="3.5047vw"> English </van-radio>
@@ -84,7 +82,8 @@ const checked = ref('1')
     }
     .van-radio {
         margin-bottom: 4.6729vw;
-        justify-content: center;
+        // justify-content: center;
+        margin-left: 25.4673vw;
         &:last-child {
             margin-bottom: 0
         }

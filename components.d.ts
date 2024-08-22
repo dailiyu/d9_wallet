@@ -10,6 +10,7 @@ declare module 'vue' {
     HomeAcceptModal: typeof import('./src/components/home/homeAcceptModal.vue')['default']
     HomeSwiper: typeof import('./src/components/home/homeSwiper.vue')['default']
     HomeTransferModal: typeof import('./src/components/home/homeTransferModal.vue')['default']
+    InputNumber: typeof import('./src/components/inputNumber.vue')['default']
     NavBar: typeof import('./src/components/navBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

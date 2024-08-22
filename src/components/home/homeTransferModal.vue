@@ -48,9 +48,10 @@
             padding-bottom: 2.8037vw;
           "
           placeholder="输入转账数量"
+          type="number"
         >
-          <div class="unit" slot="end">
-            <div>D9</div>
+          <div class="unit" slot="end" @click="showUnitPop=true">
+            <div>{{checked == '1' ? 'D9' : 'USDT'}}</div>
             <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic" />
           </div>
         </ion-input>
@@ -92,7 +93,16 @@
       type="verify"
       :isShow="showPasswordPop"
       @close="showPasswordPop= false"
-    ></validatePassword>
+  />
+  <van-popup v-model:show="showUnitPop" round :style="{ padding: '8.8785vw', width: '88.3178vw' }">
+      <div class="multilanguage_pop">
+          <div class="title">切换单位</div>
+          <van-radio-group v-model="checked" shape="dot">
+              <van-radio name="1" checked-color="#0065FF" icon-size="3.5047vw">D9</van-radio>
+              <van-radio name="2" checked-color="#0065FF" icon-size="3.5047vw"> USDT </van-radio>
+          </van-radio-group>
+      </div>
+  </van-popup>
   </IonPage>
 </template>
 
@@ -149,6 +159,9 @@ const transferD9=async()=>{
  function confirmTransfer(){
   showPasswordPop.value = true
  }
+
+ const showUnitPop = ref(false)
+ const checked = ref('1')
 
 
 </script>
@@ -301,5 +314,32 @@ ion-modal::part(backdrop) {
       margin-right: 0.9346vw;
     }
   }
+}
+.multilanguage_pop {
+    text-align: center;
+    .title {
+        font-size: 4.9065vw;
+        font-weight: 500;
+        margin-bottom: 7.9439vw;
+    }
+    .lan_btn {
+        width: 33.4112vw;
+        margin: 0 auto 4.4393vw;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .van-radio {
+        margin-bottom: 4.6729vw;
+        // justify-content: center;
+        margin-left: 25.4673vw;
+        &:last-child {
+            margin-bottom: 0
+        }
+    }
+    .van-radio__label {
+        color: #8E8C8E;
+        // width: 3.5047vw;
+    }
 }
 </style>

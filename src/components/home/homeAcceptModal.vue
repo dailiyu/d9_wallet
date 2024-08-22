@@ -1,24 +1,28 @@
 <template>
-    <ion-page class="ion_page" @click="closeAcceptModal">
+    <ion-page class="ion_page">
     <!-- <van-popup :show="isShowAcceptModal" :style="{ height: '80%'}" position="top" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}" @close="closeAcceptModal" ref="receivePopup"> -->
-        <div class="accept_modal" @click.stop>
-            <div class="accept_title">
-                <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeAcceptModal">
-                <div>收款</div>
+        <div @click="closeAcceptModal">
+            <div class="accept_modal" @click.stop>
+                <div class="accept_title">
+                    <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeAcceptModal">
+                    <div>收款</div>
+                </div>
+                <img :src="qrCodeUrl" alt=""  >
+                <div class="address_text">接收地址</div>
+                <div class="address_detail">
+                    <div>{{ accountStore.activeWallet.address }}</div>
+                    <img src="@/assets/home/copy.png" @click="copyAddress()" alt="" class="copy_pic">
+                </div>
+                <div class="set_btn" @click="showInputNumberPop=true">设置金额</div>
             </div>
-            <img :src="qrCodeUrl" alt=""  >
-            <div class="address_text">接收地址</div>
-            <div class="address_detail">
-                <div>{{ accountStore.activeWallet.address }}</div>
-                <img src="@/assets/home/copy.png" @click="copyAddress()" alt="" class="copy_pic">
+            <!-- </van-popup> -->
+            <div class="receive_info">
+                <img src="@/assets/home/white_d9.png" alt="" class="d9_pic">
+                <div>Person (3842)</div>
             </div>
-            <div class="set_btn">设置金额</div>
         </div>
-      <!-- </van-popup> -->
-       <div class="receive_info">
-        <img src="@/assets/home/white_d9.png" alt="" class="d9_pic">
-        <div>Person (3842)</div>
-       </div>
+
+       <inputNumber title="设置收款金额" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirm"></inputNumber>
     </ion-page>
 </template>
   
@@ -32,6 +36,7 @@
     
     import QRCode from 'qrcode';
     import useUserProfileStore from '@/store/usersProfile/userProfile';
+    import inputNumber from '@/components/inputNumber.vue'
     const accountStore = useAccountStore();
     const payUrl = ref('')
     const userProfileStore=useUserProfileStore()
@@ -75,6 +80,11 @@ const generateQrCode = async () => {
   }
 };
 
+const showInputNumberPop = ref(false)
+const confirm = (num:string)=>{
+    console.log(num);
+    
+}
 
 </script>
   
