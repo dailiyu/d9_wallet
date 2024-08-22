@@ -22,7 +22,7 @@
     <homeSwiper></homeSwiper>
     
   </div>
-  <homgTransferModal :isShowTransferModal="showTransferModal" @closeTransferModal="closeTransferModal()" ref="transferModal"></homgTransferModal>
+  <homgTransferModal :isShowTransferModal="showTransferModal" @closeTransferModal="closeTransferModal" ref="transferModal"></homgTransferModal>
   <homeAcceptModal :isShowAcceptModal="showAcceptModal" @closeAcceptModal="closeAcceptModal()" ref="receiveMoneyModal"></homeAcceptModal>
   <walletList :showWalletList="showWalletList" @close="showWalletList=false"></walletList>
   </ion-page>
@@ -113,6 +113,7 @@ const handleTouchEnd = (event: TouchEvent) => {
     
   } else if (distanceY>-100&&distanceY<0) {
     transferModal.value.$el.style.transform = 'translateY(100%)'
+    console.log(111);
     
     
   }
@@ -125,6 +126,7 @@ const closeAcceptModal = ()=>{
 }
 const closeTransferModal = ()=>{
   transferModal.value.$el.style.transform = 'translateY(100%)'
+  
 }
 
 const showWalletList = ref(false)
