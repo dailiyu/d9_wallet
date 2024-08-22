@@ -114,6 +114,7 @@ const userProfileStore = useUserProfileStore();
 const accountStore = useAccountStore();
 const emit = defineEmits(["closeTransferModal"]);
 const transferAmount = ref<number>();
+
 const toAddress=ref<string>()
 function closeTransferModal() {
   emit("closeTransferModal");
@@ -145,10 +146,12 @@ const transferUsdt=async()=>{
     const Toast = showLoadingToast({
     message: "转账中...",
     forbidClick: false,
-    duration: 3000,
+    duration: 30000,
   });
+  showPasswordPop.value=false
     await transferD9()
     Toast.close();
+    transferAmount.value=0
     showSuccessToast("转账成功");
   }else{
     showFailToast("密码错误");

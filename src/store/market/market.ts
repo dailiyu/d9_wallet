@@ -1,5 +1,6 @@
 
 import { postGetReserves } from '@/services/http/amm';
+import { makerTransactionsList } from '@/services/http/IndexServer';
 import { postGetRank } from '@/services/http/node';
 import { defineStore } from 'pinia';
 
@@ -10,14 +11,37 @@ import { defineStore } from 'pinia';
     accumulative_votes: number,
   }
 
+  interface Data {
+    d9: string;
+    usdt: string;
+    accountId: string;
+  }
+  
+  interface Transaction {
+    id: string;
+    blockNumber: string;
+    blockHash: string;
+    timestamp: string;
+    extrinsicHash: string;
+    fee: string;
+    kind: string;
+    contract: string;
+    contractAddress: string;
+    data: Data;
+  }
+  
 
 interface AccountState {
     exchangeRateD9ToUsdt:number,
     exchangeRateUsdtToD9:number,
     d9LiquidityToken:number,
     usdtLiquidityToken:number,
-    nodeRankList:nodeData[]
+    nodeRankList:nodeData[],
+    transactionList:Transaction[]
 }
+
+
+
 
 
 const useMarketStore = defineStore('market', {
@@ -26,7 +50,8 @@ const useMarketStore = defineStore('market', {
     exchangeRateUsdtToD9:0,
     d9LiquidityToken:0,
     usdtLiquidityToken:0,
-    nodeRankList:[]
+    nodeRankList:[],
+    transactionList:[]
   }),
   actions: {
    async getExchangeRateAction(){
@@ -43,10 +68,14 @@ const useMarketStore = defineStore('market', {
       this.nodeRankList=metaData.data.results
 
    },
+   async getTransactionListAction(){
+      const metaData=await makerTransactionsList()
+      this.transactionList=metaData.data.results
+   },
   async fetchAllData(){
    this.getExchangeRateAction()
    this.getRankAction()
-
+    this.getTransactionListAction()
    }
 }
 });

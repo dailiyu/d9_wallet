@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import type { HttpRequestConfig } from './type'
-
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 class HttpRequest {
   instance: AxiosInstance
 
@@ -54,31 +54,39 @@ class HttpRequest {
   }
 
   async post<T = any>(config: HttpRequestConfig<T>): Promise<T> {
-    // 延迟加载 useAccountStore
-    const accountStore = (await import('@/store/account/account')).default();
+    try {
+      // 延迟加载 useAccountStore
+      const accountStore = (await import('@/store/account/account')).default();
 
-    const keypair = accountStore.activeWallet.mnemonic;
-    const accountId = accountStore.activeWallet.address;
+      const keypair = accountStore.activeWallet.mnemonic;
+      const accountId = accountStore.activeWallet.address;
 
-    console.log({
-      ...config,
-      method: 'POST',
-      data: {
-        ...config.data,
-        keypair: keypair,
-        account_id: accountId,
-      },
-    });
+      console.log({
+        ...config,
+        method: 'POST',
+        data: {
+          ...config.data,
+          keypair: keypair,
+          account_id: accountId,
+        },
+      });
 
-    return this.request({
-      ...config,
-      method: 'POST',
-      data: {
-        ...config.data,
-        keypair: keypair,
-        account_id: accountId,
-      },
-    });
+      // 请求并返回结果
+      return await this.request({
+        ...config,
+        method: 'POST',
+        data: {
+          ...config.data,
+          keypair: keypair,
+          account_id: accountId,
+        },
+      });
+    } catch (error) {
+      // 在这里捕获并处理错误
+      showFailToast("操作失败！")
+      console.error('Post request failed:', error);
+      throw error; // 如果需要，可以重新抛出错误
+    }
   }
 
   delete<T = any>(config: HttpRequestConfig<T>): Promise<T> {
@@ -91,4 +99,3 @@ class HttpRequest {
 }
 
 export default HttpRequest
-

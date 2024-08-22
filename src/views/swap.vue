@@ -2,31 +2,31 @@
     <ion-page class="main_page">
     <navBar title="闪兑" ></navBar>
     <div class="content">
-        <div class="swap_box" :style="{'flex-direction':swapExchange?'row-reverse':'unset'}">
-            <div class="swap_item" :style="{'margin-right':swapExchange?'0':'4.2056vw'}">
+        <div class="swap_box" :style="{'flex-direction':isD9ToUsdt?'row-reverse':'unset'}">
+            <div class="swap_item" :style="{'margin-right':isD9ToUsdt?'0':'4.2056vw'}">
                 <div class="item_top">
                     <img src="@/assets/home/logo_usdt.png" alt="" class="u_logo">
                     <div class="unit">USDT</div>
                     <van-icon name="play" color="#0065FF" size="2.4019vw" />
                 </div>
                 <div class="item_bottom">
-                    <div class="num">61,20</div>
+                    <div class="num">{{ userProfileStore.usdtBalance }}</div>
                     <van-cell-group inset>
-                        <van-field v-model="value" placeholder="请输入数量" input-align="center" />
+                        <van-field  :disabled="isD9ToUsdt? true:false" @input="dealUstdInputChange()" v-model="usdtAmount" placeholder="请输入数量" input-align="center" />
                     </van-cell-group>
                 </div>
             </div>
-            <img src="@/assets/home/swap_change.png" alt="" class="swap_icon" @click="swapExchange=!swapExchange">
-            <div class="swap_item" :style="{'margin-right':swapExchange?'4.2056vw':'0'}">
+            <img src="@/assets/home/swap_change.png" alt="" class="swap_icon" @click="swop()">
+            <div class="swap_item" :style="{'margin-right':isD9ToUsdt?'4.2056vw':'0'}">
                 <div class="item_top">
                     <img src="@/assets/home/logo_d9.png" alt="" class="u_logo">
                     <div class="unit">D9</div>
                     <van-icon name="play" color="#0065FF" size="2.4019vw" />
                 </div>
                 <div class="item_bottom">
-                    <div class="num">61,20</div>
+                    <div class="num">{{ userProfileStore.d9Balance }}</div>
                     <van-cell-group inset>
-                        <van-field v-model="value" placeholder="请输入数量" input-align="center" />
+                        <van-field  @input="dealD9InputChange()"  :disabled="!isD9ToUsdt? true:false" v-model="d9Amount" placeholder="请输入数量" input-align="center" />
                     </van-cell-group>
                 </div>
             </div>
@@ -35,7 +35,8 @@
         <div class="swap_text">
             <div class="text_item">
                 <div>可用</div>
-                <div class="text_num">0.00 USDT</div>
+                <div class="text_num" >{{ isD9ToUsdt? userProfileStore.d9Balance:userProfileStore.usdtBalance  }} {{ isD9ToUsdt?"D9":"USDT" }}</div>
+               
             </div>
             <div class="text_item">
                 <div>交易价格</div>
@@ -43,11 +44,11 @@
             </div>
             <div class="text_item">
                 <div>费用</div>
-                <div class="text_num"> ≈ 0.00</div>
+                <div class="text_num"> ≈ {{ isD9ToUsdt?(d9Amount||0)*0.003:(usdtAmount||0)*0.003}} {{ isD9ToUsdt?"D9":"USDT" }}</div>
             </div>
         </div>
 
-        <div class="btn button_active_full">闪兑</div>
+        <div class="btn button_active_full" @click="showPasswordPop=true">闪兑</div>
 
         <div class="record_text">
             <div class="lastest">最近一条记录</div>
@@ -78,23 +79,49 @@
                 </div>
             </div>
             <div class="num">
-                <div>43,531,20</div>
-                <div class="num_usdt">61,20</div>
+                <div>{{ marketStore.transactionList[0].data.d9 }}</div>
+                <div class="num_usdt">{{ marketStore.transactionList[0].data.usdt }}</div>
             </div>
         </div>
     </div>
+    <validatePassword
+      @confirm="confirm"
+      type="verify"
+      :isShow="showPasswordPop"
+      @close="showPasswordPop= false"
+    ></validatePassword>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-
-const value = ref('')
-
+import ValidatePassword from "@/components/validatePassword.vue";
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+import useAccountStore from "@/store/account/account";
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
+import { postGetUsdt,postGetD9 } from '@/services/http/amm';
+import { postUsdtTransfer } from "@/services/http/usdt";
+import {postRefreshUsersProfile} from "@/services/http/main"
+import { validateInfo } from '@/types';
+const showPasswordPop = ref(false);
+ const marketStore=useMarketStore()
+const userProfileStore = useUserProfileStore();
+const usdtAmount = ref<number>()
+const d9Amount=ref<number>()
+const accountStore = useAccountStore();
 const router = useRouter()
+const isD9ToUsdt = ref<boolean>(false)
+
+
+
+onMounted(()=>{
+    marketStore.getTransactionListAction()
+})
+
 function toRecords(){
     router.push('/main/swapRecords')
 }
@@ -102,7 +129,58 @@ function toRecords(){
 function toAll(){
     router.push('/main/swapAllRecords')
 }
-const swapExchange = ref(false)
+
+const swop=async ()=>{
+    isD9ToUsdt.value=!isD9ToUsdt.value
+    d9Amount.value=undefined
+    usdtAmount.value=undefined
+    
+}
+
+const dealUstdInputChange=async()=>{
+    d9Amount.value=(usdtAmount.value||0)*marketStore.exchangeRateUsdtToD9*0.997
+
+}
+
+
+const dealD9InputChange=async()=>{
+    usdtAmount.value=(d9Amount.value||0)*marketStore.exchangeRateD9ToUsdt*0.997
+}
+
+const flashExchangeD9ToUsdt=async()=>{
+    await postGetUsdt({amount:d9Amount.value||0})
+}
+
+const flashExchangeUsdtToD9=async()=>{
+    await postGetD9({amount:usdtAmount.value||0})
+}
+
+const confirm=async(info: validateInfo)=>{
+    if (info.password == accountStore.password){
+    const Toast = showLoadingToast({
+    message: "操作中...",
+    forbidClick: false,
+    duration: 300000,
+  });
+  showPasswordPop.value=false
+    if(isD9ToUsdt.value){
+        console.log('flashExchangeD9ToUsdt');
+        await flashExchangeD9ToUsdt()
+    }else{
+        console.log('flashExchangeUsdtToD9');
+        
+        await flashExchangeUsdtToD9()
+    }
+    Toast.close();
+    d9Amount.value=0
+    usdtAmount.value=0
+    await  userProfileStore.fetchAllData()
+    showSuccessToast("闪兑成功");
+  }else{
+    showFailToast("密码错误");
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>

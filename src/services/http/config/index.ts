@@ -7,13 +7,16 @@
 
 
 let BASE_URL = ''
+let QUERY_URL=''
 if (import.meta.env.PROD) {
   // 生产环境
   BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
+  QUERY_URL='https://www.q6z4kzhr.uk/api'
 }
 else {
   // 开发环境
   BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
+   QUERY_URL='https://www.q6z4kzhr.uk/api'
 }
 
 // console.log(BASE_URL)
@@ -22,4 +25,4 @@ else {
 // console.log(import.meta.env.VITE_URL)
 
 export const TIME_OUT = 60000
-export { BASE_URL }
+export { BASE_URL,QUERY_URL }

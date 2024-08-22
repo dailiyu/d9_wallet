@@ -89,11 +89,11 @@ const useUserProfileStore = defineStore('userProfile', {
         try {
           const metaData=  await postReferralsGetDirectCount()
           this.airdropsNumber=metaData.data.results
+          console.log('---', this.airdropsNumber);
+          
         } catch (error) {
           console.log('airdrop',error);
         }
-        const metaData=  await postReferralsGetDirectCount()
-        this.airdropsNumber=metaData.data.results
       },
       async merchantQrcodeGenerate(amount:number=0){
         const metaData=await postQrcodeGenerate({amount})
