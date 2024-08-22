@@ -11,16 +11,26 @@
             <div>钱包列表</div>
             <div class="manage">管理</div>
         </div>
-        <div class="wallet_item " :class="activeWalletIndex===index?'':'inactive'" v-for="(wallet,index) in walletList" @click="selectWallet(index)">
-            <div class="wallet_top">
-                <div>
-                    <div class="name">{{ wallet.name }}</div>
-                    <div class="account">{{ obscureString(wallet.address) }}</div>
+        <div v-for="(wallet,index) in walletList">
+            <div class="wallet_item " :class="activeWalletIndex===index?'':'inactive'" @click="selectWallet(index)">
+                <div class="wallet_top">
+                    <div>
+                        <div class="name">{{ wallet.name }}</div>
+                        <div class="account">{{ obscureString(wallet.address) }}</div>
+                    </div>
+                    <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon" v-if="activeWalletIndex===index">
                 </div>
-                <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon" v-if="activeWalletIndex===index">
+                <div class="balance">$ 0.00</div>
             </div>
-            <div class="balance">$ 0.00</div>
+
+            <!-- 子账号 -->
+            <!-- <div class="sub_account active">
+                <div class="sub_name">David</div>
+                <div class="sub_address">DNASD281******SAD3321</div>
+                <div class="sub_balance">$ 51,082.00</div>
+            </div> -->
         </div>
+        
         
     </div>
   </van-popup>
@@ -90,6 +100,7 @@ const selectWallet = async (index: number) => {
         }
     }
     .wallet_item {
+        height: 28.0374vw;
         border: 2px solid #0065FF;
         border-radius: 9px;
         padding: 2.8037vw 4.9065vw;
@@ -97,7 +108,7 @@ const selectWallet = async (index: number) => {
         margin-bottom: 5.3738vw;
         &.inactive {
             color: #8E8C8E;
-            border: 1px solid #E7EBF2;
+            border: 2px solid #8E8C8E;
             .balance {
                 font-size: 4.6729vw;
             }
@@ -122,6 +133,33 @@ const selectWallet = async (index: number) => {
         .balance {
             font-size: 5.6075vw;
             font-weight: 900;
+            text-align: right;
+        }
+    }
+    .sub_account {
+        height: 28.4019vw;
+        border-radius: 9px;
+        border: 1px solid #E7EBF2;
+        margin-left: 4.9065vw;
+        margin-bottom: 5.1402vw;
+        padding: 3.7383vw 4.6729vw 2.5701vw;
+        color: #8E8C8E;
+        &.active {
+            border: 1px solid #0065FF;
+            color: #0065FF;
+        }
+        .sub_name {
+            font-weight: bold;
+            font-size: 5.1402vw;
+        }
+        .sub_address {
+            font-weight: 400;
+            font-size: 2.5701vw;
+            margin: 2.8037vw 0 3.5047vw;
+        }
+        .sub_balance {
+            font-weight: 900;
+            font-size: 4.2056vw;
             text-align: right;
         }
     }

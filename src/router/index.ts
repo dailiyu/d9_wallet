@@ -72,6 +72,10 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/myNode.vue')
       },
       {
+        path: 'burnMining',
+        component: () => import('@/views/burnMining.vue')
+      },
+      {
         path: 'myself',
         component:()=>import('@/views/myself.vue'),
         children: [

@@ -13,7 +13,7 @@
         </swipe>
       </div>
       <div class="menue">
-        <div class="item">
+        <div class="item" @click="toBurnMining">
           <div class="icon">
             <img src="@/assets/discovery/Merchant.png" alt="">
           </div>
@@ -81,6 +81,9 @@ function toCrossBridge(){
 }
 function tonodeVoting(){
   router.push('/main/nodeVoting')
+}
+function toBurnMining(){
+  router.push('/main/burnMining')
 }
 </script>
 
