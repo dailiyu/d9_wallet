@@ -1,4 +1,5 @@
-import httpRequest from ".";
+import {httpRequest} from ".";
+
 
 
 //销毁代币数量至少为100

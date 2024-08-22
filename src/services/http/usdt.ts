@@ -1,4 +1,4 @@
-import httpRequest from ".";
+import {httpRequest} from ".";
 
 
 //获取usdt余额

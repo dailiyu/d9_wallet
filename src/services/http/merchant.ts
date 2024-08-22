@@ -1,4 +1,5 @@
-import httpRequest from ".";
+import {httpRequest} from ".";
+
 
 
 //获取商家码倒计时
