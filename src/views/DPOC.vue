@@ -3,11 +3,11 @@
     <navBar title="DPOC" iconColor="#fff" ></navBar>
     <div class="content">
         <div class="title">总矿池数量</div>
-        <div class="amount">19,504,053,294.89</div>
+        <div class="amount">{{ marketStore.poolsTotalNumber }}</div>
 
         <div class="destroy">
             <div class="sub_t">当前全球已销毁</div>
-            <div class="d_num">9,021,031.20</div>
+            <div class="d_num">{{ marketStore.TotalBurned }}</div>
         </div>
 
         <div class="destroy">
@@ -37,18 +37,18 @@
         <div class="time_box">
             <div class="time_item">
                 <div>上次燃烧时间</div>
-                <div class="time">03/31 21:12</div>
+                <div class="time">{{ formatTimestampToMMDDHHMM(userProfileStore.lastBurn) }}</div>
             </div>
             <div class="time_item">
                 <div>上次提取时间</div>
-                <div class="time">03/31 21:12</div>
+                <div class="time">{{ formatTimestampToMMDDHHMM(userProfileStore.lastWithdrawal) }}</div>
             </div>
         </div>
 
         <div class="accumulation_box">
             <div class="accumulation_item">
                 <div>剩余产出总量</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ userProfileStore.balanceDue }}</div>
             </div>
             <div class="accumulation_item">
                 <div>基础产出累积</div>
@@ -63,11 +63,11 @@
         <div class="amount_box">
             <div class="amount_item">
                 <div>销毁总数量</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ userProfileStore.amountBurned }}</div>
             </div>
             <div class="amount_item">
                 <div>总提币数量</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ userProfileStore.balancePaid }}</div>
             </div>
         </div>
     </div>
@@ -75,8 +75,14 @@
 </template>
 
 <script lang="ts" setup>
+import { formatTimestampToMMDDHHMM } from '@/utils';
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
+import useUserProfileStore from '@/store/usersProfile/userProfile';
+import useMarketStore from '@/store/market/market';
+const marketStore=useMarketStore();
+const userProfileStore=useUserProfileStore()
+
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,7 @@
 
 import QRCode from 'qrcode';
 
+import dayjs from 'dayjs';
 
 //处理地址字符串s
 export function obscureString(input: string): string {
@@ -30,6 +31,15 @@ export const generateQRCode = async (text: string): Promise<string> => {
     throw err;
   }
 };
+
+
+
+ export function formatTimestampToMMDDHHMM(timestamp: number): string {
+    return dayjs(timestamp).format('MM/DD HH:mm');
+}
+
+
+
 
 
 

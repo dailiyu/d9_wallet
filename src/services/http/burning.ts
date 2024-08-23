@@ -22,32 +22,28 @@ export function postBurningAncestors(queryInfo: {
   */
 
 
-//全球算力总值
-export function postBurningGlobalComputingPower(queryInfo: {
-    keypair:string,
-    account_id:string
-  }) {
-    return httpRequest.post({
-      url:'/burning/global-computing-power/',
-      data: queryInfo
-    })
-  }
-  /*
-  {
-    "results": 0.000125
-}
-  */
+// //全球算力总值
+// export function postBurningGlobalComputingPower(queryInfo: {
+//     keypair:string,
+//     account_id:string
+//   }) {
+//     return httpRequest.post({
+//       url:'/burning/global-computing-power/',
+//       data: queryInfo
+//     })
+//   }
+//   /*
+//   {
+//     "results": 0.000125
+// }
+//   */
 
 
 
 //挖矿销毁部分数据
-export function postBurningPortfolio(queryInfo: {
-    keypair:string,
-    account_id:string
-  }) {
+export function postBurningPortfolio() {
     return httpRequest.post({
       url:'/main/mining/get/user/burning/profile/',
-      data: queryInfo
     })
   }
   /*
@@ -89,12 +85,9 @@ export function postBurningToken(queryInfo: {
 */
 
 //当前全球已销毁数量
-export function postBurningTotals(queryInfo: {
-    keypair:string
-  }) {
+export function postBurningTotals() {
     return httpRequest.post({
       url:'/burning/totals/',
-      data: queryInfo
     })
   }
   /*
