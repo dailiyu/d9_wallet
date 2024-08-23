@@ -89,7 +89,7 @@ const useUserProfileStore = defineStore('userProfile', {
         try {
           const metaData=  await postReferralsGetDirectCount()
           this.airdropsNumber=metaData.data.results
-          console.log('---', this.airdropsNumber);
+         
           
         } catch (error) {
           console.log('airdrop',error);

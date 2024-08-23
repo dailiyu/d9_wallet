@@ -1,12 +1,15 @@
 import { ref } from 'vue';
 import { Keyring } from '@polkadot/keyring';
-import { mnemonicGenerate, mnemonicValidate, cryptoWaitReady } from '@polkadot/util-crypto';
+import { mnemonicGenerate, mnemonicValidate, cryptoWaitReady, mnemonicToMiniSecret } from '@polkadot/util-crypto';
 import type {walletDate} from '@/types/account'
 
 
 import useAccountStore from '@/store/account/account';
 
-const keyring = new Keyring({ type: 'sr25519', ss58Format: 9 });
+// const keyring = new Keyring({ type: 'sr25519', ss58Format: 9 });
+// 生成密钥对
+    const keyring = new Keyring({ type: 'sr25519', ss58Format: 9 });
+
 
 const accountStore=useAccountStore()
 
@@ -33,10 +36,11 @@ export const useWalletService = () => {
   const preCreateWallet = async ()=> {
     await cryptoWaitReady();
     const generatedMnemonic = createMnemonic();
-    const keypair = keyring.addFromMnemonic(generatedMnemonic);
-    publicKey.value = Buffer.from(keypair.publicKey).toString('hex');
-    secretKey.value = Buffer.from(keypair.encodePkcs8()).toString('hex');
-    address.value = keypair.address;
+    const pair = keyring.addFromMnemonic(generatedMnemonic);
+    publicKey.value = Buffer.from(pair.publicKey).toString('hex')
+    const seed = mnemonicToMiniSecret(generatedMnemonic);
+    secretKey.value =Buffer.from(seed).toString('hex')
+    address.value = pair.address
     const walletDate:walletDate={
       mnemonic: generatedMnemonic,
       publicKey: publicKey.value,
@@ -55,11 +59,11 @@ export const useWalletService = () => {
   //导入钱包
   const importFromMnemonic = async (inputMnemonic: string,): Promise<{ mnemonic: string, publicKey: string, secretKey: string, address: string }> => {
     await cryptoWaitReady();
-    const keypair = keyring.addFromMnemonic(inputMnemonic);
-
-    publicKey.value = Buffer.from(keypair.publicKey).toString('hex');
-    secretKey.value = Buffer.from(keypair.encodePkcs8()).toString('hex');
-    address.value = keypair.address;
+    const pair = keyring.addFromMnemonic(inputMnemonic);
+    publicKey.value = Buffer.from(pair.publicKey).toString('hex')
+    const seed = mnemonicToMiniSecret(inputMnemonic);
+    secretKey.value =Buffer.from(seed).toString('hex')
+    address.value = pair.address
 
     return {
       mnemonic: inputMnemonic,

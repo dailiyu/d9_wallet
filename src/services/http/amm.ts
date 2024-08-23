@@ -112,7 +112,7 @@ export function postGetD9(queryInfo: {
   amount:number
 }) {
   return httpRequest.post({
-    url: '/amm/get/d9',
+    url: '/amm/get/d9/',
     data: queryInfo
   })
 }

@@ -79,8 +79,8 @@
                 </div>
             </div>
             <div class="num">
-                <div>{{ marketStore.transactionList[0].data.d9 }}</div>
-                <div class="num_usdt">{{ marketStore.transactionList[0].data.usdt }}</div>
+                <!-- <div>{{ marketStore.transactionList[0] }}</div> -->
+                <!-- <div class="num_usdt">{{ marketStore.transactionList[0].data.usdt }}</div> -->
             </div>
         </div>
     </div>

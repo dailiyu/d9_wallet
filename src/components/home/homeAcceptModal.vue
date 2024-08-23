@@ -80,9 +80,14 @@ const generateQrCode = async () => {
   }
 };
 
+const setTheAmount=async()=>{
+
+}
+
+
 const showInputNumberPop = ref(false)
-const confirm = (num:string)=>{
-    console.log(num);
+const confirm = (num:number)=>{
+    
     
 }
 

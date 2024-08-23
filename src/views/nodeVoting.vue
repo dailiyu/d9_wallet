@@ -66,7 +66,12 @@
             </van-col>
             <van-col span="6">
                 <div class="time padding">{{ nodeData.accumulative_votes }}</div>
-            </van-col>
+            </van-col>  <validatePassword
+      @confirm="confirm"
+      type="verify"
+      :isShow="showPasswordPop"
+      @close="showPasswordPop= false"
+    ></validatePassword>
             <!-- <van-col span="5">
                 <div class="time padding">{{nodeData.sharing_percent}}%</div>
             </van-col> -->
@@ -77,6 +82,7 @@
             </van-col>
         </van-row>
     </div>
+
   </ion-page>
 </template>
 
@@ -89,7 +95,9 @@ import { useRouter } from 'vue-router';
 import useAccountStore from  "@/store/account/account"
 import useMarketStore from "@/store/market/market"
 import { obscureString } from '@/utils';
-
+import { validateInfo } from '@/types';
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+const showPasswordPop = ref(false);
 const marketStore=useMarketStore()
  const  accountStore=useAccountStore()
 const userProfileStore=useUserProfileStore()
@@ -109,6 +117,26 @@ function toMyNode(){
     router.push('/main/myNode')
     
 }
+
+
+
+const confirm=async(info: validateInfo)=>{
+    if (info.password == accountStore.password){
+    const Toast = showLoadingToast({
+    message: "兑换中...",
+    forbidClick: false,
+    duration: 300000,
+  });
+  showPasswordPop.value=false
+//    await pointsRedemption()
+    Toast.close();
+    await  userProfileStore.fetchAllData()
+    showSuccessToast("积分兑换成功");
+  }else{
+    showFailToast("密码错误");
+  }
+}
+
 
 const withdrawReward=async()=>{
   try {

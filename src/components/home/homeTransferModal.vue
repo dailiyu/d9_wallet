@@ -51,7 +51,7 @@
           type="number"
         >
           <div class="unit" slot="end" @click="showUnitPop=true">
-            <div>{{checked == '1' ? 'D9' : 'USDT'}}</div>
+            <div>{{checked == 'd9' ? 'D9' : 'USDT'}}</div>
             <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic" />
           </div>
         </ion-input>
@@ -97,9 +97,9 @@
   <van-popup v-model:show="showUnitPop" round :style="{ padding: '8.8785vw', width: '88.3178vw' }">
       <div class="multilanguage_pop">
           <div class="title">切换单位</div>
-          <van-radio-group v-model="checked" shape="dot">
-              <van-radio name="1" checked-color="#0065FF" icon-size="3.5047vw">D9</van-radio>
-              <van-radio name="2" checked-color="#0065FF" icon-size="3.5047vw"> USDT </van-radio>
+          <van-radio-group @change="changeType" v-model="checked" shape="dot">
+              <van-radio name="d9"    checked-color="#0065FF" icon-size="3.5047vw">D9</van-radio>
+              <van-radio name="usdt"  checked-color="#0065FF" icon-size="3.5047vw"> USDT </van-radio>
           </van-radio-group>
       </div>
   </van-popup>
@@ -124,7 +124,8 @@ const userProfileStore = useUserProfileStore();
 const accountStore = useAccountStore();
 const emit = defineEmits(["closeTransferModal"]);
 const transferAmount = ref<number>();
-
+const showUnitPop = ref(false)
+const checked = ref('d9')
 const toAddress=ref<string>()
 function closeTransferModal() {
   emit("closeTransferModal");
@@ -150,6 +151,10 @@ const transferUsdt=async()=>{
   await postUsdtTransfer({to_address:toAddress.value||'',amount:transferAmount.value||0})
 }
 
+const changeType=(name:string)=>{
+  checked.value=name
+  
+}
 
  const confirm= async(info: validateInfo)=>{
   if (info.password == accountStore.password){
@@ -159,7 +164,12 @@ const transferUsdt=async()=>{
     duration: 30000,
   });
   showPasswordPop.value=false
+  if(checked.value=='d9'){
     await transferD9()
+  }else{
+    await transferUsdt()
+  }
+   
     Toast.close();
     transferAmount.value=0
     showSuccessToast("转账成功");
@@ -171,8 +181,7 @@ const transferUsdt=async()=>{
   showPasswordPop.value = true
  }
 
- const showUnitPop = ref(false)
- const checked = ref('1')
+
 
 
 </script>
