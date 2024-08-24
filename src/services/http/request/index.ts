@@ -58,7 +58,7 @@ class HttpRequest {
       // 延迟加载 useAccountStore
       const accountStore = (await import('@/store/account/account')).default();
 
-      const keypair = accountStore.activeWallet.mnemonic;
+      const keypair = accountStore.activeWallet.secretKey;
       const accountId = accountStore.activeWallet.address;
 
       console.log({

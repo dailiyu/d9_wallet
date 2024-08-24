@@ -91,6 +91,7 @@ const useMarketStore = defineStore('market', {
    this.getRankAction()
     this.getTransactionListAction()
     this.gettBurningTotalsAction()
+    this.getPoolsTotalNumber()
    }
 }
 });

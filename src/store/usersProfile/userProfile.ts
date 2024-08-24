@@ -116,11 +116,11 @@ const useUserProfileStore = defineStore("userProfile", {
     },
     async getBurningPortfolioAction() {
       const metaData = await postBurningPortfolio();
-      this.amountBurned=metaData.data.amount_burned
-      this.balanceDue=metaData.data.balance_due
-      this.balancePaid=metaData.data.balance_paid
-      this.lastWithdrawal=metaData.data.last_withdrawal
-      this.lastBurn=metaData.data.last_burn
+      this.amountBurned=metaData.data.results.amount_burned
+      this.balanceDue=metaData.data.results.balance_due
+      this.balancePaid=metaData.data.results.balance_paid  
+      this.lastWithdrawal=metaData.data.results.last_withdrawal
+      this.lastBurn=metaData.data.results.last_burn
     },
     async fetchAllData() {
       this.getUsdtBalanceAction();
@@ -130,7 +130,7 @@ const useUserProfileStore = defineStore("userProfile", {
       this.getVoteNumberAction();
       this.getNodeRewardsDataAction();
       this.getAirdropNumberAction();
-      this.getBurningPortfolioAction()
+      this.getBurningPortfolioAction();
     },
   },
 });

@@ -7,7 +7,7 @@ export function postMiningBurning(queryInfo: {
     amount:number
   }) {
     return httpRequest.post({
-      url: '/main/mining/get/total/burned/',
+      url: '/main/mining/burning/',
       data: queryInfo
     })
   }

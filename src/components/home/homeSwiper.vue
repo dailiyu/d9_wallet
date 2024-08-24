@@ -23,7 +23,7 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">{{Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)}}</div>
+                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
               </div>
               <div class="buttons">
                 <div class="button_item">转账</div>
@@ -71,7 +71,7 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">0.00</div>
+                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
               </div>
               <div class="buttons">
                 <div class="button_item" @click="toSwap()">闪兑</div>
