@@ -1,4 +1,5 @@
-import httpRequest from ".";
+import {httpRequest} from ".";
+
 
 
 //
@@ -21,12 +22,9 @@ export function postgetAccumulativeRewardPool(queryInfo: {
 
 
 //总矿池数量
-export function postGetAllVolume(queryInfo: {
-  keypair:string,
-}) {
+export function postGetAllVolume() {
   return httpRequest.post({
     url:'/mining/get/all/volume/',
-    data: queryInfo
   })
 }
 /*

@@ -23,7 +23,7 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">{{Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)}}</div>
+                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
               </div>
               <div class="buttons">
                 <div class="button_item">转账</div>
@@ -71,7 +71,7 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">0.00</div>
+                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
               </div>
               <div class="buttons">
                 <div class="button_item" @click="toSwap()">闪兑</div>
@@ -130,12 +130,18 @@
                 </div>
               </div>
             </div>
-            <div class="point_btn" @click="pointsRedemption()">积分兑换</div>
+            <div class="point_btn" @click="showPasswordPop=true">积分兑换</div>
           </div>
       </div>
+  
       </var-swipe-item>
-   
     </var-swipe>
+    <validatePassword
+      @confirm="confirm"
+      type="verify"
+      :isShow="showPasswordPop"
+      @close="showPasswordPop= false"
+    ></validatePassword>
   </template>
   
   <script setup lang="ts">
@@ -145,16 +151,38 @@ import { onMounted } from 'vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
 import {postMerchantRedeemD9}  from "@/services/http/merchant"
+import { validateInfo } from '@/types';
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+import useAccountStore from "@/store/account/account";
 const marketStore=useMarketStore()
 const  userProfileStore= useUserProfileStore();
-
-
+const showPasswordPop = ref(false);
+const accountStore = useAccountStore();
 
 
 onMounted(async() => {
 
 })
  
+const confirm=async(info: validateInfo)=>{
+    if (info.password == accountStore.password){
+    const Toast = showLoadingToast({
+    message: "兑换中...",
+    forbidClick: false,
+    duration: 300000,
+  });
+  showPasswordPop.value=false
+   await pointsRedemption()
+    Toast.close();
+    await  userProfileStore.fetchAllData()
+    showSuccessToast("积分兑换成功");
+  }else{
+    showFailToast("密码错误");
+  }
+}
+
+
+
   const showBalance = ref(true)
   const back = () => {
     showBalance.value = !showBalance.value;
@@ -192,6 +220,7 @@ function toSwap(){
 
 //积分兑换
 const pointsRedemption=async()=>{
+
   await postMerchantRedeemD9()
   
 }

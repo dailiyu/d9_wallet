@@ -1,8 +1,9 @@
-import httpRequest from ".";
+import {httQueryRequest} from ".";
+
 
 
 export function makerTransactionsList() {
-    return httpRequest.get({
+    return httQueryRequest.get({
       url: '/market_maker/transactions/',
     })
   }
@@ -179,7 +180,7 @@ export function makerTransactionsList() {
 
 
 export function merchantGiveGreenPointsList() {
-    return httpRequest.get({
+    return httQueryRequest.get({
       url: '/merchant/give_green_points/',
     })
   }
@@ -405,7 +406,7 @@ export function merchantGiveGreenPointsList() {
 
 
 export function merchantPaymentsList() {
-    return httpRequest.get({
+    return httQueryRequest.get({
       url: '/merchant/payments/',
     })
   }
@@ -581,7 +582,7 @@ export function merchantPaymentsList() {
 
 
 export function merchantSubscribesList() {
-    return httpRequest.get({
+    return httQueryRequest.get({
       url: '/merchant/subscribes/',
     })
   }
@@ -591,7 +592,7 @@ export function merchantSubscribesList() {
 
 
 export function nodeAddVotingList() {
-    return httpRequest.get({
+    return httQueryRequest.get({
       url: '',
     })
   }

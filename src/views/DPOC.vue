@@ -3,11 +3,11 @@
     <navBar title="DPOC" iconColor="#fff" ></navBar>
     <div class="content">
         <div class="title">总矿池数量</div>
-        <div class="amount">19,504,053,294.89</div>
+        <div class="amount">{{ marketStore.poolsTotalNumber }}</div>
 
         <div class="destroy">
             <div class="sub_t">当前全球已销毁</div>
-            <div class="d_num">9,021,031.20</div>
+            <div class="d_num">{{ marketStore.TotalBurned }}</div>
         </div>
 
         <div class="destroy">
@@ -18,9 +18,9 @@
         <div class="total">
             <div class="total_item">
                 <div class="total_t">可销毁代币数额</div>
-                <div class="total_num">231,100.00</div>
+                <div class="total_num">{{ userProfileStore.d9Balance }}</div>
                 <div class="total_text">
-                    <div>销毁</div>
+                    <div @click="showInputNumberPop=true, operateType='burning' ">销毁</div>
                     <img src="@/assets/home/arrow-right.png" alt="" class="total_icon">
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <div class="total_t">可提币代币数额</div>
                 <div class="total_num">231,100.00</div>
                 <div class="total_text">
-                    <div>提币</div>
+                    <div @click="showPasswordPop=true">提币</div>
                     <img src="@/assets/home/arrow-right.png" alt="" class="total_icon">
                 </div>
             </div>
@@ -37,18 +37,18 @@
         <div class="time_box">
             <div class="time_item">
                 <div>上次燃烧时间</div>
-                <div class="time">03/31 21:12</div>
+                <div class="time">{{ formatTimestampToMMDDHHMM(userProfileStore.lastBurn) }}</div>
             </div>
             <div class="time_item">
                 <div>上次提取时间</div>
-                <div class="time">03/31 21:12</div>
+                <div class="time">{{ formatTimestampToMMDDHHMM(userProfileStore.lastWithdrawal) }}</div>
             </div>
         </div>
 
         <div class="accumulation_box">
             <div class="accumulation_item">
                 <div>剩余产出总量</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ userProfileStore.balanceDue }}</div>
             </div>
             <div class="accumulation_item">
                 <div>基础产出累积</div>
@@ -59,24 +59,98 @@
                 <div class="a_num">7,210.80</div>
             </div>
         </div>
-
         <div class="amount_box">
             <div class="amount_item">
                 <div>销毁总数量</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ userProfileStore.amountBurned }}</div>
             </div>
             <div class="amount_item">
                 <div>总提币数量</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ userProfileStore.balancePaid }}</div>
             </div>
         </div>
     </div>
+    <validatePassword
+          @confirm="confirm"
+          type="verify"
+          :isShow="showPasswordPop"
+          @close="showPasswordPop = false"
+        ></validatePassword>
+        <inputNumber title="输入销毁代币数" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
+import { formatTimestampToMMDDHHMM } from '@/utils';
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
+import useUserProfileStore from '@/store/usersProfile/userProfile';
+import useMarketStore from '@/store/market/market';
+import { validateInfo } from "@/types";
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+import useAccountStore from "@/store/account/account";
+
+import { ref } from 'vue';
+import router from '@/router';
+import { postMiningBurning, postMiningWithdraw } from '@/services/http/main';
+const burningNumber=ref<number>(0)
+const showInputNumberPop = ref(false)
+const confirmNumber = (num:number)=>{
+    if(num<100) return showFailToast('最少数量为100')
+    burningNumber.value=num
+    showPasswordPop.value=true
+}
+
+const operateType=ref<'withdraw'|'burning'>('withdraw')
+const accountStore = useAccountStore();
+const showPasswordPop = ref(false);
+const marketStore=useMarketStore();
+const userProfileStore=useUserProfileStore()
+
+
+function toMyNode() {
+  router.push("/main/myNode");
+}
+
+const confirm = async (info: validateInfo) => {
+  if (info.password == accountStore.password) {
+    if(operateType.value=='burning'){
+        await dealBurning()
+    }else{
+        await  dealWithdraw()
+    }
+  } else {
+    showFailToast("密码错误");
+  }
+};
+
+
+const dealBurning=async()=>{
+    const Toast = showLoadingToast({
+      message: "销毁中...",
+      forbidClick: false,
+      duration: 300000,
+    });
+    showPasswordPop.value = false;
+    await postMiningBurning({amount:burningNumber.value})
+    Toast.close();
+    await userProfileStore.fetchAllData();
+    showSuccessToast("代币销毁成功");
+}
+
+const dealWithdraw=async ()=>{
+    const Toast = showLoadingToast({
+      message: "提取中...",
+      forbidClick: false,
+      duration: 300000,
+    });
+    showPasswordPop.value = false;
+    await postMiningWithdraw()
+    Toast.close();
+    await userProfileStore.fetchAllData();
+    showSuccessToast("提取成功");
+}
+
 </script>
 
 <style lang="scss" scoped>

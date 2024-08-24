@@ -1,4 +1,5 @@
-import httpRequest from ".";
+import {httpRequest} from ".";
+
 
 
 //销毁代币增加投票 接口2？？？

@@ -5,17 +5,17 @@
         <div class="title">总流动性</div>
         <div class="total_box">
             <div class="total_num">
-                $ 1,137,841,231
+                $ {{(Number(( marketStore.d9LiquidityToken*marketStore.exchangeRateD9ToUsdt).toFixed(4))+Number(marketStore.usdtLiquidityToken)).toFixed(4)}}
             </div>
             <div class="unit">
                 <img src="@/assets/home/logo_d9.png" alt="" class="logo_icon">
                 <div>D9</div>
-                <div class="num">15,661.92</div>
+                <div class="num">{{ marketStore.d9LiquidityToken }}</div>
             </div>
             <div class="unit">
                 <img src="@/assets/home/logo_usdt.png" alt="" class="logo_icon">
                 <div>USDT</div>
-                <div class="num" style="color: #0E932E;">15,661.92</div>
+                <div class="num" style="color: #0E932E;">{{marketStore.usdtLiquidityToken}}</div>
             </div>
         </div>
         <!-- <van-tabs :active="current" background="#E7EBF2" title-active-color="#0065FF" title-inactive-color="#8E8C8E" swipeable>
@@ -61,14 +61,14 @@
                     <div class="c_unit">D9</div>
                     <van-cell-group inset>
                         <van-field
-                            v-model="number"
+                            v-model="d9Number"
                             placeholder="请输入增加数量"
                             type="number"
                         />
                     </van-cell-group>
                     <div class="c_balance">
                         <div>余额</div>
-                        <div class="c_num">15,661.92</div>
+                        <div class="c_num">{{ userProfileStore.d9Balance }}</div>
                     </div>
                 </div>
             
@@ -77,14 +77,14 @@
                     <div class="c_unit">USDT</div>
                     <van-cell-group inset>
                         <van-field
-                            v-model="number"
+                            v-model="usdtNumber"
                             placeholder="请输入增加数量"
                             type="number"
                         />
                     </van-cell-group>
                     <div class="c_balance">
                         <div>余额</div>
-                        <div class="c_num">15,661.92</div>
+                        <div class="c_num">{{  userProfileStore.usdtBalance }}</div>
                     </div>
                 </div>
             </div>
@@ -97,34 +97,99 @@
                     </template>
                 </van-slider>
                 <div class="select_box">
-                    <div class="select_item" @click="changeProgress(0)">0%</div>
+                    <div class="select_item" >0%</div>
                     <div class="select_item" @click="changeProgress(100)">100%</div>
                 </div>
             </div>
 
         </div>
-        <div class="add_btn button_active_full" v-if="!current">确定增加</div>
-        <div class="add_btn button_active_full" v-else>确定移出</div>
+        <div class="add_btn button_active_full" v-if="!current" @click="showPasswordPop=true,handleType='add'">确定增加</div>
+        <div class="add_btn button_active_full" v-else  @click="showPasswordPop=true,handleType='remove'">确定移出</div>
     </div>
+    <validatePassword
+      @confirm="confirm"
+      type="verify"
+      :isShow="showPasswordPop"
+      @close="showPasswordPop= false"
+    ></validatePassword>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
+import { postAddLiquidity, postRemoveLiquidity } from '@/services/http/amm';
 // import navBar from '@/components/navBar.vue'
 import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/vue';
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
+import ValidatePassword from "@/components/validatePassword.vue";
+import { validateInfo } from '@/types';
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import { IonSegmentCustomEvent, SegmentChangeEventDetail  } from '@ionic/core';
+import useAccountStore from "@/store/account/account";
+const accountStore = useAccountStore();
+const marketStore=useMarketStore();
+const userProfileStore = useUserProfileStore();
 
+const showPasswordPop = ref(false);
 const current = ref(0)
-const number = ref('')
-const value = ref(0)
+const d9Number = ref<number>()
+const usdtNumber=ref<number>()
+const handleType=ref<'add'|'remove'>('add')
+const value = ref(100)
 function changeTab(event:IonSegmentCustomEvent<SegmentChangeEventDetail>){
     current.value = event.detail.value as number
 }
 function changeProgress(number:number) {
     value.value = number
 }
+
+const addLiquidity=async()=>{
+    await postAddLiquidity({
+        usdt_amount:usdtNumber.value=0,
+        d9_amount:d9Number.value=0
+    })
+}
+const removeLiquidity=async()=>{
+    await postRemoveLiquidity()
+}
+
+
+const confirm=async(info: validateInfo)=>{
+    if (info.password == accountStore.password){
+        if(handleType.value=='add'){
+            const Toast = showLoadingToast({
+                message: "操作中...",
+                forbidClick: false,
+                duration: 30000,
+            });
+            showPasswordPop.value=false
+                await addLiquidity()
+                Toast.close();
+                usdtNumber.value=0
+                d9Number.value=0
+                showSuccessToast("操作成功");
+        }else if(handleType.value=='remove'){
+            const Toast = showLoadingToast({
+                message: "操作中...",
+                forbidClick: false,
+                duration: 30000,
+            });
+            showPasswordPop.value=false
+                await removeLiquidity()
+                Toast.close();
+                usdtNumber.value=0
+                d9Number.value=0
+                showSuccessToast("操作成功");
+        }
+   
+  }else{
+    showFailToast("密码错误");
+  }
+}
+
+
 </script>
 
 <style lang="scss" scoped>

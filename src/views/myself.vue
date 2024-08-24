@@ -26,7 +26,7 @@
           </div>
           <div class="balance-number">
              <span class="icon">$</span>
-             <span class="number">{{Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)}}</span>
+             <span class="number">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</span>
           </div>
         </div>
         <div class="wallet-bottom">

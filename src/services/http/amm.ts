@@ -1,4 +1,4 @@
-import httpRequest from ".";
+import {httpRequest} from ".";
 
 //增加流动性
 export function postAddLiquidity(queryInfo: {
@@ -112,7 +112,7 @@ export function postGetD9(queryInfo: {
   amount:number
 }) {
   return httpRequest.post({
-    url: '/amm/check/usdt/balance/',
+    url: '/amm/get/d9/',
     data: queryInfo
   })
 }
@@ -165,12 +165,9 @@ export function postGetUsdt(queryInfo: {
 
 
 //移除流动性
-export function postRemoveLiquidity(queryInfo: {
-  keypair:string,
-}) {
+export function postRemoveLiquidity() {
   return httpRequest.post({
     url: '/amm/remove/liquidity/',
-    data: queryInfo
   })
 }
 /*

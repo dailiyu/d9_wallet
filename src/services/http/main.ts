@@ -1,4 +1,5 @@
-import httpRequest from ".";
+import {httpRequest} from ".";
+
 
 
 //销毁代币数量至少为100
@@ -6,7 +7,7 @@ export function postMiningBurning(queryInfo: {
     amount:number
   }) {
     return httpRequest.post({
-      url: '/main/mining/get/total/burned/',
+      url: '/main/mining/burning/',
       data: queryInfo
     })
   }
