@@ -15,7 +15,7 @@
         <van-cell-group inset>
           <van-field
             v-model="amount"
-            placeholder="请输入金额"
+            placeholder="请输入数量"
             type="number"
           />
         </van-cell-group>
@@ -45,7 +45,7 @@ function closePop(){
     emit('close')
 }
 function confirm(){
-    if (!amount.value) return showToast('请输入金额')
+    if (!amount.value) return showToast('请输入数量')
     emit('confirm', amount.value)
 }
 

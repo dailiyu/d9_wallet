@@ -76,6 +76,18 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/burnMining.vue')
       },
       {
+        path: 'merchantCode',
+        component: () => import('@/views/merchantCode.vue')
+      },
+      {
+        path: 'merchantTransfer',
+        component: () => import('@/views/merchantTransfer.vue')
+      },
+      {
+        path: 'pointGift',
+        component: () => import('@/views/pointGift.vue')
+      },
+      {
         path: 'myself',
         component:()=>import('@/views/myself.vue'),
         children: [

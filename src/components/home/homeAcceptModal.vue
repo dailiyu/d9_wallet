@@ -7,7 +7,7 @@
                     <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeAcceptModal">
                     <div>收款</div>
                 </div>
-                <img :src="qrCodeUrl" alt=""  >
+                <img :src="qrCodeUrl" alt="" style="width: 57.7103vw" >
                 <div class="address_text">接收地址</div>
                 <div class="address_detail">
                     <div>{{ accountStore.activeWallet.address }}</div>
@@ -74,7 +74,7 @@
    // 定义生成二维码的函数
 const generateQrCode = async () => {
   try {
-    qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString, { width: 300, margin: 2 });
+    qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString);
   } catch (err) {
     console.error('Failed to generate QR code:', err);
   }

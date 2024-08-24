@@ -4,8 +4,8 @@
     <div class="content">
         <div class="burn_top">
             <img src="@/assets/discovery/burn-bg.png" alt="" class="burn_bg">
-            <img src="@/assets/discovery/receive-btn.png" alt="" class="burn_bg" @click="">
-            <img src="@/assets/discovery/give-btn.png" alt="" class="burn_bg">
+            <img src="@/assets/discovery/receive-btn.png" alt="" class="burn_bg" @click="toMerchantCode">
+            <img src="@/assets/discovery/give-btn.png" alt="" class="burn_bg" @click="toPointGift">
         </div>
 
         <div class="title">关于消费挖矿</div>
@@ -40,6 +40,14 @@ import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+
+const router = useRouter()
+function toMerchantCode(){
+    router.push('/main/merchantCode')
+}
+function toPointGift(){
+    router.push('/main/pointGift')
+}
 </script>
 
 <style lang="scss" scoped>

@@ -4,7 +4,7 @@
     <div class="content">
         <div class="title">
             <div>我的节点</div>
-            <img src="@/assets/discovery/edit.png" alt="" class="edit_icon" @click="changeNodeName()">
+            <img src="@/assets/discovery/edit.png" alt="" class="edit_icon" @click="showValidatePop=true">
         </div>
         <div class="node">{{ myNodes.length!!&&myNodes[0].node_name||'blank' }}</div>
         <div class="node" style="background-color: #E7EBF2;">
@@ -52,6 +52,7 @@
             </div>
         </div>
     </div>
+    <validatePassword type="name" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirmValidate"></validatePassword>
   </ion-page>
 </template>
 
@@ -62,6 +63,8 @@ import useMarketStore from "@/store/market/market"
 import { ref } from 'vue';
 import useAccountStore from  "@/store/account/account"
 import { postChangeCandidateName } from '@/services/http/node';
+import validatePassword from '@/components/validatePassword.vue';
+import {validateInfo} from '@/types/index'
 
 const  accountStore=useAccountStore()
 const marketStore=useMarketStore()
@@ -84,6 +87,11 @@ const changeNodeName=async ()=>{
         
     }
 }
+function confirmValidate(info:validateInfo){
+    Newname.value = info.name
+    
+}
+const showValidatePop = ref(false)
 </script>
 
 <style lang="scss" scoped>

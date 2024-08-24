@@ -44,10 +44,10 @@
             <van-col span="3">
                 <div class="grid_t">排名</div>
             </van-col>
-            <van-col span="7">
+            <van-col span="10">
                 <div class="grid_t">节点名称</div>
             </van-col>
-            <van-col span="6">
+            <van-col span="8">
                 <div class="grid_t">当前票数</div>
             </van-col>
             <!-- <van-col span="5">
@@ -61,10 +61,10 @@
             <van-col span="3">
                 <div class="amount padding">{{ index+1 }}</div>
             </van-col>
-            <van-col span="7">
+            <van-col span="10">
                 <div class="amount padding">{{obscureString( nodeData.node_name)}}</div>
             </van-col>
-            <van-col span="6">
+            <van-col span="8">
                 <div class="time padding">{{ nodeData.accumulative_votes }}</div>
             </van-col>
             <!-- <van-col span="5">
@@ -77,6 +77,8 @@
             </van-col>
         </van-row>
     </div>
+    <validatePassword type="verify" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirmValidate"></validatePassword>
+    <inputNumber title="设置投票数量" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
   </ion-page>
 </template>
 
@@ -89,6 +91,9 @@ import { useRouter } from 'vue-router';
 import useAccountStore from  "@/store/account/account"
 import useMarketStore from "@/store/market/market"
 import { obscureString } from '@/utils';
+import {validateInfo} from '@/types/index'
+import validatePassword from '@/components/validatePassword.vue';
+import inputNumber from '@/components/inputNumber.vue'
 
 const marketStore=useMarketStore()
  const  accountStore=useAccountStore()
@@ -148,6 +153,17 @@ const search = () => {
     await userProfileStore.fetchAllData()
 }
 
+const showValidatePop = ref(false)
+const showInputNumberPop = ref(false)
+function confirmValidate(info:validateInfo){
+    console.log(info);
+    showValidatePop.value = false
+    showInputNumberPop.value = true
+}
+const confirmNumber = (num:string)=>{
+    console.log(num);
+    showInputNumberPop.value = false
+}
 </script>
 
 <style lang="scss" scoped>

@@ -26,6 +26,8 @@
             </van-col>
         </van-row>
     </div>
+    <validatePassword type="name" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirmValidate"></validatePassword>
+    <inputNumber title="设置撤销投票数量" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
   </ion-page>
 </template>
 
@@ -35,6 +37,9 @@ import { ref } from 'vue';
 import { obscureString } from '@/utils';
 import useUserProfileStore from "@/store/usersProfile/userProfile"
 import { postCancelVotes } from '@/services/http/node';
+import validatePassword from '@/components/validatePassword.vue';
+import {validateInfo} from '@/types/index'
+import inputNumber from '@/components/inputNumber.vue'
 
 const userProfileStore=useUserProfileStore()
 // import navBar from '@/components/navBar.vue'
@@ -53,7 +58,17 @@ const userProfileStore=useUserProfileStore()
    }
  }
 
-
+ const showValidatePop = ref(false)
+ const showInputNumberPop = ref(false)
+function confirmValidate(info:validateInfo){
+    console.log(info);
+    showValidatePop.value = false
+    showInputNumberPop.value = true
+}
+const confirmNumber = (num:string)=>{
+    console.log(num);
+    showInputNumberPop.value = false
+}
 </script>
 
 <style lang="scss" scoped>
