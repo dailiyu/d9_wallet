@@ -15,7 +15,6 @@
                 </van-field>
             </van-cell-group>
         </div>
-
         <div class="title">
             <div>支付金额</div>
             <div class="unit">CNY</div>

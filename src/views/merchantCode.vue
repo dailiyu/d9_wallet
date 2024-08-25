@@ -4,18 +4,20 @@
     <div class="content">
         <div class="title">有效期倒计时</div>
         <div class="time_box">
-            <div class="time_num">13</div>
+            <div class="time_num">{{ days }}</div>
             <div class="time_unit">d</div>
-            <div class="time_num">23</div>
+            <div class="time_num">{{ hours }}</div>
             <div class="time_unit">h</div>
-            <div class="time_num">50</div>
+            <div class="time_num">{{ minutes }}</div>
             <div class="time_unit">m</div>
+            <div class="time_num">{{ seconds }}</div>
+            <div class="time_unit">s</div>
         </div>
         <div class="add_time" @click="isShow=true">增加时效</div>
 
         <img :src="qrCodeUrl" alt="" class="qr_code" >
 
-        <div class="address" @click="toMerchangTransfer">TCSC3t……dz8Rhl</div>
+        <div class="address" @click="toMerchangTransfer">{{ obscureString(accountStore.activeWallet.address)  }}</div>
         <div class="btn button_active_full" @click="toPointGift">积分赠送</div>
     </div>
 
@@ -31,7 +33,6 @@
     >
       <div class="input_time">
         <div class="title">选择时间</div>
-
         <van-radio-group v-model="checked" checked-color="#0065FF">
             <van-cell-group inset>
                 <van-cell title="1个月" clickable @click="checked = '1'">
@@ -65,36 +66,106 @@
                 </van-cell>
             </van-cell-group>
         </van-radio-group>
-
-        <div class="confirm_btn button_active_full" @click="confirmTime">
+        <div class="confirm_btn button_active_full" @click="showValidatePop=true">
             确认
         </div>
       </div>
     </van-popup>
+    <validatePassword type="verify" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirm"></validatePassword>
 </ion-page>
 </template>
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
-import { ref, onBeforeUpdate } from 'vue';
+import { ref, onBeforeUpdate, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import QRCode from 'qrcode';
+import useAccountStore from "@/store/account/account";
+import {obscureString} from "@/utils/index"
+import useUserProfileStore from '@/store/usersProfile/userProfile';
+import { postMerchantSubscribe } from '@/services/http/merchant';
+import { validateInfo } from "@/types";
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+const showValidatePop = ref(false)
+const userProfileStore=useUserProfileStore()
+const accountStore=useAccountStore()
 const qrCodeUrl = ref<string | undefined>(undefined);
-
 const isShow = ref(false)
-
+const intervalId=ref()
 const checked = ref('0')
-function confirmTime(){
-    console.log(checked.value);
-}
-
 const router = useRouter()
+const days = ref(0);
+const hours = ref(0);
+const minutes = ref(0);
+const seconds = ref(0);
+
+
+onMounted(async()=>{
+  await  generateQrCode()
+})
+   // 定义生成二维码的函数
+   const generateQrCode = async () => {
+  try {
+    qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString);
+  } catch (err) {
+    console.error('Failed to generate QR code:', err);
+  }
+};
+
+
+
 function toMerchangTransfer(){
     router.push('/main/merchantTransfer')
 }
 function toPointGift(){
     router.push('/main/pointGift')
 }
+
+const updateCountdown = () => {
+  const now = Date.now();
+  const timeDiff = userProfileStore.merchantCodeExpiry - now;
+  if (timeDiff <= 0) {
+    clearInterval(intervalId.value);
+    days.value = 0;
+    hours.value = 0;
+    minutes.value = 0;
+    seconds.value = 0;
+    return;
+  }
+  days.value = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  hours.value = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  minutes.value = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+  seconds.value = Math.floor((timeDiff % (1000 * 60)) / 1000);
+};
+onMounted(() => {
+  updateCountdown();
+  intervalId.value = setInterval(updateCountdown, 1000);
+});
+onUnmounted(() => {
+  clearInterval(intervalId.value);
+});
+
+const confirm=async (info:validateInfo)=>{
+    if (info.password == accountStore.password) {
+        const Toast = showLoadingToast({
+      message: "正在开通...",
+      forbidClick: false,
+      duration: 300000,
+    });
+    showValidatePop.value = false;
+    isShow.value=false
+    await postMerchantSubscribe({usdt_base_units:Number(checked.value)*10})
+    Toast.close();
+    await userProfileStore.fetchAllData();
+    showSuccessToast("开通成功！");
+    }else{
+        showFailToast("密码错误");
+    }
+}
+
+
+
 </script>
 
 <style lang="scss" scoped>

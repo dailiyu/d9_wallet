@@ -26,18 +26,18 @@
         <div class="node_num">
           {{ (myNodes.length!! && myNodes[0].node_name) || "blank" }}
         </div>
-        <div class="detail" @click="toMyNode()">
-          <div>详情</div>
+        <div class="detail">
+          <div @click="showChangeNameValidatePop=true">修改名称</div>
           <img src="@/assets/home/arrow-right.png" alt="" class="arrow_icon" />
         </div>
       </div>
 
       <div class="bonus">
         <div>
-          <div class="bonus_text">待领取奖励</div>
+          <div class="bonus_text" >待领取奖励</div>
           <div class="bonus_num">{{ userProfileStore.rewardsNumber || 0 }}</div>
         </div>
-        <div class="btn button_active_full" @click="withdrawReward()">
+        <div class="btn button_active_full" @click="showValidatePop=true, operateType='withdraw'">
           领取奖励
         </div>
       </div>
@@ -88,12 +88,12 @@
         <van-col span="6">
           <div class="time padding">{{ nodeData.accumulative_votes }}</div>
         </van-col>
-        <validatePassword
+        <!-- <validatePassword
           @confirm="confirm"
           type="verify"
           :isShow="showPasswordPop"
           @close="showPasswordPop = false"
-        ></validatePassword>
+        ></validatePassword> -->
         <van-col span="5">
             <!-- <div class="time padding">{{nodeData.sharing_percent}}%</div> -->
              <div class="time padding" v-if="index==0||(index > 0 && index < 8)||index==8">3%</div>
@@ -102,7 +102,7 @@
              <div class="time padding" v-else-if="(index > 26 && index < 126)||index==126">3‰</div>
              <div class="time padding" v-else>1‰</div>
         </van-col>
-        <van-col span="3" @click="vote(nodeData)">
+        <van-col span="3" @click="clickVote(nodeData)">
           <div class="padding">
             <img
               src="@/assets/discovery/template-success-fill.png"
@@ -113,13 +113,14 @@
         </van-col>
       </van-row>
     </div>
-    <validatePassword type="verify" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirmValidate"></validatePassword>
-    <inputNumber title="设置撤销投票数量" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
+    <validatePassword type="verify" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirm"></validatePassword>
+    <inputNumber title="请输入投票数量" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
+    <validatePassword type="name" @close="showChangeNameValidatePop=false" :isShow="showChangeNameValidatePop" @confirm="confirmValidate"></validatePassword>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
-import { postDelegateVotes, postWithdrawReward } from "@/services/http/node";
+import { postChangeCandidateName, postDelegateVotes, postWithdrawReward } from "@/services/http/node";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { IonPage } from "@ionic/vue";
 import { ref } from "vue";
@@ -131,11 +132,25 @@ import { validateInfo } from "@/types";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import validatePassword from '@/components/validatePassword.vue';
 import inputNumber from '@/components/inputNumber.vue'
-const showPasswordPop = ref(false);
+const showChangeNameValidatePop=ref<boolean>(false)
+const operateType=ref<'withdraw'|'vote'>('withdraw')
+const voteNumber=ref(0)
+const newName=ref<string>('')
 const marketStore = useMarketStore();
 const accountStore = useAccountStore();
 const userProfileStore = useUserProfileStore();
 const filteredNodeRankList = ref(marketStore.nodeRankList);
+const selectedNodeData=ref<{
+  node_id: string;
+  node_name: string;
+  sharing_percent: number;
+  accumulative_votes: number;
+}>({
+  node_id: '',
+  node_name: '',
+  sharing_percent: 0,
+  accumulative_votes: 0
+})
 const myNodes = ref(
   marketStore.nodeRankList.filter(
     (nodeData) => nodeData.node_id === accountStore.activeWallet.address
@@ -153,33 +168,32 @@ function toMyNode() {
 
 const confirm = async (info: validateInfo) => {
   if (info.password == accountStore.password) {
-    const Toast = showLoadingToast({
-      message: "兑换中...",
-      forbidClick: false,
-      duration: 300000,
-    });
-    showPasswordPop.value = false;
-    //    await pointsRedemption()
-    Toast.close();
-    await userProfileStore.fetchAllData();
-    showSuccessToast("积分兑换成功");
+    if(operateType.value=='withdraw'){
+      await withdrawReward()
+    }else if(operateType.value=='vote'){
+      await vote()
+    }
+   
   } else {
     showFailToast("密码错误");
   }
 };
 
 const withdrawReward = async () => {
-  try {
+  const Toast = showLoadingToast({
+      message: "领取中...",
+      forbidClick: false,
+      duration: 300000,
+    });
+    showValidatePop.value = false;
     await postWithdrawReward({ node_id: accountStore.activeWallet.address });
-    alert("领取成功");
-  } catch (error) {
-    alert("领取失败");
-  }
+    Toast.close();
+    await userProfileStore.fetchAllData();
+    showSuccessToast("奖励领取成功");
 };
 
 const search = () => {
   const lowerCaseKeyWord = keyWord.value.toLowerCase();
-
   if (!lowerCaseKeyWord) {
     // 如果关键字为空，返回原始的 nodeRankList
     filteredNodeRankList.value = marketStore.nodeRankList;
@@ -193,27 +207,63 @@ const search = () => {
   }
 };
 
-const vote = async (nodeData: {
+const clickVote = async (nodeData: {
   node_id: string;
   node_name: string;
   sharing_percent: number;
   accumulative_votes: number;
 }) => {
-  await postDelegateVotes({ candidate: nodeData.node_id, amount: 1 });
-  await userProfileStore.fetchAllData();
+  showInputNumberPop.value=true
+  selectedNodeData.value=nodeData
+  
 };
+
+const vote=async()=>{
+  const Toast = showLoadingToast({
+      message: "投票中...",
+      forbidClick: false,
+      duration: 300000,
+    });
+    showValidatePop.value = false;
+  await postDelegateVotes({ candidate: selectedNodeData.value.node_id, amount: voteNumber.value });
+  Toast.close();
+    await userProfileStore.fetchAllData();
+    showSuccessToast("投票成功");
+
+}
 
 const showValidatePop = ref(false)
 const showInputNumberPop = ref(false)
-function confirmValidate(info:validateInfo){
-    console.log(info);
-    showValidatePop.value = false
-    showInputNumberPop.value = true
-}
-const confirmNumber = (num:string)=>{
-    console.log(num);
+
+const confirmNumber = async(num:number)=>{
+    voteNumber.value=num
     showInputNumberPop.value = false
+    showValidatePop.value=true
+    operateType.value='vote'
 }
+
+const confirmValidate=async(info:validateInfo)=>{
+  if (info.password == accountStore.password) {
+    const Toast = showLoadingToast({
+      message: "修改中...",
+      forbidClick: false,
+      duration: 300000,
+    });
+    showChangeNameValidatePop.value = false;
+    newName.value = info.name
+    await postChangeCandidateName({name:info.name})
+    Toast.close();
+    await userProfileStore.fetchAllData();
+    showSuccessToast("修改成功！");
+  }else{
+    showFailToast("密码错误");
+  }
+   
+    
+}
+
+
+
 </script>
 
 <style lang="scss" scoped>

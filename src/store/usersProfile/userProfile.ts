@@ -3,6 +3,7 @@ import { postUsdtBalance } from "@/services/http/usdt";
 import { postGetD9Balances } from "@/services/http/balances";
 import { postProfileGetUserNodeVote } from "@/services/http/main";
 import {
+  postGetMerchantExpiry,
   postGetUserProfile,
   postQrcodeGenerate,
   postReferralsGetDirectCount,
@@ -41,6 +42,7 @@ interface userProfileState {
   balancePaid: number; // 总提币数
   lastWithdrawal: number; // 最后提取时间，使用 Unix 时间戳
   lastBurn: number; // 最后燃烧时间，使用 Unix 时间戳
+  merchantCodeExpiry:number
 }
 
 const useUserProfileStore = defineStore("userProfile", {
@@ -64,6 +66,7 @@ const useUserProfileStore = defineStore("userProfile", {
     balancePaid: 0, // 总提币数
     lastWithdrawal: 0, // 最后提取时间，使用 Unix 时间戳
     lastBurn: 0, // 最后燃烧时间，使用 Unix 时间戳
+    merchantCodeExpiry:0
   }),
   actions: {
     async getUsdtBalanceAction() {
@@ -122,6 +125,10 @@ const useUserProfileStore = defineStore("userProfile", {
       this.lastWithdrawal=metaData.data.results.last_withdrawal
       this.lastBurn=metaData.data.results.last_burn
     },
+    async getMerchantCodeExpiryAction(){
+      const metaData=await postGetMerchantExpiry()
+      this.merchantCodeExpiry=metaData.data.results.expiry_date
+    },
     async fetchAllData() {
       this.getUsdtBalanceAction();
       this.getD9BalanceAction();
@@ -129,8 +136,9 @@ const useUserProfileStore = defineStore("userProfile", {
       this.merchantQrcodeGenerate();
       this.getVoteNumberAction();
       this.getNodeRewardsDataAction();
-      this.getAirdropNumberAction();
+      // this.getAirdropNumberAction();
       this.getBurningPortfolioAction();
+      this.getMerchantCodeExpiryAction()
     },
   },
 });

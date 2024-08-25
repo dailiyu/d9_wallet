@@ -5,7 +5,7 @@ import MainPage from '../views/mainPage.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/main/home'
+    redirect: '/open'
   },
   {
     path: '/main',
@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: '/main/home'
+        redirect: '/'
       },
       {
         path: 'home',
@@ -130,6 +130,11 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/index',
     component: ()=>import('@/views/login/index.vue'),
+  },
+  
+  {
+    path: '/open',
+    component: ()=>import('@/views/openScreen.vue'),
   },
   {
     path: '/createWallet',
