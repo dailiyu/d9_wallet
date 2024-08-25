@@ -116,6 +116,14 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'importWallet',
         component:()=>import('@/views/importWallet.vue'),
+      },
+      {
+        path: 'currencyUnit',
+        component:()=>import('@/views/setting/currencyUnit.vue'),
+      },
+      {
+        path: 'nodeSetting',
+        component:()=>import('@/views/setting/nodeSetting.vue'),
       }
     ]
   },

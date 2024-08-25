@@ -1,0 +1,237 @@
+<template>
+  <ion-page>
+    <navBar title="节点设置" ></navBar>
+    <div class="content">
+        <div class="speed">
+            <div class="speed_item">
+                <div class="speed_text">节点速度</div>
+                <div class="speed_level">
+                    <!-- 200以下 -->
+                    <div class="level_item">
+                        <div class="dot bgc_green"></div>
+                        <div class="level_text color_green">
+                            快
+                        </div>
+                    </div>
+                    <!-- 500-1000 -->
+                    <div class="level_item">
+                        <div class="dot bgc_orange"></div>
+                        <div class="level_text color_orange">
+                            一般
+                        </div>
+                    </div>
+                    <!-- 1000以上 -->
+                    <div class="level_item">
+                        <div class="dot bgc_red"></div>
+                        <div class="level_text color_red">
+                            慢
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="speed_tip">
+                区块高度: 高度值越大，代表节点数据同步更完善，其稳定性更好。在节点速度差不多的情况下，选择高度值大的节点，体验会更好。
+            </div>
+        </div>
+
+        <div class="title">默认节点</div>
+
+        <div class="node_item">
+            <div>
+                <div class="node_name">
+                    TokenPocket
+                </div>
+                <div class="node_net">
+                    https://trx.mytokenpocket.vip
+                </div>
+            </div>
+            <div class="node_speed">
+                <div class="dot bgc_green"></div>
+                <div class="speed_num color_green">{{fastSpeed}} ms</div>
+            </div>
+        </div>
+
+        <div class="node_item">
+            <div>
+                <div class="node_name">
+                    Community Node-3
+                </div>
+                <div class="node_net">
+                    https://trx.m
+                </div>
+            </div>
+            <div class="node_speed">
+                <div class="dot bgc_red"></div>
+                <div class="speed_num color_red">{{lowSpeed1}} ms</div>
+            </div>
+        </div>
+
+        <div class="node_item">
+            <div>
+                <div class="node_name">
+                    Community Node-4
+                </div>
+                <div class="node_net">
+                    https://api.trongrid.io
+                </div>
+            </div>
+            <div class="node_speed">
+                <div class="dot bgc_red"></div>
+                <div class="speed_num color_red">{{lowSpeed2}} ms</div>
+            </div>
+        </div>
+
+        <div class="node_item">
+            <div>
+                <div class="node_name">
+                    HuaweiCloud
+                </div>
+                <div class="node_net">
+                    https://d4d0b07a-0995-11ee-92c2..
+                </div>
+            </div>
+            <div class="node_speed">
+                <div class="dot bgc_red"></div>
+                <div class="speed_num color_red">{{lowSpeed3}} ms</div>
+            </div>
+        </div>
+
+        <div class="btn button_active_full">
+            添加自定义节点
+        </div>
+    </div>
+  </ion-page>
+</template>
+
+<script lang="ts" setup>
+import { IonPage } from '@ionic/vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+
+const fastSpeed = ref<number>(0)
+const lowSpeed1 = ref<number>(0)
+const lowSpeed2 = ref<number>(0)
+const lowSpeed3 = ref<number>(0)
+let intervalId: ReturnType<typeof setInterval> | undefined;
+onMounted(()=>{
+
+    intervalId = setInterval(() => {
+        fastSpeed.value = Math.floor(Math.random() * 200)
+        lowSpeed1.value = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
+        lowSpeed2.value = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
+        lowSpeed3.value = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
+    }, 1000);
+    
+    
+})
+onBeforeUnmount(()=>{
+    if (intervalId !== undefined) {
+        clearInterval(intervalId);
+    }
+})
+</script>
+
+<style lang="scss" scoped>
+$green: #82E57A;
+$orange: #F2B93B;
+$red: #CC4949;
+.bgc_green {
+    background: $green;
+}
+.bgc_orange {
+    background: $orange;
+}
+.bgc_red {
+    background: $red;
+}
+.color_green {
+    color: $green;
+}
+.color_orange {
+    color: $orange;
+}
+.color_red {
+    color: $red;
+}
+.content {
+    .speed {
+        border-radius: 13px;
+        border: 1px solid #E7EBF2;
+        padding: 4.6729vw;
+        .speed_item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .speed_text {
+                font-weight: 500;
+                font-size: 3.5047vw;
+            }
+            .speed_level {
+                display: flex;
+                align-items: center;
+                .level_item {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 400;
+                    font-size: 3.5047vw;
+                    margin-left: 7.9439vw;
+                    .dot {
+                        width: 2.3364vw;
+                        height: 2.3364vw;
+                        border-radius: 50%;
+                        margin-right: 1.6355vw;
+                    }
+                }
+            }
+        }
+        .speed_tip {
+            margin-top: 4.6729vw;
+            font-weight: 300;
+            font-size: 2.8037vw;
+            color: #8E8C8E;
+        }
+    }
+    .title {
+        margin-top: 9.1121vw;
+        margin-bottom: 3.5047vw;
+    }
+    .node_item {
+        padding: 2.8037vw 4.6729vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 13px;
+        border: 1px solid #E7EBF2;
+        margin-bottom: 4.9065vw;
+        .node_name {
+            font-weight: 500;
+            font-size: 2.8037vw;
+            margin-bottom: 2.3364vw;
+        }
+        .node_net {
+            font-weight: 400;
+            font-size: 2.3364vw;
+            color: #8E8C8E;
+        }
+        .node_speed {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .dot {
+                width: 2.3364vw;
+                height: 2.3364vw;
+                border-radius: 50%;
+            }
+            .speed_num {
+                font-weight: 400;
+                font-size: 12px;
+                margin-left: 2.3364vw;
+            }
+        }
+    }
+    .btn {
+        background-color: #BDC5D7;
+        margin-top: 17.757vw;
+    }
+}
+</style>

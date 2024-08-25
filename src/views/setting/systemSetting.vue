@@ -9,14 +9,14 @@
         </div>
         <img src="@/assets/myself/arrow-right.png" alt="" class="arrow_right">
       </div>
-      <!-- <div class="setting_item">
+      <div class="setting_item" @click="toNodeSetting">
         <div>
             <img src="@/assets/myself/node-setting.png" alt="" class="icon">
             <span>节点设置</span>
         </div>
         <img src="@/assets/myself/arrow-right.png" alt="" class="arrow_right">
-      </div> -->
-      <div class="setting_item">
+      </div>
+      <div class="setting_item" @click="toCurrencyUnit">
         <div>
             <img src="@/assets/myself/money-exchange.png" alt="" class="icon">
             <span>货币单位</span>
@@ -40,9 +40,18 @@
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue'
 import navBar from '@/components/navBar.vue'
+import { useRouter } from 'vue-router';
 
 const showLanguage = ref(false)
 const checked = ref('1')
+
+const router = useRouter()
+function toCurrencyUnit(){
+    router.push('/main/currencyUnit')
+}
+function toNodeSetting(){
+    router.push('/main/nodeSetting')
+}
 </script>
 <style lang="scss"scoped>
 .content {
