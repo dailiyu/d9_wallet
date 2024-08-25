@@ -14,7 +14,8 @@
         </div>
         <div class="function_item">
             <img src="@/assets/home/scan.png" alt="" class="function_pic">
-            <div class="function_ch">扫一扫</div>
+            <div class="function_ch" >扫一扫</div>
+           
         </div>
       </div>
     </div>
@@ -128,6 +129,10 @@ const closeTransferModal = ()=>{
   transferModal.value.$el.style.transform = 'translateY(100%)'
   
 }
+
+
+
+
 
 const showWalletList = ref(false)
 </script>

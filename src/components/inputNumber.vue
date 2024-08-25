@@ -39,7 +39,7 @@ defineProps({
     }
 })
 
-const amount = ref(null)
+const amount = ref()
 const emit = defineEmits(['close', 'confirm'])
 function closePop(){
     emit('close')

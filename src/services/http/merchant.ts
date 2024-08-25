@@ -107,7 +107,6 @@ export function postMerchantGivePointsUsdt(queryInfo: {
 
 //开通商家码
 export function postMerchantSubscribe(queryInfo: {
-  keypair:string,
   usdt_base_units:number//月数的十倍
 }) {
   return httpRequest.post({

@@ -37,6 +37,7 @@
     import QRCode from 'qrcode';
     import useUserProfileStore from '@/store/usersProfile/userProfile';
     import inputNumber from '@/components/inputNumber.vue'
+   import { showSuccessToast } from 'vant';
     const accountStore = useAccountStore();
     const payUrl = ref('')
     const userProfileStore=useUserProfileStore()
@@ -61,9 +62,7 @@
     Clipboard.write({
         string: accountStore.activeWallet.address
     }).then(() => {
-        // 这里可以加一个反馈，提示用户复制成功
-        alert("success")
-        console.log('Address copied to clipboard');
+        showSuccessToast('复制成功！')
     });
    }
    onMounted(async() => {

@@ -16,6 +16,7 @@
 
 import { ref } from 'vue';
 import { useWalletService } from '@/services/walletService';
+import { showSuccessToast } from 'vant';
 
 // 使用钱包服务
 const { importFromMnemonic } = useWalletService();
@@ -33,7 +34,7 @@ const importWallet = async () => {
     walletDetails.value = await importFromMnemonic(mnemonicToImport.value);
     showImport.value = false;
   } catch (error) {
-    alert("cuowu")
+    showSuccessToast('error')
   }
  
 };
