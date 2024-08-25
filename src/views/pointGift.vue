@@ -27,8 +27,7 @@
             <div class="asset_amout">
                 <div class="text">需要资产数量</div>
                 <div class="asset_unit">
-                    <img src="@/assets/home/logo_usdt.png" alt="" class="logo">
-                    <div>USDT</div>
+                    USDT
                 </div>
                 <div class="amount_num">200</div>
             </div>
@@ -134,19 +133,21 @@ const address = ref('')
                 color: #8E8C8E;
             }
             .asset_unit {
-                flex: 1;
+                width: 13.785vw;
+                height: 3.972vw;
                 display: flex;
                 align-items: center;
-                font-weight: 500;
-                font-size: 2.1028vw;
-                color: #0E932E;
-                margin-left: 2.1028vw;
-                .logo {
-                    width: 3.5047vw;
-                    margin-right: 1.1682vw;
-                }
+                justify-content: center;
+                background: #BDC5D7;
+                border-radius: 100px;
+                font-weight: 400;
+                font-size: 9px;
+                color: #fff;
+                margin-left: 2.3364vw;
             }
             .amount_num {
+                flex: 1;
+                text-align: right;
                 font-weight: 400;
                 font-size: 3.5047vw;
                 color: #8E8C8E;

@@ -29,7 +29,7 @@
             WorldSwrap
           </div>
         </div>
-        <div class="item" @click="toCrossBridge()">
+        <div class="item" @click="showCrossBridgePop=true">
           <div class="icon">
             <img src="@/assets/discovery/chain.png" alt="">
           </div>
@@ -56,13 +56,21 @@
       </div>
      </div>  
     </div>
+
+    <van-popup v-model:show="showCrossBridgePop" round style="border-radius:13px" >
+      <div class="cross_pop">
+        <div class="title">选择跨链方向</div>
+        <div class="btn_toTron button_active_full" @click="toCrossBridge">D9到TRON</div>
+        <div class="btn_toTron button_active_plain" @click="toTrontoD9">TRON到D9</div>
+      </div>
+    </van-popup>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { IonPage} from '@ionic/vue';
 import { Swipe, SwipeItem } from 'vant';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 defineComponent({
@@ -79,12 +87,16 @@ function toWorldSwap(){
 function toCrossBridge(){
   router.push('/main/crossBridge')
 }
+function toTrontoD9(){
+  router.push('/main/crossTrontoD9')
+}
 function tonodeVoting(){
   router.push('/main/nodeVoting')
 }
 function toBurnMining(){
   router.push('/main/burnMining')
 }
+const showCrossBridgePop = ref(false)
 </script>
 
 <style lang="scss" scoped>
@@ -167,6 +179,21 @@ function toBurnMining(){
   }
   }
 }
-
+.cross_pop {
+  width: 88.3178vw;
+  padding: 8.8785vw 0;
+  text-align: center;
+  .title {
+    font-weight: 500;
+    font-size: 4.9065vw;
+    margin-bottom: 7.9439vw;
+  }
+  .btn_toTron {
+    width: 33.4112vw;
+    margin: 4.4393vw auto 0;
+    font-weight: 500;
+    font-size: 3.5047vw;
+  }
+}
 
 </style>

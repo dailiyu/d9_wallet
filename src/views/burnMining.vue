@@ -4,8 +4,59 @@
     <div class="content">
         <div class="burn_top">
             <img src="@/assets/discovery/burn-bg.png" alt="" class="burn_bg">
-            <img src="@/assets/discovery/receive-btn.png" alt="" class="burn_bg" @click="toMerchantCode">
-            <img src="@/assets/discovery/give-btn.png" alt="" class="burn_bg" @click="toPointGift">
+
+            <div class="total_box">
+                <img src="@/assets/discovery/mining-total.png" alt="" class="total_pic">
+                <div class="total_num">137,841,231</div>
+            </div>
+
+            <div class="level_box">
+                <img src="@/assets/discovery/100w.png" alt="" class="level_pic">
+                <!-- <img src="@/assets/discovery/200w.png" alt="" class="level_pic">
+                <img src="@/assets/discovery/400w.png" alt="" class="level_pic">
+                <img src="@/assets/discovery/800w.png" alt="" class="level_pic">
+                <img src="@/assets/discovery/1500w.png" alt="" class="level_pic">
+                <img src="@/assets/discovery/3000w.png" alt="" class="level_pic">
+                <img src="@/assets/discovery/6000w.png" alt="" class="level_pic">
+                <img src="@/assets/discovery/10000w.png" alt="" class="level_pic">
+                <img src="@/assets/discovery/20000w.png" alt="" class="level_pic"> -->
+
+                <img src="@/assets/discovery/box1.png" alt="" class="box_pic">
+                <!-- <img src="@/assets/discovery/box2.png" alt="" class="box_pic"> -->
+                <!-- <img src="@/assets/discovery/box3.png" alt="" class="box_pic"> -->
+            </div>
+
+            <div class="exchange_box">
+                <img src="@/assets/discovery/exchange_bg.png" alt="" class="bg_pic">
+                <img src="@/assets/discovery/lightning.png" alt="" class="lightning_pic">
+
+                <div class="total_amount">
+                    <div class="exchange_item">
+                        <div>
+                            <div class="exchange_text">基础可兑换</div>
+                            <div class="exchange_num">
+                                9,923,012
+                            </div>
+                        </div>
+                        <div>
+                            <div class="exchange_text">加速可兑换</div>
+                        <div class="exchange_num">
+                            99,230
+                        </div>
+                        </div>
+                    </div>
+                    <div class="current_amount">
+                        <div class="current_text">当前可兑换数量</div>
+                        <div class="current_num">9,012</div>
+                    </div>
+                    <div class="percentage">100 = 1 D9</div>
+                </div>
+
+                <div class="btns">
+                    <img src="@/assets/discovery/receive-btn.png" alt="" class="burn_bg" @click="toMerchantCode">
+                    <img src="@/assets/discovery/give-btn.png" alt="" class="burn_bg" @click="toPointGift">
+                </div>
+            </div>
         </div>
 
         <div class="title">关于消费挖矿</div>
@@ -51,6 +102,16 @@ function toPointGift(){
 </script>
 
 <style lang="scss" scoped>
+@font-face {
+  font-family: "ZCOOLtongtong";
+  src: url("@/public/fonts/ZCOOLtongtong.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "HYYaKuHeiW";
+  src: url("@/public/fonts/HYYaKuHeiW.ttf") format('truetype');
+  font-weight: 400;
+}
 :deep(.navBar) {
     background-color: #04C7B1;
 }
@@ -58,8 +119,115 @@ function toPointGift(){
     background-color: #04C7B1;
     padding-left: 8.6449vw;
     padding-right: 8.8785vw;
+    padding-top: 18.8785vw;
     .burn_top {
         width: 100%;
+        position: relative;
+        margin-bottom: 10.9813vw;
+        .total_box {
+            position: absolute;
+            top: -10.0467vw;
+            padding: 0 7.7103vw;
+            text-align: center;
+            .total_pic {
+                width: 100%;
+            }
+            .total_num {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -74%);
+                font-family: 'ZCOOLtongtong';
+                font-weight: 400;
+                font-size: 7.0093vw;
+                color: #A9E317;
+            }
+        }
+        .level_box {
+            position: absolute;
+            top: 10.9813vw;
+            padding: 0 11.6822vw 0 7.243vw;
+            .level_pic {
+                width: 100%;
+            }
+            .box_pic {
+                position: absolute;
+                top: 29.1682vw;
+                left: 20.5514vw;
+                width: 14.0187vw;
+            }
+        }
+        .exchange_box {
+            position: absolute;
+            bottom: 0;
+            padding: 0 2.3364vw;
+            .bg_pic {
+                width: 100%;
+            }
+            .lightning_pic {
+                position: absolute;
+                top: -5.6075vw;
+                left: 5.8411vw;
+                width: 10.514vw;
+            }
+            .total_amount {
+                position: absolute;
+                top: 8.6449vw;
+                left: 0;
+                right: 0;
+                .exchange_item {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    text-align: center;
+                    .exchange_text {
+                        font-weight: 400;
+                        font-size: 3.7383vw;
+                        color: #FFFEFF;
+                        font-family: "HYYaKuHeiW";
+                    }
+                    .exchange_num {
+                        font-size: 5.1402vw;
+                        color: #FFFEFF;
+                        font-family: 'ZCOOLtongtong';
+                    }
+                }
+                .current_amount {
+                    text-align: center;
+                    margin-top: 5.8411vw;
+                    .current_text {
+                        font-size: 16px;
+                        color: #F4B321;
+                        font-family: 'HYYaKuHeiW';
+                    }
+                    .current_num {
+                        font-size: 10.2804vw;
+                        color: #F77B00;
+                        font-family: 'ZCOOLtongtong';
+                    }
+                }
+                .percentage {
+                    font-weight: 500;
+                    font-size: 2.5701vw;
+                    color: #FFFEFF;
+                    text-align: center;
+                    margin-top: 2.3364vw;
+                }
+            }
+            .btns {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -0.9346vw;
+                padding: 0 6.5421vw;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                img {
+                    width: 30.8411vw;
+                }
+            }
+        }
     }
     .title {
         font-weight: bold;

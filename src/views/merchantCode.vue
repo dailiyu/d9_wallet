@@ -16,7 +16,7 @@
         <img :src="qrCodeUrl" alt="" class="qr_code" >
 
         <div class="address" @click="toMerchangTransfer">TCSC3t……dz8Rhl</div>
-        <div class="btn button_active_full">积分赠送</div>
+        <div class="btn button_active_full" @click="toPointGift">积分赠送</div>
     </div>
 
     <van-popup
@@ -91,6 +91,9 @@ function confirmTime(){
 const router = useRouter()
 function toMerchangTransfer(){
     router.push('/main/merchantTransfer')
+}
+function toPointGift(){
+    router.push('/main/pointGift')
 }
 </script>
 

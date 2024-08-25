@@ -9,7 +9,7 @@
         <div class="title_bar">
             <img src="@/assets/home/close.png" alt="" class="close_icon" @click="closePop()">
             <div>钱包列表</div>
-            <div class="manage">管理</div>
+            <div class="manage" @click="showValidatePop=true">添加钱包</div>
         </div>
         <div v-for="(wallet,index) in walletList">
             <div class="wallet_item " :class="activeWalletIndex===index?'':'inactive'" @click="selectWallet(index)">
@@ -30,9 +30,37 @@
                 <div class="sub_balance">$ 51,082.00</div>
             </div> -->
         </div>
-        
+
+        <div class="import_wallet" @click="toImportWallet">
+            <div>导入钱包</div>
+            <img src="@/assets/home/arrow-right.png" alt="" class="arrow_icon">
+        </div>
         
     </div>
+
+    <validatePassword type="verify" :isShow="showValidatePop" @confirm="comfirmPassword" @close="showValidatePop=false"></validatePassword>
+
+    <van-popup
+      :show="showAddPop"
+      round
+      :style="{
+        padding: '8.8785vw 7.243vw 7.0093vw',
+        'border-radius': '13px',
+        width: '88.3178vw',
+      }"
+    >
+      <!-- 编辑昵称 -->
+      <div class="edit_name">
+        <div class="title">添加钱包</div>
+        <van-cell-group inset>
+          <van-field
+            v-model="walletName"
+            placeholder="输入钱包名称"
+          />
+        </van-cell-group>
+        <div class="btn button_active_full" @click="confirmName">确认</div>
+      </div>
+    </van-popup>
   </van-popup>
 </template>
 
@@ -42,6 +70,9 @@ import { obscureString } from "@/utils/index";
 import { ref, computed } from "vue";
 import useUserProfileStore from "@/store/usersProfile/userProfile"
 import { postRefreshUsersProfile } from "@/services/http/main";
+import validatePassword from "@/components/validatePassword.vue";
+import { validateInfo } from '@/types/index'
+import { useRouter } from "vue-router";
 
 const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
@@ -77,6 +108,24 @@ const selectWallet = async (index: number) => {
 //     return walletList.value.findIndex((wallet: { address: any; }) => wallet.address === activeWallet.value.address);
 // });
 
+const showValidatePop = ref(false)
+const walletName = ref('')
+const showAddPop = ref(false)
+
+function comfirmPassword(info: validateInfo){
+    console.log(info);
+    showValidatePop.value = false
+    showAddPop.value = true
+}
+
+function confirmName(){
+    showAddPop.value = false
+}
+
+const router = useRouter()
+function toImportWallet(){
+    router.push('/main/walletImport')
+}
 </script>
 
 
@@ -101,14 +150,17 @@ const selectWallet = async (index: number) => {
     }
     .wallet_item {
         height: 28.0374vw;
-        border: 2px solid #0065FF;
+        // border: 2px solid #0065FF;
         border-radius: 9px;
         padding: 2.8037vw 4.9065vw;
         color: #0065FF;
         margin-bottom: 5.3738vw;
+        background: url('@/assets/home/double_boder.png');
+        background-size: 100% 100%;
         &.inactive {
             color: #8E8C8E;
             border: 2px solid #8E8C8E;
+            background: none;
             .balance {
                 font-size: 4.6729vw;
             }
@@ -163,5 +215,35 @@ const selectWallet = async (index: number) => {
             text-align: right;
         }
     }
+    .import_wallet {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 3.5047vw;
+        color: #0065FF;
+        margin-top: 9.1121vw;
+        .arrow_icon {
+            width: 1.1682vw;
+            margin-left: 2.1028vw;
+        }
+    }
+}
+.edit_name {
+  text-align: center;
+  .title {
+    font-weight: 500;
+    font-size: 4.9065vw;
+    margin-bottom: 8.4112vw;
+  }
+  .van-cell-group--inset {
+    margin: 0 0 2.3364vw;
+    border: 1px solid #e7ebf2;
+    border-radius: 13px;
+  }
+  .btn {
+    width: 40.8879vw;
+    margin: 8.1776vw auto 0;
+  }
 }
 </style>

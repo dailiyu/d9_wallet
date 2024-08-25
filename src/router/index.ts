@@ -44,6 +44,10 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('@/views/DPOC.vue'),
       },
       {
+        path: 'walletImport',
+        component:()=>import('@/views/walletImport.vue'),
+      },
+      {
         path: 'discovery',
         component: () => import('@/views/discovery.vue')
       },
@@ -58,6 +62,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'crossBridge',
         component: () => import('@/views/crossBridge.vue')
+      },
+      {
+        path: 'crossTrontoD9',
+        component: () => import('@/views/crossTrontoD9.vue')
       },
       {
         path: 'nodeVoting',
