@@ -21,27 +21,27 @@
         </div>
         <div class="pay_box">
             <van-cell-group inset>
-                <van-field v-model="value" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
+                <van-field v-model="payNumber" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
             </van-cell-group>
             <div class="asset_amout">
                 <div class="text">需要资产数量</div>
                 <div class="asset_unit">
                     USDT
                 </div>
-                <div class="amount_num">200</div>
+                <div class="amount_num">{{ (payNumber/marketStore.rates.CNY)*0.16 }}</div>
             </div>
             <div class="asset_amout">
                 <div class="text">余额</div>
-                <div class="amount_num">82,881</div>
+                <div class="amount_num">{{ userProfileStore.usdtBalance }}</div>
             </div>
             <div class="asset_amout">
                 <div class="text">商家积分</div>
-                <div class="amount_num">168</div>
+                <div class="amount_num">{{ ((payNumber/marketStore.rates.CNY)*16).toFixed(2) }}</div>
             </div>
             <div class="get_point">
                 <div class="point_text">用户积分</div>
                 <div class="percentage">100 = 1 USDT</div>
-                <div class="num">1500</div>
+                <div class="num">{{((payNumber/marketStore.rates.CNY)*100 ).toFixed(2)}}</div>
             </div>
         </div>
 
@@ -51,11 +51,16 @@
 </template>
 
 <script lang="ts" setup>
+import useMarketStore from '@/store/market/market';
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+const marketStore=useMarketStore()
 // import navBar from '@/components/navBar.vue'
-const value = ref('')
+const payNumber = ref<number>(0)
 const address = ref('')
+const userProfileStore = useUserProfileStore();
+
 </script>
 
 <style lang="scss" scoped>

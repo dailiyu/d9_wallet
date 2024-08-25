@@ -180,6 +180,14 @@ export function postRemoveLiquidity() {
 */
 
 
+export function postGetUsdtToOtherRate() {
+  return httpRequest.post({
+    url: '/usdt/price/rate/',
+  })
+}
+
+
+
 
 
 

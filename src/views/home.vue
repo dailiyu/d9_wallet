@@ -49,6 +49,7 @@ const accountStore = useAccountStore();
 const marketStore=useMarketStore();
 
 onMounted(async() => {
+   postRefreshUsersProfile()
    userProfileStore.fetchAllData()
    marketStore.fetchAllData()
  await addressBookStore.loadLocalCacheAction()
