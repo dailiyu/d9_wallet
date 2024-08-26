@@ -1,5 +1,5 @@
 
-import { postGetReserves } from '@/services/http/amm';
+import { postGetReserves,postGetUsdtToOtherRate } from '@/services/http/amm';
 import { makerTransactionsList } from '@/services/http/IndexServer';
 import { postGetTotalBurned } from '@/services/http/main';
 import { postGetAllVolume } from '@/services/http/mining';
@@ -18,6 +18,17 @@ import { defineStore } from 'pinia';
     usdt: string;
     accountId: string;
   }
+
+  interface Rates{
+   USD:number,
+   CNY:number,
+   EUR:number,
+   HKD:number,
+   JPY:number,
+   VND:number,
+   THB:number,
+   MYR:number
+  }
   
   interface Transaction {
     id: string;
@@ -30,6 +41,7 @@ import { defineStore } from 'pinia';
     contract: string;
     contractAddress: string;
     data: Data;
+
   }
   
 
@@ -41,7 +53,8 @@ interface AccountState {
     nodeRankList:nodeData[],
     transactionList:Transaction[],
     TotalBurned:number,
-    poolsTotalNumber:number
+    poolsTotalNumber:number,
+    rates:Rates
 }
 
 
@@ -57,7 +70,17 @@ const useMarketStore = defineStore('market', {
     nodeRankList:[],
     transactionList:[],
     TotalBurned:0,
-    poolsTotalNumber:0
+    poolsTotalNumber:0,
+    rates:{
+       USD: 0,
+       CNY: 0,
+       EUR: 0,
+       HKD: 0,
+       JPY: 0,
+       VND: 0,
+       THB: 0,
+       MYR: 0
+    }
   }),
   actions: {
    async getExchangeRateAction(){
@@ -86,12 +109,25 @@ const useMarketStore = defineStore('market', {
       const metaData=await postGetAllVolume()
       this.poolsTotalNumber=metaData.data.results
    },
+   async getRateUsdtToOther(){
+      const metaData=await postGetUsdtToOtherRate()
+      const ratesResults=metaData.data.results
+      this.rates.CNY=ratesResults.find((item: { name: string; }) => item.name === 'cny').price
+      this.rates.EUR=ratesResults.find((item: { name: string; }) => item.name === 'eur').price
+      this.rates.HKD=ratesResults.find((item: { name: string; }) => item.name === 'hkd').price
+      this.rates.JPY=ratesResults.find((item: { name: string; }) => item.name === 'jpy').price
+      this.rates.MYR=ratesResults.find((item: { name: string; }) => item.name === 'myr').price
+      this.rates.USD=ratesResults.find((item: { name: string; }) => item.name === 'usd').price
+      this.rates.VND=ratesResults.find((item: { name: string; }) => item.name === 'vnd').price
+      this.rates.THB=ratesResults.find((item: { name: string; }) => item.name === 'thb').price
+   },
   async fetchAllData(){
    this.getExchangeRateAction()
    this.getRankAction()
     this.getTransactionListAction()
     this.gettBurningTotalsAction()
     this.getPoolsTotalNumber()
+    this.getRateUsdtToOther()
    }
 }
 });

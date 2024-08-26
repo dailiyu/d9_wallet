@@ -21,41 +21,86 @@
         </div>
         <div class="pay_box">
             <van-cell-group inset>
-                <van-field v-model="value" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
+                <van-field v-model="payNumber" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
             </van-cell-group>
             <div class="asset_amout">
                 <div class="text">需要资产数量</div>
                 <div class="asset_unit">
                     USDT
                 </div>
-                <div class="amount_num">200</div>
+                <div class="amount_num">{{ (payNumber/marketStore.rates.CNY)*0.16 }}</div>
             </div>
             <div class="asset_amout">
                 <div class="text">余额</div>
-                <div class="amount_num">82,881</div>
+                <div class="amount_num">{{ userProfileStore.usdtBalance }}</div>
             </div>
             <div class="asset_amout">
                 <div class="text">商家积分</div>
-                <div class="amount_num">168</div>
+                <div class="amount_num">{{ ((payNumber/marketStore.rates.CNY)*16).toFixed(2) }}</div>
             </div>
             <div class="get_point">
                 <div class="point_text">用户积分</div>
                 <div class="percentage">100 = 1 USDT</div>
-                <div class="num">1500</div>
+                <div class="num">{{((payNumber/marketStore.rates.CNY)*100 ).toFixed(2)}}</div>
             </div>
         </div>
 
-        <div class="btn button_active_full">确认</div>
+        <div class="btn button_active_full" @click="showPasswordPop=true">确认</div>
     </div>
+    <validatePassword
+      @confirm="confirm"
+      type="verify"
+      :isShow="showPasswordPop"
+      @close="showPasswordPop= false"
+    ></validatePassword>
 </ion-page>
 </template>
 
 <script lang="ts" setup>
+import useMarketStore from '@/store/market/market';
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
+import useAccountStore from "@/store/account/account";
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import { validateInfo } from '@/types';
+import { postMerchantGivePointsUsdt } from '@/services/http/merchant';
+
+const showPasswordPop = ref(false);
 // import navBar from '@/components/navBar.vue'
-const value = ref('')
+const payNumber = ref<number>(0)
 const address = ref('')
+const accountStore=useAccountStore()
+const marketStore=useMarketStore()
+
+
+
+const confirm=async(info: validateInfo)=>{
+    if (info.password == accountStore.password){
+    const Toast = showLoadingToast({
+    message: "赠送中...",
+    forbidClick: false,
+    duration: 300000,
+  });
+  showPasswordPop.value=false
+ 
+ await postMerchantGivePointsUsdt({
+    consumer_id:address.value,
+    amount:payNumber.value/marketStore.rates.CNY
+ })
+    Toast.close();
+    await  userProfileStore.fetchAllData()
+    showSuccessToast("赠送成功");
+  }else{
+    showFailToast("密码错误");
+  }
+}
+
+
+
+
+const userProfileStore = useUserProfileStore();
+
 </script>
 
 <style lang="scss" scoped>

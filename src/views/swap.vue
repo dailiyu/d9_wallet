@@ -106,6 +106,7 @@ import useMarketStore from '@/store/market/market';
 import { postGetUsdt,postGetD9 } from '@/services/http/amm';
 import { postUsdtTransfer } from "@/services/http/usdt";
 import {postRefreshUsersProfile} from "@/services/http/main"
+
 import { validateInfo } from '@/types';
 const showPasswordPop = ref(false);
  const marketStore=useMarketStore()
@@ -149,10 +150,16 @@ const dealD9InputChange=async()=>{
 
 const flashExchangeD9ToUsdt=async()=>{
     await postGetUsdt({amount:d9Amount.value||0})
+    await postRefreshUsersProfile()
+    await userProfileStore.getUserProfileAction()
+
 }
 
 const flashExchangeUsdtToD9=async()=>{
     await postGetD9({amount:usdtAmount.value||0})
+    await postRefreshUsersProfile()
+    await userProfileStore.getUserProfileAction()
+
 }
 
 const confirm=async(info: validateInfo)=>{

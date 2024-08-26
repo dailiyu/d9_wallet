@@ -61,7 +61,6 @@ export function postMerchantGivePointsD9(queryInfo: {
 
 //用usdt赠送积分？？？
 export function postMerchantGivePointsUsdt(queryInfo: {
-  keypair:string,
   consumer_id:string,
   amount:number
 }) {
