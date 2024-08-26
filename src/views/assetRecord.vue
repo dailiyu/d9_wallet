@@ -29,10 +29,13 @@
         </div>
       </div>
       <div class="btns">
-        <div class="transfer button_active_plain">转账</div>
-        <div class="transfer button_active_full">收款</div>
+        <div class="transfer button_active_plain" @click="transfer">转账</div>
+        <div class="transfer button_active_full" @click="receive">收款</div>
       </div>
     </div>
+
+    <homgTransferModal :isShowTransferModal="showTransferModal" @closeTransferModal="closeTransferModal" ref="transferModal"></homgTransferModal>
+  <homeAcceptModal :isShowAcceptModal="showAcceptModal" @closeAcceptModal="closeAcceptModal()" ref="receiveMoneyModal"></homeAcceptModal>
   </ion-page>
 </template>
 
@@ -41,12 +44,90 @@ import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 // import navBar from '@/components/navBar.vue'
+import homgTransferModal from '@/components/home/homeTransferModal.vue';
+import homeAcceptModal  from '@/components/home/homeAcceptModal.vue'
 const price = ref('')
 const route = useRoute()
 const type = route.query.type
 const router = useRouter()
 function toDetail(){
   router.push('/main/transactionDetail')
+}
+
+const showAcceptModal = ref(false)
+const showTransferModal = ref(false)
+
+const startY = ref(0);
+const endY = ref(0);
+
+const handleTouchStart = (event: TouchEvent) => {
+  // event.stopPropagation()
+  // event.preventDefault();
+  startY.value = event.touches[0].screenY;
+  
+};
+
+const receiveMoneyModal = ref()
+const transferModal = ref()
+const screenHeight = window.innerHeight
+const handleTouchMove = (event: TouchEvent) => {
+  // event.stopPropagation()
+  // event.preventDefault();
+  endY.value = event.touches[0].screenY;
+  // console.log(event.touches[0]);
+  
+  if (endY.value > startY.value) {
+    // receiveMoneyModal.value.$el.style.top = (startY.value-endY.value)/screenHeight*100 + '%'
+    const d = endY.value-startY.value
+    const Y = (screenHeight - d)/screenHeight*100+'%'
+    receiveMoneyModal.value.$el.style.transform = 'translateY(-'+Y+')'
+  } else {
+    const d = startY.value-endY.value
+    const Y = (screenHeight - d)/screenHeight*100+'%'
+    transferModal.value.$el.style.transform = 'translateY('+Y+')'
+  }
+  
+};
+
+const handleTouchEnd = (event: TouchEvent) => {
+  // event.stopPropagation()
+  // event.preventDefault();
+  if (!endY.value) return
+  const distanceY = endY.value - startY.value;
+  
+  if (distanceY > 100) {
+    // showAcceptModal.value = true
+    // receiveMoneyModal.value.$el.style.top = '0%'
+    receiveMoneyModal.value.$el.style.transform = 'translateY(0%)'
+    
+  } else if (0<distanceY&&distanceY<100) {
+    receiveMoneyModal.value.$el.style.transform = 'translateY(-100%)'
+    
+  } else if (distanceY < -100) {
+    // showTransferModal.value = true
+    transferModal.value.$el.style.transform = 'translateY(0%)'
+    
+  } else if (distanceY>-100&&distanceY<0) {
+    transferModal.value.$el.style.transform = 'translateY(100%)'
+    
+    
+  }
+  startY.value = 0;
+  endY.value = 0;
+};
+const closeAcceptModal = ()=>{
+  // receiveMoneyModal.value.$el.style.top = '-100%'
+  receiveMoneyModal.value.$el.style.transform = 'translateY(-100%)'
+}
+const closeTransferModal = ()=>{
+  transferModal.value.$el.style.transform = 'translateY(100%)'
+  
+}
+function transfer(){
+  transferModal.value.$el.style.transform = 'translateY(0%)'
+}
+function receive(){
+  receiveMoneyModal.value.$el.style.transform = 'translateY(0%)'
 }
 </script>
 

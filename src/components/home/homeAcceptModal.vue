@@ -108,6 +108,7 @@ ion-modal::part(backdrop) {
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 300;
     transform: translateY(-100%);
     height: 100%;
     transition: transform 0.5s;

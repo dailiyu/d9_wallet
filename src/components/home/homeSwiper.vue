@@ -26,8 +26,8 @@
                 <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
               </div>
               <div class="buttons">
-                <div class="button_item">转账</div>
-                <div class="button_item">收款</div>
+                <div class="button_item" @click="transfer">转账</div>
+                <div class="button_item" @click="receive">收款</div>
               </div>
               <div class="rate">
                 <div class="rate_item" @click="toRecord('d9')">
@@ -231,6 +231,14 @@ function toWalletManagement(){
 }
 function toDPOC(){
   router.push('/main/DPOC')
+}
+
+const emit = defineEmits(['transfer', 'receive'])
+function transfer(){
+  emit('transfer')
+}
+function receive(){
+  emit('receive')
 }
 </script>
   

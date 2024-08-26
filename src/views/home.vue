@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <homeSwiper></homeSwiper>
+    <homeSwiper @transfer="transfer" @receive="receive"></homeSwiper>
     
   </div>
   <homgTransferModal :isShowTransferModal="showTransferModal" @closeTransferModal="closeTransferModal" ref="transferModal"></homgTransferModal>
@@ -124,7 +124,6 @@ const handleTouchEnd = (event: TouchEvent) => {
     
   } else if (distanceY>-100&&distanceY<0) {
     transferModal.value.$el.style.transform = 'translateY(100%)'
-    console.log(111);
     
     
   }
@@ -138,6 +137,12 @@ const closeAcceptModal = ()=>{
 const closeTransferModal = ()=>{
   transferModal.value.$el.style.transform = 'translateY(100%)'
   
+}
+function transfer(){
+  transferModal.value.$el.style.transform = 'translateY(0%)'
+}
+function receive(){
+  receiveMoneyModal.value.$el.style.transform = 'translateY(0%)'
 }
 
 

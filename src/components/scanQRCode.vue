@@ -1,14 +1,16 @@
 <template>
   <div>
     <!-- 使用插槽传入自定义按钮 -->
-    <slot name="scan" :onClick="startScan"></slot>
+    <slot name="scan" :onClick="startScan">
+        {{ decodedText?decodedText:'' }}
+    </slot>
     
     <!-- 条件渲染二维码扫描器 -->
     <div v-if="isScanning">
       <Vue3QrReader
         ref="qrReader"
         @onDecode="onDecode"
-        :constraints="{ facingMode: 'environment' }"
+        :constraints="constraints"
         @onInit="onInit"
       />
     </div>
@@ -25,6 +27,13 @@ import { defineComponent, ref, defineAsyncComponent } from 'vue';
 
 // 动态导入 Vue3QrReader 组件
 const Vue3QrReader = defineAsyncComponent(() => import('vue3-qr-reader'));
+
+const constraints = {
+  video: {
+    facingMode: { ideal: "environment" }  // 优先使用后置摄像头
+  }
+};
+
 
 export default defineComponent({
   components: {
@@ -58,6 +67,7 @@ export default defineComponent({
       qrReader,
       onDecode,
       onInit,
+      constraints
     };
   },
 });
