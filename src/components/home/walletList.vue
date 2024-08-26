@@ -73,10 +73,10 @@ import { postRefreshUsersProfile } from "@/services/http/main";
 import validatePassword from "@/components/validatePassword.vue";
 import { validateInfo } from '@/types/index'
 import { useRouter } from "vue-router";
-
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
-
+const operateType=ref<'import'|'add'>('import')
 const walletList = computed(() => accountStore.walletList);
 const activeWallet = computed(() => accountStore.activeWallet);
 const activeWalletIndex = computed(() => accountStore.activeIndex);
@@ -113,9 +113,19 @@ const walletName = ref('')
 const showAddPop = ref(false)
 
 function comfirmPassword(info: validateInfo){
-    console.log(info);
+    if (info.password == accountStore.password){
+        if(operateType.value=='import'){
+            router.push('/main/walletImport')
+        }else{
+            
+        }
+
+    }else{
+        showFailToast("密码错误");
+    }
+   
     showValidatePop.value = false
-    showAddPop.value = true
+    // showAddPop.value = true
 }
 
 function confirmName(){
@@ -124,7 +134,9 @@ function confirmName(){
 
 const router = useRouter()
 function toImportWallet(){
-    router.push('/main/walletImport')
+    showValidatePop.value=true
+    operateType.value='import'
+  
 }
 </script>
 

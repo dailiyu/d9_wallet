@@ -14,6 +14,7 @@ declare module 'vue' {
     NavBar: typeof import('./src/components/navBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScanQRCode: typeof import('./src/components/scanQRCode.vue')['default']
     ValidatePassword: typeof import('./src/components/validatePassword.vue')['default']
     VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']

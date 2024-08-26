@@ -45,8 +45,14 @@
             </div>
         </div>
 
-        <div class="btn button_active_full">确认</div>
+        <div class="btn button_active_full" @click="showPasswordPop=true">确认</div>
     </div>
+    <validatePassword
+      @confirm="confirm"
+      type="verify"
+      :isShow="showPasswordPop"
+      @close="showPasswordPop= false"
+    ></validatePassword>
 </ion-page>
 </template>
 
@@ -54,11 +60,45 @@
 import useMarketStore from '@/store/market/market';
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
+import useAccountStore from "@/store/account/account";
+import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
-const marketStore=useMarketStore()
+import { validateInfo } from '@/types';
+import { postMerchantGivePointsUsdt } from '@/services/http/merchant';
+
+const showPasswordPop = ref(false);
 // import navBar from '@/components/navBar.vue'
 const payNumber = ref<number>(0)
 const address = ref('')
+const accountStore=useAccountStore()
+const marketStore=useMarketStore()
+
+
+
+const confirm=async(info: validateInfo)=>{
+    if (info.password == accountStore.password){
+    const Toast = showLoadingToast({
+    message: "赠送中...",
+    forbidClick: false,
+    duration: 300000,
+  });
+  showPasswordPop.value=false
+ 
+ await postMerchantGivePointsUsdt({
+    consumer_id:address.value,
+    amount:payNumber.value/marketStore.rates.CNY
+ })
+    Toast.close();
+    await  userProfileStore.fetchAllData()
+    showSuccessToast("赠送成功");
+  }else{
+    showFailToast("密码错误");
+  }
+}
+
+
+
+
 const userProfileStore = useUserProfileStore();
 
 </script>

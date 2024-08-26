@@ -13,9 +13,17 @@
           
         </div>
         <div class="function_item">
-            <img src="@/assets/home/scan.png" alt="" class="function_pic">
-            <div class="function_ch" >扫一扫</div>
-           
+            <!-- <img src="@/assets/home/scan.png" alt="" class="function_pic">
+            <div class="function_ch" >扫一扫</div> -->
+            <scanQRCode >
+              <template #scan="{ onClick }">
+                <div @click="onClick">
+                  <img src="@/assets/home/scan.png" alt="" class="function_pic">
+                  <div class="function_ch" >扫一扫</div>
+                </div>
+                
+              </template>
+            </scanQRCode>
         </div>
       </div>
     </div>
@@ -43,6 +51,8 @@ import { onMounted } from 'vue';
 import {postRefreshUsersProfile} from "@/services/http/main"
 import useAddressBookStore from '@/store/addressBook/addressBook';
 import useUserProfileStore from '@/store/usersProfile/userProfile';
+import scanQRCode from '@/components/scanQRCode.vue';
+
  const addressBookStore=useAddressBookStore()
  const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
