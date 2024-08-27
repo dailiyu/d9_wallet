@@ -199,7 +199,6 @@ const confirm=async(info: validateInfo)=>{
 }
 .content {
     background-color: #F8F8F8;
-    padding-top: 16.8785vw;
     .title {
         font-weight: 500;
         font-size: 3.5047vw;
@@ -271,6 +270,7 @@ const confirm=async(info: validateInfo)=>{
         border-radius: 100px;
     }
     .liquidity_content {
+        height: 58.1776vw;
         margin-top: 3.5047vw;
         border-radius: 13px;
         background-color: #fff;

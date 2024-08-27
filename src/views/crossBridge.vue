@@ -7,7 +7,7 @@
 
         <div class="title">接收地址</div>
         <van-cell-group inset>
-            <van-field v-model="value" placeholder="请输入接收地址" />
+            <van-field v-model="address" placeholder="请输入接收地址" />
         </van-cell-group>
 
         <div class="transfer_box">
@@ -17,7 +17,7 @@
                     <img src="@/assets/home/transfer.png" alt="" class="t_icon">
                 </div>
                 <van-cell-group inset>
-                    <van-field v-model="value" placeholder="请输入转出数量" />
+                    <van-field v-model="value" placeholder="请输入转出数量" type="number" :style="{'font-size': value?'4.9065vw':'2.8037vw'}" />
                 </van-cell-group>
                 <div class="trans_text">
                     <div>余额</div>
@@ -67,6 +67,8 @@ const accountStore = useAccountStore();
 import userProfileState from "@/store/usersProfile/userProfile"
 const profileState=userProfileState()
 // import navBar from '@/components/navBar.vue'
+
+const address = ref('')
 const value = ref('')
 </script>
 

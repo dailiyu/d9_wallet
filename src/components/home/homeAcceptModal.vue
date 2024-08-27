@@ -111,7 +111,7 @@ ion-modal::part(backdrop) {
     z-index: 300;
     transform: translateY(-100%);
     height: 100%;
-    transition: transform 0.5s;
+    transition: transform 0.3s;
     transition-timing-function: linear;
     background-color: #0065B2;
     justify-content: flex-start;

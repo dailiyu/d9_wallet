@@ -136,6 +136,9 @@ const userProfileStore = useUserProfileStore();
         .scan_icon {
             width: 4.6729vw;
         }
+        .van-cell-group--inset {
+            margin: 0;
+        }
     }
     .pay_box {
         border-radius: 13px;

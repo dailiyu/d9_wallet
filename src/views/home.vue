@@ -168,6 +168,7 @@ const showWalletList = ref(false)
     .name {
       font-size: 7.0093vw;
       font-weight: bold;
+      margin-bottom: 1.6355vw;
     }
     .account {
       font-size: 3.5047vw;

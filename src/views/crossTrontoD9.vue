@@ -58,6 +58,7 @@ const  copyAddress=async()=>{
 .tips {
     font-weight: 300;
     font-size: 2.8037vw;
+    line-height: 4.2056vw;
     color: #8E8C8E;
     margin-bottom: 4.6729vw;
 }

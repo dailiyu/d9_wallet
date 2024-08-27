@@ -26,7 +26,10 @@
           </div>
           <div class="balance-number">
              <span class="icon">$</span>
-             <span class="number">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</span>
+             <van-cell-group inset>
+                <van-field :value="(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)" readonly/>
+             </van-cell-group>
+             <!-- <span class="number">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</span> -->
           </div>
         </div>
         <div class="wallet-bottom">
@@ -97,9 +100,7 @@
         </div>
       </div>
       <div class="version">
-        <div class="content">
-          版本号: v1.0.23123
-        </div>
+        版本号: v1.0.23123
       </div>
       </div>
     </div>
@@ -172,10 +173,11 @@ function toSetting(){
       }
     }
     .wallet-box{
-      height:54.9065vw;
+      // height:54.9065vw;
       margin-top:5.1402vw;
-      padding:3.7383vw;
-      background-color: #0065FF;
+      padding:4.7383vw;
+      background: url('@/assets/myself/balance_bg.png');
+      background-size: 100% 100%;
       border-radius: 4vw;
       display: flex;
       flex-direction: column;
@@ -197,7 +199,7 @@ function toSetting(){
         }
         .balance-number{
           display: flex;
-          margin-top:3.5047vw;
+          margin-top: 4.5047vw;
           align-items: center;
           color: white;
           font-weight: 600;
@@ -208,6 +210,20 @@ function toSetting(){
             font-size: 7.0093vw;
             margin-left: .7009vw;
           }
+          .van-cell-group {
+            background-color: transparent;
+          }
+          .van-cell-group--inset {
+            margin: 0;
+            .van-cell {
+              padding: 0;
+              background-color: transparent;
+              color: #fff;
+            }
+          }
+          .van-cell__value {
+            font-size: 7.0093vw;
+          }
         }
       }
       .wallet-bottom{
@@ -216,7 +232,7 @@ function toSetting(){
         margin-top: 7.243vw;
         .mini-box{
           color: white;
-          width:37.8505vw ;
+          width: 37.8505vw;
           height:18.6916vw ;
           padding: 2.8037vw;
           border-radius: 2.1028vw;
@@ -249,19 +265,21 @@ function toSetting(){
     }
     .setting-menue{
       margin-top: 3.3364vw;
-      padding: 6.3084vw;
+      padding: 2.5701vw 6.3084vw;
       border-radius: 3.0374vw;
       background-color: #FFFFFF;
       .item{
-        height: 13.514vw;
+        // height: 13.514vw;
+        padding: 4.9065vw 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
         .left{
           display: flex;
+          align-items: center;
           .icon{
             width:3.5047vw ;
-            height: 3.972vw;
+            // height: 3.972vw;
           }
           .text{
             margin-left: 2.3364vw;
@@ -282,11 +300,9 @@ function toSetting(){
       display: flex;
       justify-content: center;
       margin-top: 3.5047vw;
-      .content{
-        font-weight: 400;
-        font-size: 11px;
-        color: #8E8C8E;
-      }
+      font-weight: 400;
+      font-size: 11px;
+      color: #8E8C8E;
     }
     }
     

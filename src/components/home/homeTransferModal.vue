@@ -41,12 +41,12 @@
         <ion-input
           @ionInput="onTransferAmountInputChange"
           :value="transferAmount"
-          style="
-            min-height: 10px;
-            font-size: 7.0093vw;
-            border-bottom: 1px solid #e7ebf2;
-            padding-bottom: 2.8037vw;
-          "
+          :style="{
+            'min-height': '10.0467vw',
+            'font-size': transferAmount?'7.0093vw':'2.8037vw',
+            'border-bottom': '1px solid #e7ebf2',
+            'padding-bottom': '2.8037vw',
+          }"
           placeholder="输入转账数量"
           type="number"
         >
@@ -135,6 +135,7 @@ function closeTransferModal() {
 const onTransferAmountInputChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
   transferAmount.value = Number(input.value);
+  
 };
 
 const onToAddressInputChange=(event: Event) => {
@@ -205,7 +206,7 @@ ion-modal::part(backdrop) {
   z-index: 300;
   transform: translateY(100%);
   height: 100%;
-  transition: transform 0.5s;
+  transition: transform 0.3s;
   transition-timing-function: linear;
   background-color: #0065b2;
   justify-content: flex-start;

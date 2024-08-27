@@ -111,17 +111,17 @@ function toPointGift(){
 }
 .content {
     background-color: #04C7B1;
-    padding-left: 8.6449vw;
-    padding-right: 8.8785vw;
-    padding-top: 18.8785vw;
+    padding-left: 0;
+    padding-right: 0;
+    // padding-top: 18.8785vw;
     .burn_top {
         width: 100%;
         position: relative;
         margin-bottom: 10.9813vw;
         .total_box {
             position: absolute;
-            top: -10.0467vw;
-            padding: 0 7.7103vw;
+            top: -3.0467vw;
+            padding: 0 16.3551vw 0 15.8879vw;
             text-align: center;
             .total_pic {
                 width: 100%;
@@ -139,8 +139,8 @@ function toPointGift(){
         }
         .level_box {
             position: absolute;
-            top: 10.9813vw;
-            padding: 0 11.6822vw 0 7.243vw;
+            top: 17.9813vw;
+            padding: 0 15.8879vw 0 11.6822vw;
             .level_pic {
                 width: 100%;
             }
@@ -154,14 +154,14 @@ function toPointGift(){
         .exchange_box {
             position: absolute;
             bottom: 0;
-            padding: 0 2.3364vw;
+            padding: 0 10.7477vw;
             .bg_pic {
                 width: 100%;
             }
             .lightning_pic {
                 position: absolute;
                 top: -5.6075vw;
-                left: 5.8411vw;
+                left: 14.9533vw;
                 width: 10.514vw;
             }
             .total_amount {
@@ -210,8 +210,8 @@ function toPointGift(){
             }
             .btns {
                 position: absolute;
-                left: 0;
-                right: 0;
+                left: 8.6449vw;
+                right: 8.6449vw;
                 bottom: -0.9346vw;
                 padding: 0 6.5421vw;
                 display: flex;
@@ -227,16 +227,22 @@ function toPointGift(){
         font-weight: bold;
         font-size: 5.6075vw;
         color: #FFFEFF;
+        padding-left: 8.6449vw;
+        padding-right: 8.8785vw;
     }
     .detail {
         font-weight: 300;
         font-size: 2.8037vw;
         color: #FFFEFF;
         margin: 2.8037vw 0;
+        padding-left: 8.6449vw;
+        padding-right: 8.8785vw;
     }
     .pic {
         width: 100%;
         margin-bottom: 5.8411vw;
+        padding-left: 8.6449vw;
+        padding-right: 8.8785vw;
     }
 }
 </style>

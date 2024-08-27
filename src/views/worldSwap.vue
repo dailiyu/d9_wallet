@@ -58,7 +58,7 @@
                 <div>
                     1 D9 ≈ {{ marketStore.exchangeRateD9ToUsdt }} USDT
                 </div>
-                <!-- <img src="" alt="" class="d_pic"> -->
+                <img src="@/assets/discovery/exchange.png" alt="" class="d_pic">
                 <div>
                     1 USDT~ {{ marketStore.exchangeRateUsdtToD9 }} D9
                 </div>
@@ -321,11 +321,13 @@ function toSwap(){
             }
         }
         .detail {
+            flex: 1;
             font-weight: 400;
             font-size: 2.3364vw;
             padding: 0 1.1682vw 0 4.9065vw;
+            text-align: center;
             .d_pic {
-                width: 38.3178vw;
+                width: 100%;
             }
         }
     }

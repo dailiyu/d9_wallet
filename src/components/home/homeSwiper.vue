@@ -358,7 +358,8 @@ position: relative;
             align-items: center;
             justify-content: space-between;
             .button_item {
-              width: 33.4112vw;
+              // width: 33.4112vw;
+              flex: 1;
               height: 12.6168vw;
               line-height: 12.6168vw;
               border-radius: 9px;
@@ -366,9 +367,11 @@ position: relative;
               color: #0065FF;
               font-size: 3.5047vw;
               text-align: center;
+              margin-right: 3.5047vw;
               &:last-child {
                 color: #fff;
                 background-color: #0065FF;
+                margin-right: 0;
               }
             }
           }
@@ -515,7 +518,8 @@ position: relative;
           border-radius: 25px;
         }
         .point_total {
-          padding: 3.5047vw 6.3084vw;
+          padding: 0 6.3084vw 3.5047vw;
+          margin-top: 13.5514vw;
           .total_text {
             display: flex;
             align-items: center;
