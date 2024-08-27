@@ -23,7 +23,7 @@
           />
         </div>
       </div>
-      <div class="export" @click="exportWords">
+      <div class="export" @click="exportWords" v-if="accountStore.activeWallet.mnemonic"> 
         <div>导出助记词</div>
         <img
           src="@/assets/home/arrow-right-grey.png"

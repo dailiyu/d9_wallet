@@ -2,6 +2,8 @@
 <ion-page>
   <div>
     <button @click="generateWallet">生成钱包</button>
+    <button @click="importFromSecretKey(accountStore.activeWallet.secretKey)">通过密钥导入钱包</button>
+    <button @click="preCreateSubWallet(accountStore.activeWallet.mnemonic,'//0')">生成子钱包</button>
     <br>
     <br>
     <button @click="clearWallet">清空钱包</button>
@@ -30,7 +32,7 @@ import useAccountStore from "@/store/account/account";
 import { IonPage } from '@ionic/vue';
 
 // 使用钱包服务
-const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet } = useWalletService();
+const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet,importFromSecretKey,preCreateSubWallet } = useWalletService();
 const accountStore = useAccountStore();
 
 onMounted(() => {
@@ -44,6 +46,7 @@ const generateWallet = async () => {
 
 const  clearWallet=async () => {
   await removeWallet();
+  await accountStore.changeIsFirstMainWallet(true)
 };
 const changeWallet=async (index:number)=>{
   await changeActiveWallet(index)

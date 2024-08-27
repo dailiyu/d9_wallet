@@ -51,7 +51,7 @@ function reset(){
 
 const toNext=async()=>{
   if(stringArraysEqual(wordList.origin,wordList.selectedWord)){
-   await accountStore.addWalletAction({...accountStore.temporaryWallet,name:accountStore.temporaryName})
+   await accountStore.addWalletAction({...accountStore.temporaryWallet,name:accountStore.temporaryName,authority:true})
    await accountStore.changeActiveWallet(accountStore.walletList.length-1)
     router.push('/main/home')
   }

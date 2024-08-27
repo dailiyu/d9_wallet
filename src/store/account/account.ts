@@ -9,7 +9,8 @@ interface AccountState {
   temporaryWallet:walletDate
   password:string,
   temporaryName:string
-  activeIndex:number
+  activeIndex:number,
+  isFirstMainWallet:boolean
 }
 
 const defaultWallet: walletDate = {
@@ -17,7 +18,9 @@ const defaultWallet: walletDate = {
   publicKey: '',
   secretKey: '',
   address: '',
-  name:""
+  name:"",
+  authority:false,
+  isSub:false
 };
 
 //添加前缀
@@ -33,7 +36,8 @@ const useAccountStore = defineStore('account', {
     temporaryWallet:defaultWallet,
     password:'',
     temporaryName:'',
-    activeIndex:0
+    activeIndex:0,
+    isFirstMainWallet:true
   }),
   actions: {
     async addWalletAction(wallet: walletDate) {
@@ -74,6 +78,11 @@ const useAccountStore = defineStore('account', {
       this.activeWallet = addPrefix(await storageAccounts.get('activeWallet') ?? { ...defaultWallet });
       this.password= await storageAccounts.get('password')
       this.activeIndex=await storageAccounts.get('activeIndex')
+      this.isFirstMainWallet=await storageAccounts.get('isFirstMainWallet')
+    },
+    async changeIsFirstMainWallet(isFirst:boolean){
+        this.isFirstMainWallet=isFirst
+        await storageAccounts.set('isFirstMainWallet',isFirst)
     },
     async changeActiveWallet(index: number) {
       this.activeWallet = addPrefix(this.walletList[index] ?? { ...defaultWallet });
