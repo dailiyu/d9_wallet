@@ -3,9 +3,11 @@ export interface walletDate {
   publicKey: string;
   secretKey: string;
   address: string;
+  authority?:boolean,
+  isSub?:boolean,
   name?:string;
   password?:string,
-  value?:number
+  value?:number,
 }
 
 

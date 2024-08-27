@@ -9,7 +9,7 @@
         <div class="title_bar">
             <img src="@/assets/home/close.png" alt="" class="close_icon" @click="closePop()">
             <div>钱包列表</div>
-            <div class="manage" @click="showValidatePop=true">添加钱包</div>
+            <!-- <div class="manage" @click="showValidatePop=true">添加钱包</div> -->
         </div>
         <div v-for="(wallet,index) in walletList">
             <div class="wallet_item " :class="activeWalletIndex===index?'':'inactive'" @click="selectWallet(index)">
@@ -18,7 +18,9 @@
                         <div class="name">{{ wallet.name }}</div>
                         <div class="account">{{ obscureString(wallet.address) }}</div>
                     </div>
-                    <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon" v-if="activeWalletIndex===index">
+                    <span class="wallet_icon" v-if="wallet.authority" @click="clickAddSubWallet(wallet)">+</span>
+            
+                    <!-- <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon" v-if="activeWalletIndex===index"> -->
                 </div>
                 <div class="balance">$ 0.00</div>
             </div>
@@ -39,7 +41,6 @@
     </div>
 
     <validatePassword type="verify" :isShow="showValidatePop" @confirm="comfirmPassword" @close="showValidatePop=false"></validatePassword>
-
     <van-popup
       :show="showAddPop"
       round
@@ -51,7 +52,7 @@
     >
       <!-- 编辑昵称 -->
       <div class="edit_name">
-        <div class="title">添加钱包</div>
+        <div class="title">请输入子钱包名</div>
         <van-cell-group inset>
           <van-field
             v-model="walletName"
@@ -73,14 +74,19 @@ import { postRefreshUsersProfile } from "@/services/http/main";
 import validatePassword from "@/components/validatePassword.vue";
 import { validateInfo } from '@/types/index'
 import { useRouter } from "vue-router";
+import inputString from "../inputString.vue";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+import { useWalletService } from "@/services/walletService";
+import { walletDate } from "@/types/account";
+// 使用钱包服务
+const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet,importFromSecretKey,preCreateSubWallet } = useWalletService();
 const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
 const operateType=ref<'import'|'add'>('import')
 const walletList = computed(() => accountStore.walletList);
 const activeWallet = computed(() => accountStore.activeWallet);
 const activeWalletIndex = computed(() => accountStore.activeIndex);
-
+const showInputStringPop=ref<boolean>(false)
 const selectedIndex = ref<number>();
 
 defineProps({
@@ -111,14 +117,19 @@ const selectWallet = async (index: number) => {
 const showValidatePop = ref(false)
 const walletName = ref('')
 const showAddPop = ref(false)
-
-function comfirmPassword(info: validateInfo){
+const parenWallet=ref<walletDate>({
+    mnemonic: "",
+    publicKey: "",
+    secretKey: "",
+    address: ""
+})
+const comfirmPassword=async(info: validateInfo)=>{
     if (info.password == accountStore.password){
-        if(operateType.value=='import'){
-            router.push('/main/walletImport')
-        }else{
-            
-        }
+       if(operateType.value=='import'){
+        router.push('main/walletImport')
+       }else{
+        await dealAddSubWallet()
+       }
 
     }else{
         showFailToast("密码错误");
@@ -128,15 +139,27 @@ function comfirmPassword(info: validateInfo){
     // showAddPop.value = true
 }
 
+const dealAddSubWallet=async ()=>{
+    const walletData=await preCreateSubWallet(parenWallet.value.mnemonic,'//0')
+    await accountStore.addWalletAction({...walletData,isSub:true,authority:false,name:walletName.value})
+}
+const clickAddSubWallet=async (wallet:walletDate)=>{
+    showAddPop.value=true
+    parenWallet.value=wallet
+}
+
+
+
 function confirmName(){
-    showAddPop.value = false
+    showValidatePop.value=true
+    showAddPop.value=false
+     operateType.value='add'
 }
 
 const router = useRouter()
 function toImportWallet(){
     showValidatePop.value=true
     operateType.value='import'
-  
 }
 </script>
 
