@@ -104,7 +104,7 @@ import useAccountStore from "@/store/account/account";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
 import { postGetUsdt,postGetD9 } from '@/services/http/amm';
-import { postUsdtTransfer } from "@/services/http/usdt";
+import { postAllowanceMarketMaker, postUsdtTransfer } from "@/services/http/usdt";
 import {postRefreshUsersProfile} from "@/services/http/main"
 
 import { validateInfo } from '@/types';
@@ -156,9 +156,10 @@ const flashExchangeD9ToUsdt=async()=>{
 }
 
 const flashExchangeUsdtToD9=async()=>{
+    await postAllowanceMarketMaker({amount:usdtAmount.value||0})
     await postGetD9({amount:usdtAmount.value||0})
-    await postRefreshUsersProfile()
-    await userProfileStore.getUserProfileAction()
+    // await postRefreshUsersProfile()
+    await userProfileStore.fetchAllData()
 
 }
 

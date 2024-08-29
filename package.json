@@ -21,7 +21,7 @@
     "@capacitor/keyboard": "6.0.1",
     "@capacitor/status-bar": "^6.0.0",
     "@ionic/storage": "^4.0.0",
-    "@ionic/vue": "^8.0.0",
+    "@ionic/vue": "^8.2.7",
     "@ionic/vue-router": "^8.0.0",
     "@polkadot/api": "^12.2.1",
     "@polkadot/keyring": "^13.0.2",
