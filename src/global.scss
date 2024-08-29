@@ -96,6 +96,7 @@ body.barcode-scanner-active {
   visibility: hidden;
   --background: transparent;
   --ion-background-color: transparent;
+  z-index: 999;
 }
 
 // Show only the barcode scanner modal

@@ -159,7 +159,9 @@ const flashExchangeUsdtToD9=async()=>{
     await postAllowanceMarketMaker({amount:usdtAmount.value||0})
     await postGetD9({amount:usdtAmount.value||0})
     // await postRefreshUsersProfile()
-    await userProfileStore.fetchAllData()
+    // await userProfileStore.fetchAllData()
+    await userProfileStore.getD9BalanceAction()
+    await userProfileStore.getUsdtBalanceAction()
 
 }
 

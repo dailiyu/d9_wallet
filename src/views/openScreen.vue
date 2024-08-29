@@ -24,7 +24,7 @@ onMounted(async()=>{
     }else{
         router.push('/index')
     }
-   }, 2000);
+   }, 700);
 })
 
 
