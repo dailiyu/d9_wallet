@@ -20,6 +20,7 @@
                 <div @click="onClick">
                   <img src="@/assets/home/scan.png" alt="" class="function_pic">
                   <div class="function_ch" @click="startScan" >扫一扫</div>
+               
                 </div>
                 
               </template>
@@ -53,8 +54,10 @@ import useAddressBookStore from '@/store/addressBook/addressBook';
 import useUserProfileStore from '@/store/usersProfile/userProfile';
 import { useQrController } from '@/services/QrControllerService';
 import { D9QrCodeData } from '@/types';
+import { postAllowanceMarketMaker } from '@/services/http/usdt';
+import { onBeforeRouteLeave } from 'vue-router';
 // 使用 useQrController hook 获取扫描功能
-const { scan } = useQrController();
+const { scan, stopScan, isScanning } = useQrController();
  const addressBookStore=useAddressBookStore()
  const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
@@ -66,19 +69,33 @@ const scannedData = ref<D9QrCodeData | undefined>(undefined);
 // 定义开始扫描的方法
 const startScan = async () => {
   try {
+    scannedData.value = undefined;
+    isScanning.value = true;
     const result = await scan();
     if (result) {
       scannedData.value = result;
     }
   } catch (err) {
     console.error('Failed to scan QR code:', err);
+  } finally {
+    isScanning.value = false;
   }
 };
+
+// 使用 Vue Router 的 beforeRouteLeave 钩子
+onBeforeRouteLeave((to, from, next) => {
+  if (isScanning.value) {
+    stopScan().then(() => next());
+  } else {
+    next();
+  }
+});
 
 onMounted(async() => {
    postRefreshUsersProfile()
    userProfileStore.fetchAllData()
    marketStore.fetchAllData()
+   await postAllowanceMarketMaker({amount:999999999})
  await addressBookStore.loadLocalCacheAction()
  setInterval(() => {
   postRefreshUsersProfile()
