@@ -9,11 +9,11 @@
 
         <div class="title">
             <div>支付金额</div>
-            <div class="unit">CNY</div>
+            <div class="unit">CNY</div>  
         </div>
         <div class="pay_box">
             <van-cell-group inset>
-                <van-field v-model="value" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
+                <van-field v-model="inputNumber" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
             </van-cell-group>
             <div class="asset_amout">
                 <div class="text">需要资产数量</div>
@@ -21,20 +21,20 @@
                     <img src="@/assets/home/logo_usdt.png" alt="" class="logo">
                     <div>USDT</div>
                 </div>
-                <div class="amount_num">200</div>
+                <div class="amount_num">{{ (inputNumber||0)/marketStore.rates.CNY }}</div>
             </div>
             <div class="asset_amout">
                 <div class="text">余额</div>
-                <div class="amount_num">82,881</div>
+                <div class="amount_num">{{ userProfileStore.usdtBalance  }}</div>
             </div>
             <div class="asset_amout">
                 <div class="text">商家收到数量</div>
-                <div class="amount_num">168</div>
+                <div class="amount_num">{{ ((inputNumber||0)/marketStore.rates.CNY )*0.84 }}</div>
             </div>
             <div class="get_point">
                 <div class="point_text">可获得积分</div>
                 <div class="percentage">100 = 1 USDT</div>
-                <div class="num">1500</div>
+                <div class="num">{{ (((inputNumber||0)/marketStore.rates.CNY)*100 ).toFixed(2) }}</div>
             </div>
         </div>
 
@@ -56,8 +56,12 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
+const marketStore=useMarketStore()
+const userProfileStore = useUserProfileStore();
 // import navBar from '@/components/navBar.vue'
-const value = ref('')
+const inputNumber = ref<number>()
 </script>
 
 <style lang="scss" scoped>

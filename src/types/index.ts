@@ -19,3 +19,12 @@ declare module 'qrcode' {
     newPassword1: string,
     newPassword2: string,
 }
+
+
+// src/types.ts
+
+export interface D9QrCodeData {
+  type: 'WalletAddress';
+  accountId: string;
+  amount: number;
+}
