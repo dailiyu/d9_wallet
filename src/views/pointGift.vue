@@ -180,17 +180,19 @@ const userProfileStore = useUserProfileStore();
                 color: #8E8C8E;
             }
             .asset_unit {
-                width: 13.785vw;
-                height: 3.972vw;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                // width: 13.785vw;
+                // height: 3.972vw;
+                width: fit-content;
+                // display: flex;
+                // align-items: center;
+                // justify-content: center;
                 background: #BDC5D7;
                 border-radius: 100px;
                 font-weight: 400;
                 font-size: 9px;
                 color: #fff;
                 margin-left: 2.3364vw;
+                padding: .9346vw 2.8037vw;
             }
             .amount_num {
                 flex: 1;
@@ -210,15 +212,16 @@ const userProfileStore = useUserProfileStore();
                 font-size: 3.5047vw;
             }
             .percentage {
-                width: 14.0187vw;
+                width: fit-content;
                 background-color: #BDC5D7;
-                border-radius: 9px;
+                border-radius: 100px;
                 font-weight: 400;
                 font-size: 1.8692vw;
                 color: #FFFFFF;
                 border-radius: 100px;
                 margin-left: 2.1028vw;
-                text-align: center;
+                // text-align: center;
+                padding: .4673vw 1.1682vw;
             }
             .num {
                 flex: 1;

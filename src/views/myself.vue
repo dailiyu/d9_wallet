@@ -22,18 +22,19 @@
         <div class="balance">
           <div class="balance-top">
           <div class="text"> 钱包余额</div>
-            <img class="eye-icon" src="../assets/myself/eye.png" alt="">
+            <img class="eye-icon" src="@/assets/eye_closed_t.png" alt="" @click="balanceType='password'" v-if="balanceType=='text'">
+            <img class="eye-icon" src="@/assets/eye_open_t.png" alt="" @click="balanceType='text'" v-if="balanceType=='password'">
           </div>
           <div class="balance-number">
              <span class="icon">$</span>
              <van-cell-group inset>
-                <van-field :value="(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)" readonly/>
+                <van-field v-model="walletBalance" :type="balanceType" readonly/>
              </van-cell-group>
              <!-- <span class="number">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</span> -->
           </div>
         </div>
         <div class="wallet-bottom">
-      <div class="mini-box">
+      <div class="mini-box" @click="toWalletManagement">
         <div class="top">钱包管理</div>
         <div class="bottom">
           <div class="left">2</div>
@@ -121,15 +122,23 @@ import useAccountStore from  "@/store/account/account"
 // };
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
+import { ref } from 'vue';
+import { FieldType } from 'vant';
 const marketStore=useMarketStore()
 const  accountStore=useAccountStore()
 const  userProfileStore= useUserProfileStore();
 const router = useRouter()
+const walletBalance = (Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)
+const balanceType = ref<FieldType>('text')
+
 function toAddress(){
   router.push('/addressBook')
 }
 function toSetting(){
   router.push('/systemSetting')
+}
+function toWalletManagement(){
+  router.push('/walletManagement')
 }
 </script>
 
@@ -221,8 +230,13 @@ function toSetting(){
               color: #fff;
             }
           }
-          .van-cell__value {
+          :deep(.van-cell__value) {
             font-size: 7.0093vw;
+            color: #fff;
+            margin-left: .7009vw;
+          }
+          :deep(.van-field__control) {
+            color: #fff;
           }
         }
       }

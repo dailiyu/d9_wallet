@@ -86,7 +86,7 @@
                 <div class="grid_t">详情</div>
             </van-col>
         </van-row>
-        <van-row :gutter="[6, 0]" class="grid_table">
+        <van-row :gutter="[6, 0]" class="grid_table" @click="toRecords">
             <van-col span="5">
                 <div class="type padding" style="color: #CD4E45;">Buy</div>
                 <!-- <div class="type" style="color: #32C390;">Sell</div> -->
@@ -100,13 +100,15 @@
             <van-col span="5">
                 <div class="time padding">13分钟前</div>
             </van-col>
-            <van-col span="4">
+            <van-col span="4" @click.stop="showValidatePop=true">
                 <div class="padding">
                     <img src="@/assets/home/order-inspection-fill.png" alt="" class="de_icon padding">
                 </div>
             </van-col>
         </van-row>
     </div>
+    <validatePassword type="verify" :isShow="showValidatePop" @close="showValidatePop=false" @confirm="confirmVote"></validatePassword>
+    <inputNumber :isShow="showInputPop" @close="showInputPop=false" @confirm="confirmNum"></inputNumber>
   </ion-page>
 </template>
 
@@ -117,6 +119,9 @@ import { useRouter } from 'vue-router';
 // import navBar from '@/components/navBar.vue'
 import ApexCharts from 'apexcharts'
 import useMarketStore from "@/store/market/market"
+import validatePassword from '@/components/validatePassword.vue';
+import { validateInfo } from '@/types/index'
+import inputNumber from '@/components/inputNumber.vue';
 
 const marketStore=useMarketStore()
 
@@ -185,6 +190,21 @@ function toAddLiquidity(){
 }
 function toSwap(){
     router.push('/main/swap')
+}
+function toRecords(){
+    router.push('/main/swapRecords')
+}
+
+const showValidatePop = ref(false)
+const showInputPop = ref(false)
+const confirmVote = (info:validateInfo)=>{
+    console.log(info);
+    showValidatePop.value = false
+    showInputPop.value = true
+}
+const confirmNum = (num:string)=>{
+    console.log(num);
+    
 }
 </script>
 

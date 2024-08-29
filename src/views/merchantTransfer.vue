@@ -80,9 +80,9 @@ const value = ref('')
         align-items: center;
         justify-content: space-between;
         .unit {
-            width: 12.6168vw;
-            text-align: center;
-            padding: .7009vw 0;
+            // width: 12.6168vw;
+            // text-align: center;
+            padding: .7009vw 2.5701vw;
             font-weight: 400;
             font-size: 2.1028vw;
             color: #FFFFFF;
@@ -167,15 +167,16 @@ const value = ref('')
                 font-size: 3.5047vw;
             }
             .percentage {
-                width: 14.0187vw;
+                width: fit-content;
                 background-color: #BDC5D7;
-                border-radius: 9px;
+                border-radius: 100px;
                 font-weight: 400;
                 font-size: 1.8692vw;
                 color: #FFFFFF;
                 border-radius: 100px;
                 margin-left: 2.1028vw;
-                text-align: center;
+                // text-align: center;
+                padding: .4673vw 1.1682vw;
             }
             .num {
                 flex: 1;

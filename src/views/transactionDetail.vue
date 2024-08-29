@@ -103,15 +103,17 @@ import { useRoute } from 'vue-router';
     margin-top: 1.6355vw;
 }
 .in_fee {
-    width: 14.7196vw;
-    height: 3.972vw;
-    line-height: 3.972vw;
+    // width: 14.7196vw;
+    // height: 3.972vw;
+    // line-height: 3.972vw;
+    width: fit-content;
     text-align: center;
     background-color: #BDC5D7;
     color: #fff;
     border-radius: 4px;
     font-size: 2.8037vw;
     font-weight: 400;
+    padding: .2336vw 1.6355vw;
 }
 .line {
     border-bottom: 1px solid #E7EBF2;

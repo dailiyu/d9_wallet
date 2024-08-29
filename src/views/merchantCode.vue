@@ -201,13 +201,14 @@ const confirm=async (info:validateInfo)=>{
         }
     }
     .add_time {
-        width: 13.785vw;
+        // width: 13.785vw;
+        width: fit-content;
         border-radius: 100px;
         color: #F8F8F8;
         background-color: #3FBBFA;
         margin: 5.3738vw auto 8.6449vw;
-        text-align: center;
-        padding: .7009vw 0;
+        // text-align: center;
+        padding: .7009vw 2.3364vw;
         font-weight: 400;
         font-size: 10px;
     }

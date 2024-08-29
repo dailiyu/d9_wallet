@@ -14,7 +14,9 @@
               <div class="wallet_text">
                 <div class="text_left">
                   <div>钱包余额</div>
-                  <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
+                  <!-- <img src="@/assets/home/view-fill.png" alt="" class="view_pic"> -->
+                  <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="balanceType='password'" v-if="balanceType=='text'">
+                  <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="balanceType='text'" v-if="balanceType=='password'">
                 </div>
                 <div class="text_right" @click="toWalletManagement()">
                   <div>钱包管理</div>
@@ -23,7 +25,10 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
+                <!-- <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div> -->
+                <van-cell-group inset>
+                  <van-field v-model="walletBalance" :type="balanceType" readonly/>
+                </van-cell-group>
               </div>
               <div class="buttons">
                 <div class="button_item" @click="transfer">转账</div>
@@ -62,7 +67,9 @@
               <div class="wallet_text">
                 <div class="text_left">
                   <div>钱包余额</div>
-                  <img src="@/assets\home/view-fill.png" alt="" class="view_pic">
+                  <!-- <img src="@/assets/home/view-fill.png" alt="" class="view_pic"> -->
+                  <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="balanceType='password'" v-if="balanceType=='text'">
+                  <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="balanceType='text'" v-if="balanceType=='password'">
                 </div>
                 <div class="text_right">
                   <div>钱包管理</div>
@@ -71,7 +78,10 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
+                <!-- <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div> -->
+                <van-cell-group inset>
+                  <van-field v-model="walletBalance" :type="balanceType" readonly/>
+                </van-cell-group>
               </div>
               <div class="buttons">
                 <div class="button_item" @click="toSwap()">闪兑</div>
@@ -100,9 +110,14 @@
           <div class="point_total">
             <div class="total_text">
               <div>积分总量</div>
-              <img src="@/assets/home/view-fill.png" alt="" class="view_pic">
+              <!-- <img src="@/assets/home/view-fill.png" alt="" class="view_pic"> -->
+              <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="totalType='password'" v-if="totalType=='text'">
+              <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="totalType='text'" v-if="totalType=='password'">
             </div>
-            <div class="point_num">{{ userProfileStore.totalIntegral }}</div>
+            <!-- <div class="point_num">{{ userProfileStore.totalIntegral }}</div> -->
+            <van-cell-group inset>
+              <van-field v-model="totalPoint" :type="totalType" readonly/>
+            </van-cell-group>
           </div>
           <div class="wallet_detail">
             <div class="title">
@@ -154,11 +169,17 @@ import {postMerchantRedeemD9}  from "@/services/http/merchant"
 import { validateInfo } from '@/types';
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import useAccountStore from "@/store/account/account";
+import { FieldType } from 'vant';
+
 const marketStore=useMarketStore()
 const  userProfileStore= useUserProfileStore();
 const showPasswordPop = ref(false);
 const accountStore = useAccountStore();
 
+const walletBalance = (Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)
+const balanceType = ref<FieldType>('text')
+const totalPoint = userProfileStore.totalIntegral
+const totalType = ref<FieldType>('text')
 
 onMounted(async() => {
 
@@ -352,6 +373,23 @@ position: relative;
             .balance_num {
               font-size: 8.4112vw;
             }
+            .van-cell-group {
+              background-color: transparent;
+            }
+            .van-cell-group--inset {
+              margin: 0;
+              .van-cell {
+                padding: 0;
+                background-color: transparent;
+                color: #fff;
+              }
+            }
+            :deep(.van-cell__value) {
+              font-size: 8.4112vw;
+            }
+            :deep(.van-field__control) {
+              color: #000;
+            }
           }
           .buttons {
             display: flex;
@@ -397,6 +435,7 @@ position: relative;
                 }
               }
               .item_num {
+                text-align: right;
                 .num1 {
                   color: #0065B2;
                   font-size: 3.5047vw;
@@ -486,14 +525,15 @@ position: relative;
                 margin-bottom: .9346vw
               }
               .rate_num {
-                border-radius: 9px;
+                border-radius: 100px;
                 color: #fff;
                 background-color: #BDC5D7;
-                width: 13.785vw;
-                height: 3.972vw;
-                line-height: 3.972vw;
+                // width: 13.785vw;
+                // height: 3.972vw;
+                // line-height: 3.972vw;
                 text-align: center;
                 font-size: 2.1028vw;
+                padding: .9346vw 1.8692vw;
               }
             }
           }
@@ -534,6 +574,24 @@ position: relative;
           .point_num {
             font-size: 5.6075vw;
             font-weight: 500;
+          }
+          .van-cell-group {
+            background-color: transparent;
+          }
+          .van-cell-group--inset {
+            margin: 0;
+            .van-cell {
+              padding: 0;
+              background-color: transparent;
+              color: #fff;
+            }
+          }
+          :deep(.van-cell__value) {
+            font-size: 5.6075vw;
+            font-weight: 500;
+          }
+          :deep(.van-field__control) {
+            color: #000;
           }
         }
       }

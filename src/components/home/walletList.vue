@@ -10,6 +10,7 @@
             <img src="@/assets/home/close.png" alt="" class="close_icon" @click="closePop()">
             <div>钱包列表</div>
             <!-- <div class="manage" @click="showValidatePop=true">添加钱包</div> -->
+            <div></div>
         </div>
         <div v-for="(wallet,index) in walletList">
             <div class="wallet_item " :class="activeWalletIndex===index?'':'inactive'" @click="selectWallet(index)">
@@ -49,6 +50,7 @@
         'border-radius': '13px',
         width: '88.3178vw',
       }"
+      @close="showAddPop=false"
     >
       <!-- 编辑昵称 -->
       <div class="edit_name">
