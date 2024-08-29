@@ -1,6 +1,6 @@
 
 import { postGetReserves,postGetUsdtToOtherRate } from '@/services/http/amm';
-import { makerTransactionsList } from '@/services/http/IndexServer';
+import { postMarketTransactionData } from '@/services/http/IndexServer';
 import { postGetTotalBurned } from '@/services/http/main';
 import { postGetAllVolume } from '@/services/http/mining';
 import { postGetRank } from '@/services/http/node';
@@ -43,6 +43,17 @@ import { defineStore } from 'pinia';
     data: Data;
 
   }
+
+
+  interface TransactionData {
+   transactionCountLast24Hours: string;
+   transactionCountLast48To24Hours: string;
+   transactionCountChangeRate: number;
+   usdtSumLast24Hours: string;
+   usdtSumLast48To24Hours: string;
+   usdtSumChangeRate: number;
+ }
+ 
   
 
 interface AccountState {
@@ -54,7 +65,8 @@ interface AccountState {
     transactionList:Transaction[],
     TotalBurned:number,
     poolsTotalNumber:number,
-    rates:Rates
+    rates:Rates,
+    marketTransaction:TransactionData
 }
 
 
@@ -80,6 +92,14 @@ const useMarketStore = defineStore('market', {
        VND: 0,
        THB: 0,
        MYR: 0
+    },
+    marketTransaction:{
+       transactionCountLast24Hours: '',
+       transactionCountLast48To24Hours: '',
+       transactionCountChangeRate: 0,
+       usdtSumLast24Hours: '',
+       usdtSumLast48To24Hours: '',
+       usdtSumChangeRate: 0
     }
   }),
   actions: {
@@ -97,10 +117,7 @@ const useMarketStore = defineStore('market', {
       this.nodeRankList=metaData.data.results
 
    },
-   async getTransactionListAction(){
-      const metaData=await makerTransactionsList()
-      this.transactionList=metaData.data.results
-   },
+
    async gettBurningTotalsAction(){
       const metaData=await postGetTotalBurned()
       this.TotalBurned=metaData.data.results
@@ -121,13 +138,22 @@ const useMarketStore = defineStore('market', {
       this.rates.VND=ratesResults.find((item: { name: string; }) => item.name === 'vnd').price
       this.rates.THB=ratesResults.find((item: { name: string; }) => item.name === 'thb').price
    },
+   async getmarketTransactionData(){
+      const metaData=await postMarketTransactionData()
+      this.marketTransaction.transactionCountLast24Hours=metaData.data.transaction_count_last_24_hours
+      this.marketTransaction.transactionCountLast48To24Hours=metaData.data.transaction_count_last_48_to_24_hours
+      this.marketTransaction.transactionCountChangeRate=metaData.data.transaction_count_change_rate
+      this.marketTransaction.usdtSumLast24Hours=metaData.data.usdt_sum_last_24_hours
+      this.marketTransaction.usdtSumLast48To24Hours=metaData.data.usdt_sum_last_48_to_24_hours
+      this.marketTransaction.usdtSumChangeRate=metaData.data.usdt_sum_change_rate
+   },
   async fetchAllData(){
    this.getExchangeRateAction()
    this.getRankAction()
-    this.getTransactionListAction()
     this.gettBurningTotalsAction()
     this.getPoolsTotalNumber()
     this.getRateUsdtToOther()
+    this.getmarketTransactionData()
    }
 }
 });

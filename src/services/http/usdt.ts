@@ -98,6 +98,7 @@ export function postAllowanceMainMining(queryInfo: {
 }
 */
 
+//市场交易请求津贴
 export function postAllowanceMarketMaker(queryInfo: {
   amount:number
 }) {

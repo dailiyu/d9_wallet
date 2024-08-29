@@ -65,7 +65,7 @@ import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { validateInfo } from '@/types';
 import { postMerchantGivePointsUsdt } from '@/services/http/merchant';
-
+const userProfileStore = useUserProfileStore();
 const showPasswordPop = ref(false);
 // import navBar from '@/components/navBar.vue'
 const payNumber = ref<number>(0)
@@ -99,7 +99,7 @@ const confirm=async(info: validateInfo)=>{
 
 
 
-const userProfileStore = useUserProfileStore();
+
 
 </script>
 

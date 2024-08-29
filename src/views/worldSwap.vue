@@ -30,9 +30,9 @@
                         <span class="text_b">成交额</span>
                         <span class="text_s">（24h）</span>
                     </div>
-                    <div class="percentage" style="color: #32C390;">+95%</div>
+                    <div class="percentage" style="color: #32C390;">{{marketStore.marketTransaction.usdtSumChangeRate}}%</div>
                 </div>
-                <div class="tran_money">$ 132,332,334</div>
+                <div class="tran_money">$ {{ marketStore.marketTransaction.usdtSumLast24Hours }}</div>
             </div>
             <div class="transaction_item">
                 <div class="transaction_top">
@@ -40,9 +40,9 @@
                         <span class="text_b">交易数</span>
                         <span class="text_s">（24h）</span>
                     </div>
-                    <div class="percentage" style="color: #CD4E45;">-20%</div>
+                    <div class="percentage" style="color: #CD4E45;">{{marketStore.marketTransaction.transactionCountChangeRate}}%</div>
                 </div>
-                <div class="tran_money">2,334</div>
+                <div class="tran_money">{{ marketStore.marketTransaction.transactionCountLast24Hours }}</div>
             </div>
         </div>
 

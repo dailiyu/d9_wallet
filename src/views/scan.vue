@@ -1,42 +1,41 @@
-<!-- <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Scan QR Code</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-button @click="scanQRCode">Scan QR Code</ion-button>
-      <ion-text v-if="scannedUrl">Scanned URL: {{ scannedUrl }}</ion-text>
-    </ion-content>
-  </ion-page>
+<template>
+<ion-page>
+  <div style="margin-top: 100px;" @click="startScan">Scan QR Code</div>
+    <div v-if="scannedData">
+      <p><strong>Account ID:</strong> {{ scannedData.accountId }}</p>
+      <p><strong>Amount:</strong> {{ scannedData.amount }}</p>
+    </div>
+
+</ion-page>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { QrCodeService } from '@/services/qr-code-service'; // 更新路径以匹配你的项目结构
+import { useQrController } from '@/services/QrControllerService';
+import { D9QrCodeData } from '@/types';
+import { IonPage } from '@ionic/vue';
+// 使用 useQrController hook 获取扫描功能
+const { scan } = useQrController();
 
-const qrCodeService = new QrCodeService();
-const scannedUrl = ref<string | null>(null);
+// 定义 ref 来存储扫描结果
+const scannedData = ref<D9QrCodeData | undefined>(undefined);
 
-const scanQRCode = async () => {
-  const url = await qrCodeService.scanQRCode();
-  if (url) {
-    scannedUrl.value = url;
+// 定义开始扫描的方法
+const startScan = async () => {
+  try {
+    const result = await scan();
+    if (result) {
+      scannedData.value = result;
+    }
+  } catch (err) {
+    console.error('Failed to scan QR code:', err);
   }
 };
 </script>
 
 <style scoped>
-ion-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  text-align: center;
+p {
+  font-size: 1.2em;
+  margin-top: 10px;
 }
-
-ion-text {
-  margin-top: 20px;
-}
-</style> -->
+</style>

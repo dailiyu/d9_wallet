@@ -128,7 +128,7 @@ const parenWallet=ref<walletDate>({
 const comfirmPassword=async(info: validateInfo)=>{
     if (info.password == accountStore.password){
        if(operateType.value=='import'){
-        router.push('main/walletImport')
+        router.push('/main/walletImport')
        }else{
         await dealAddSubWallet()
        }
