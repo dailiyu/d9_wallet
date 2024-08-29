@@ -25,6 +25,7 @@
          @ionInput="onToAddressInputChange" 
           style="min-height: 10px; font-size: 2.8037vw"
           placeholder="输入或粘贴接收账户地址"
+          :value="toAddress"
         >
           <img
             src="@/assets/home/scan-grey.png"
@@ -112,7 +113,7 @@ import { IonInput } from "@ionic/vue";
 import useAccountStore from "@/store/account/account";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
-
+import { defineProps } from 'vue'
 const type = ref("");
 const showPasswordPop = ref(false);
 import { ref } from "vue";
@@ -122,34 +123,47 @@ import { validateInfo } from "@/types";
 import { postUsdtTransfer } from "@/services/http/usdt";
 const userProfileStore = useUserProfileStore();
 const accountStore = useAccountStore();
-const emit = defineEmits(["closeTransferModal"]);
-const transferAmount = ref<number>();
+const emit = defineEmits(["closeTransferModal","changeAddress","dealChangeAmount"]);
+
+// const transferAmount = ref<number>();
 const showUnitPop = ref(false)
 const checked = ref('d9')
-const toAddress=ref<string>()
+// const toAddress=ref<string>()
 function closeTransferModal() {
   emit("closeTransferModal");
 }
 
+// 使用 defineProps 定义 props
+const props = defineProps({
+  toAddress: {
+    type: String,
+  },
+  transferAmount:{
+    type:Number
+  }
+})
+
 // 定义一个事件处理函数
 const onTransferAmountInputChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
-  transferAmount.value = Number(input.value);
+  emit('dealChangeAmount',Number(input.value) )
+  // transferAmount.value = Number(input.value);
   
 };
 
 const onToAddressInputChange=(event: Event) => {
   const input = event.target as HTMLInputElement;
-  toAddress.value = String(input.value);
+  // toAddress.value = String(input.value);
+  emit('changeAddress',input.value )
 };
 
 
 const transferD9=async()=>{
-  await postTransfer({to_address:toAddress.value||'',amount:transferAmount.value||0})
+  await postTransfer({to_address:props.toAddress||'',amount:props.transferAmount||0})
 }
 
 const transferUsdt=async()=>{
-  await postUsdtTransfer({to_address:toAddress.value||'',amount:transferAmount.value||0})
+  await postUsdtTransfer({to_address:props.toAddress||'',amount:props.transferAmount||0})
 }
 
 const changeType=(name:string)=>{
@@ -172,7 +186,7 @@ const changeType=(name:string)=>{
   }
    
     Toast.close();
-    transferAmount.value=0
+    emit('dealChangeAmount',0 )
     showSuccessToast("转账成功");
   }else{
     showFailToast("密码错误");

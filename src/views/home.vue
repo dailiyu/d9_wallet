@@ -13,16 +13,13 @@
           
         </div>
         <div class="function_item">
-            <!-- <img src="@/assets/home/scan.png" alt="" class="function_pic">
-            <div class="function_ch" >扫一扫</div> -->
+  
             <scanQRCode >
               <template #scan="{ onClick }">
                 <div @click="onClick">
                   <img src="@/assets/home/scan.png" alt="" class="function_pic">
                   <div class="function_ch" @click="startScan" >扫一扫</div>
-               
-                </div>
-                
+                </div>            
               </template>
             </scanQRCode>
         </div>
@@ -32,8 +29,8 @@
     <homeSwiper @transfer="transfer" @receive="receive"></homeSwiper>
     
   </div>
-  <homgTransferModal :isShowTransferModal="showTransferModal" @closeTransferModal="closeTransferModal" ref="transferModal"></homgTransferModal>
-  <homeAcceptModal :isShowAcceptModal="showAcceptModal" @closeAcceptModal="closeAcceptModal()" ref="receiveMoneyModal"></homeAcceptModal>
+  <homgTransferModal  @changeAddress="dealChangeAddress" @changeAmount="dealChangeAmount"  :toAddress="toAddress" :transferAmount="amount"  :isShowTransferModal="showTransferModal" @closeTransferModal="closeTransferModal" ref="transferModal"></homgTransferModal>
+  <homeAcceptModal   :isShowAcceptModal="showAcceptModal" @closeAcceptModal="closeAcceptModal()" ref="receiveMoneyModal"></homeAcceptModal>
   <walletList :showWalletList="showWalletList" @close="showWalletList=false"></walletList>
   </ion-page>
 </template>
@@ -56,6 +53,7 @@ import { useQrController } from '@/services/QrControllerService';
 import { D9QrCodeData } from '@/types';
 import { postAllowanceMarketMaker } from '@/services/http/usdt';
 import { onBeforeRouteLeave } from 'vue-router';
+
 // 使用 useQrController hook 获取扫描功能
 const { scan, stopScan, isScanning } = useQrController();
  const addressBookStore=useAddressBookStore()
@@ -65,6 +63,8 @@ const marketStore=useMarketStore();
 
 // 定义 ref 来存储扫描结果
 const scannedData = ref<D9QrCodeData | undefined>(undefined);
+const toAddress=ref<string>('')
+const amount=ref<number>()
 
 // 定义开始扫描的方法
 const startScan = async () => {
@@ -73,7 +73,10 @@ const startScan = async () => {
     isScanning.value = true;
     const result = await scan();
     if (result) {
-      scannedData.value = result;
+      // scannedData.value = result;
+      toAddress.value=result.accountId
+      amount.value=result.amount
+       transferModal.value.$el.style.transform = 'translateY(0%)'
     }
   } catch (err) {
     console.error('Failed to scan QR code:', err);
@@ -81,6 +84,15 @@ const startScan = async () => {
     isScanning.value = false;
   }
 };
+const dealChangeAddress=async (address:string)=>{
+  // scannedData.value.accountId=address
+  toAddress.value=address
+
+}
+
+const dealChangeAmount=(inputNumber:number)=>{
+  amount.value=inputNumber
+}
 
 // 使用 Vue Router 的 beforeRouteLeave 钩子
 onBeforeRouteLeave((to, from, next) => {

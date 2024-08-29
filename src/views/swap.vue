@@ -120,7 +120,7 @@ const isD9ToUsdt = ref<boolean>(false)
 
 
 onMounted(()=>{
-    marketStore.getTransactionListAction()
+
 })
 
 function toRecords(){

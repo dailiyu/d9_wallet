@@ -113,7 +113,7 @@ const useUserProfileStore = defineStore("userProfile", {
         console.log("airdrop", error);
       }
     },
-    async merchantQrcodeGenerate(amount: number = 0) {
+    async merchantQrcodeGenerateAction(amount: number = 0) {
       const metaData = await postQrcodeGenerate({ amount });
       this.merchantCodeString = metaData.data.results;
     },
@@ -133,12 +133,12 @@ const useUserProfileStore = defineStore("userProfile", {
       this.getUsdtBalanceAction();
       this.getD9BalanceAction();
       this.getUserProfileAction();
-      this.merchantQrcodeGenerate();
+      this.merchantQrcodeGenerateAction();
       this.getVoteNumberAction();
       this.getNodeRewardsDataAction();
       // this.getAirdropNumberAction();
       this.getBurningPortfolioAction();
-      this.getMerchantCodeExpiryAction()
+      this.getMerchantCodeExpiryAction();
     },
   },
 });

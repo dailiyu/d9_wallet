@@ -37,7 +37,7 @@
     import QRCode from 'qrcode';
     import useUserProfileStore from '@/store/usersProfile/userProfile';
     import inputNumber from '@/components/inputNumber.vue'
-   import { showSuccessToast } from 'vant';
+   import { showSuccessToast ,showFailToast} from 'vant';
     const accountStore = useAccountStore();
     const payUrl = ref('')
     const userProfileStore=useUserProfileStore()
@@ -66,7 +66,7 @@
     });
    }
    onMounted(async() => {
-     await userProfileStore.merchantQrcodeGenerate()
+     await userProfileStore.merchantQrcodeGenerateAction()
      await  generateQrCode()
    })
 
@@ -80,14 +80,21 @@ const generateQrCode = async () => {
 };
 
 const setTheAmount=async()=>{
+    
 
 }
 
 
 const showInputNumberPop = ref(false)
-const confirm = (num:number)=>{
-    
-    
+const confirm =async (num:number)=>{
+   try {
+    await userProfileStore.merchantQrcodeGenerateAction(num)
+    qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString);
+    showSuccessToast('设置成功！')
+   } catch (error) {
+    showFailToast('设置失败！')
+   }
+    showInputNumberPop.value=false
 }
 
 </script>
