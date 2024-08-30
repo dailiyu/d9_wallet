@@ -45,7 +45,6 @@
                 <div class="tran_money">{{ marketStore.marketTransaction.transactionCountLast24Hours }}</div>
             </div>
         </div>
-
         <div class="title">
             当前汇率
         </div>
@@ -86,7 +85,7 @@
                 <div class="grid_t">详情</div>
             </van-col>
         </van-row>
-        <van-row :gutter="[6, 0]" class="grid_table" @click="toRecords">
+        <van-row :gutter="[6, 0]" class="grid_table" @click="toRecords" v-for="(item) in marketStore.flashExchangeDataList">
             <van-col span="5">
                 <div class="type padding" style="color: #CD4E45;">Buy</div>
                 <!-- <div class="type" style="color: #32C390;">Sell</div> -->
