@@ -19,7 +19,7 @@ import HttpRequest from './request'
   },
 })
 
- export const httQueryRequest = new HttpRequest({
+ export const httpQueryRequest = new HttpRequest({
   baseURL: QUERY_URL,
   timeout: TIME_OUT,
   interceptors: {
