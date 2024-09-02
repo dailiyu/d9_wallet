@@ -29,8 +29,9 @@
         <div class="multilanguage_pop">
             <div class="title">选择语言</div>
             <van-radio-group v-model="checked" shape="dot">
-                <van-radio name="1" checked-color="#0065FF" icon-size="3.5047vw">简体中文</van-radio>
-                <van-radio name="2" checked-color="#0065FF" icon-size="3.5047vw"> English </van-radio>
+                <van-radio name="1" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('zh')">简体中文</van-radio>
+                <van-radio name="2" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('en')"> English </van-radio>
+                <van-radio name="3" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('vi')"> Tiếng Việt </van-radio>
             </van-radio-group>
         </div>
     </van-popup>
@@ -41,7 +42,16 @@ import { IonPage } from '@ionic/vue';
 import { ref } from 'vue'
 import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+// 使用 useI18n hook
+const { t, locale } = useI18n();
+
+// 切换语言的函数
+const setLanguage = (lang: string) => {
+  locale.value = lang;
+  
+};
 const showLanguage = ref(false)
 const checked = ref('1')
 

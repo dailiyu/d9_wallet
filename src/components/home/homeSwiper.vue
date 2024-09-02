@@ -7,19 +7,19 @@
             <div class="logos">
               <img src="@/assets/home/d9-network.png" alt="" class="logo_d9" @click="showBalance=!showBalance">
               <div class="logo_item">
-                Digital Assets
+                {{ t('home.digitalAssets') }}
               </div>
             </div>
             <div class="wallet_detail">
               <div class="wallet_text">
                 <div class="text_left">
-                  <div>钱包余额</div>
+                  <div>{{ t('home.walletBalance') }}</div>
                   <!-- <img src="@/assets/home/view-fill.png" alt="" class="view_pic"> -->
                   <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="balanceType='password'" v-if="balanceType=='text'">
                   <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="balanceType='text'" v-if="balanceType=='password'">
                 </div>
                 <div class="text_right" @click="toWalletManagement()">
-                  <div>钱包管理</div>
+                  <div>{{ t('home.walletManagement') }}</div>
                   <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic">
                 </div>
               </div>
@@ -31,8 +31,8 @@
                 </van-cell-group>
               </div>
               <div class="buttons">
-                <div class="button_item" @click="transfer">转账</div>
-                <div class="button_item" @click="receive">收款</div>
+                <div class="button_item" @click="transfer">{{ t('home.transfer') }}</div>
+                <div class="button_item" @click="receive">{{ t('home.receive') }}</div>
               </div>
               <div class="rate">
                 <div class="rate_item" @click="toRecord('d9')">
@@ -66,13 +66,13 @@
             <div class="wallet_detail" style="top: 15vw;">
               <div class="wallet_text">
                 <div class="text_left">
-                  <div>钱包余额</div>
+                  <div>{{ t('home.walletBalance') }}</div>
                   <!-- <img src="@/assets/home/view-fill.png" alt="" class="view_pic"> -->
                   <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="balanceType='password'" v-if="balanceType=='text'">
                   <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="balanceType='text'" v-if="balanceType=='password'">
                 </div>
                 <div class="text_right">
-                  <div>钱包管理</div>
+                  <div>{{ t('home.walletManagement') }}</div>
                   <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic">
                 </div>
               </div>
@@ -84,19 +84,19 @@
                 </van-cell-group>
               </div>
               <div class="buttons">
-                <div class="button_item" @click="toSwap()">闪兑</div>
+                <div class="button_item" @click="toSwap()">{{ t('home.swap') }}</div>
                 <div class="button_item" @click="toDPOC">DPOC</div>
               </div>
               <div class="record">
                 <div class="r_left">
                   <img src="@/assets/home/time-history.png" alt="" class="r_pic">
-                  <div>交易记录</div>
+                  <div>{{ t('home.transferRecord') }}</div>
                 </div>
                 <img src="@/assets/home/arrow-right-grey.png" alt="" class="arrow_pic">
               </div>
               <div class="back" @click="back()">
                 <img src="@/assets/home/return.png" alt="" class="back_pic">
-                <div>回到首页</div>
+                <div>{{ t('home.backtoIndex') }}</div>
               </div>
             </div>
           </div>
@@ -109,7 +109,7 @@
           </div>
           <div class="point_total">
             <div class="total_text">
-              <div>积分总量</div>
+              <div>{{ t('home.totalPoint') }}</div>
               <!-- <img src="@/assets/home/view-fill.png" alt="" class="view_pic"> -->
               <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="totalType='password'" v-if="totalType=='text'">
               <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="totalType='text'" v-if="totalType=='password'">
@@ -121,31 +121,31 @@
           </div>
           <div class="wallet_detail">
             <div class="title">
-              我的账户
+              {{ t('home.myAccount') }}
             </div>
             <div class="exchanges">
               <div class="exchange_item">
-                <div>基础可兑换</div>
+                <div>{{ t('home.basicConvertibility') }}</div>
                 <div>{{userProfileStore.basicConvertibility  }}</div>
               </div>
               <div class="exchange_item">
-                <div>加速可兑换</div>
+                <div>{{ t('home.acceleratedConvertibility') }}</div>
                 <div>{{ userProfileStore.acceleratedConvertibility }}</div>
               </div>
             </div>
             <div class="exchanges">
               <div class="current_amount">
                 <div>
-                  <div class="current_text">当前可兑换数量</div>
+                  <div class="current_text">{{ t('home.currentConvertibility') }}</div>
                   <div class="current_num">{{ userProfileStore.convertibility }}</div>
                 </div>
                 <div class="current_left">
-                  <div class="rate_text">当前兑换率</div>
+                  <div class="rate_text">{{ t('home.currentConvertRate') }}</div>
                   <div class="rate_num">100 = 1 D9</div>
                 </div>
               </div>
             </div>
-            <div class="point_btn" @click="showPasswordPop=true">积分兑换</div>
+            <div class="point_btn" @click="showPasswordPop=true">{{ t('home.pointConvert') }}</div>
           </div>
       </div>
   
@@ -160,7 +160,7 @@
   </template>
   
   <script setup lang="ts">
-  import {  ref, computed} from 'vue';
+  import {  ref, computed, watch} from 'vue';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
@@ -170,6 +170,12 @@ import { validateInfo } from '@/types';
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import useAccountStore from "@/store/account/account";
 import { FieldType } from 'vant';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
+
 
 const marketStore=useMarketStore()
 const  userProfileStore= useUserProfileStore();
@@ -184,11 +190,30 @@ const totalType = ref<FieldType>('text')
 onMounted(async() => {
 
 })
- 
+
+
+
+ // 使用 t 方法进行翻译
+const exchanging = ref(t('home.exchanging'));
+const exchangeSuccess = ref(t('home.exchangeSuccess'))
+const passwordError = ref(t('home.passwordError'))
+
+// 监听 locale 变化，当语言切换时更新 message
+watch(locale, (newLocale) => {
+  exchanging.value = t('home.exchanging');
+  exchangeSuccess.value = t('home.exchangeSuccess');
+  passwordError.value = t('home.passwordError');
+});
+
+// 初始设置 message
+exchanging.value = t('home.exchanging');
+exchangeSuccess.value = t('home.exchangeSuccess');
+passwordError.value = t('home.passwordError');
+
 const confirm=async(info: validateInfo)=>{
     if (info.password == accountStore.password){
     const Toast = showLoadingToast({
-    message: "兑换中...",
+    message: exchanging.value,
     forbidClick: false,
     duration: 300000,
   });
@@ -196,9 +221,9 @@ const confirm=async(info: validateInfo)=>{
    await pointsRedemption()
     Toast.close();
     await  userProfileStore.fetchAllData()
-    showSuccessToast("积分兑换成功");
+    showSuccessToast(exchangeSuccess.value);
   }else{
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
 }
 

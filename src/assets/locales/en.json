@@ -1,5 +1,11 @@
 {
     "hello": "Hello",
-    "welcome": "Welcome to our application"
+    "welcome": "Welcome to our application",
+    "home": {
+      "exchanging": "exchanging"
+    },
+    "discovery": {
+      "discovery": "discovery"
+    }
   }
   

@@ -9,11 +9,11 @@
         class="close_pic"
         @click="closeTransferModal"
       />
-      <div>转账</div>
+      <div>{{ t('home.transfer') }}</div>
     </div>
     <div class="transfer_modal" @click.stop>
       <div class="transfer_title">
-        <div>接收账户</div>
+        <div>{{ t('home.receiveAccount') }}</div>
         <img
           src="@/assets/home/address-book-fill.png"
           alt=""
@@ -24,7 +24,7 @@
         <ion-input
          @ionInput="onToAddressInputChange" 
           style="min-height: 10px; font-size: 2.8037vw"
-          placeholder="输入或粘贴接收账户地址"
+          :placeholder="t('home.inputAddressTips')"
           :value="toAddress"
         >
           <img
@@ -36,7 +36,7 @@
         </ion-input>
       </div>
       <div class="transfer_title">
-        <div>转账数量</div>
+        <div>{{ t('home.transferAmount') }}</div>
       </div>
       <div class="transfer_item">
         <ion-input
@@ -48,7 +48,7 @@
             'border-bottom': '1px solid #e7ebf2',
             'padding-bottom': '2.8037vw',
           }"
-          placeholder="输入转账数量"
+          :placeholder="t('home.inputAmount')"
           type="number"
         >
           <div class="unit" slot="end" @click="showUnitPop=true">
@@ -58,7 +58,7 @@
         </ion-input>
 
         <div class="balance">
-          <div class="balance_text">余额</div>
+          <div class="balance_text">{{ t('home.balance') }}</div>
           <div class="balance_num">{{ userProfileStore.d9Balance }}</div>
           <div class="balance_num" v-show="false">
             {{ userProfileStore.usdtBalance }}
@@ -66,11 +66,11 @@
         </div>
       </div>
       <div class="transfer_title">
-        <div>网络费</div>
+        <div>{{ t('home.internetFee') }}</div>
       </div>
       <div class="transfer_item">
         <div class="estimate_fee">
-          <div class="fee_text">预计网络费用</div>
+          <div class="fee_text">{{ t('home.estimateInternetFee') }}</div>
           <div class="fee_num">
             <img src="@/assets/home/square_d9.png" alt="" class="logo" />
             <div class="fee_unit">D9</div>
@@ -79,7 +79,7 @@
         </div>
       </div>
 
-      <div class="confirm_btn" @click="confirmTransfer">确认</div>
+      <div class="confirm_btn" @click="confirmTransfer">{{ t('home.confirm') }}</div>
 
       <div class="personal_info">
         <img src="@/assets/home/square_d9.png" alt="" class="logo" />
@@ -97,7 +97,7 @@
   />
   <van-popup v-model:show="showUnitPop" round :style="{ padding: '8.8785vw', width: '88.3178vw' }">
       <div class="multilanguage_pop">
-          <div class="title">切换单位</div>
+          <div class="title">{{ t('home.exchangeUnit') }}</div>
           <van-radio-group @change="changeType" v-model="checked" shape="dot">
               <van-radio name="d9"    checked-color="#0065FF" icon-size="3.5047vw">D9</van-radio>
               <van-radio name="usdt"  checked-color="#0065FF" icon-size="3.5047vw"> USDT </van-radio>
@@ -113,7 +113,7 @@ import { IonInput } from "@ionic/vue";
 import useAccountStore from "@/store/account/account";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
-import { defineProps } from 'vue'
+import { defineProps, watch } from 'vue'
 const type = ref("");
 const showPasswordPop = ref(false);
 import { ref } from "vue";
@@ -121,6 +121,10 @@ import { postTransfer } from "@/services/http/balances";
 import ValidatePassword from "../validatePassword.vue";
 import { validateInfo } from "@/types";
 import { postUsdtTransfer } from "@/services/http/usdt";
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 const userProfileStore = useUserProfileStore();
 const accountStore = useAccountStore();
 const emit = defineEmits(["closeTransferModal","changeAddress","dealChangeAmount"]);
@@ -170,11 +174,22 @@ const changeType=(name:string)=>{
   checked.value=name
   
 }
+const transfering = ref(t('home.transfering'));
+const transferSuccess = ref(t('home.transferSuccess'));
+const passwordError = ref(t('home.passwordError'));
+watch(locale, (newLocale) => {
+    transfering.value = t('home.transfering');
+    transferSuccess.value = t('home.transferSuccess');
+    passwordError.value = t('home.passwordError');
+});
+transfering.value = t('home.transfering');
+transferSuccess.value = t('home.transferSuccess');
+passwordError.value = t('home.passwordError');
 
  const confirm= async(info: validateInfo)=>{
   if (info.password == accountStore.password){
     const Toast = showLoadingToast({
-    message: "转账中...",
+    message: transfering.value,
     forbidClick: false,
     duration: 30000,
   });
@@ -187,9 +202,9 @@ const changeType=(name:string)=>{
    
     Toast.close();
     emit('dealChangeAmount',0 )
-    showSuccessToast("转账成功");
+    showSuccessToast(transferSuccess.value);
   }else{
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
  }
  function confirmTransfer(){

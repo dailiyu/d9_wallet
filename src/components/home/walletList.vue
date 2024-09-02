@@ -8,7 +8,7 @@
     <div class="bottom_pop">
         <div class="title_bar">
             <img src="@/assets/home/close.png" alt="" class="close_icon" @click="closePop()">
-            <div>钱包列表</div>
+            <div>{{ t('home.walletList') }}</div>
             <!-- <div class="manage" @click="showValidatePop=true">添加钱包</div> -->
             <div></div>
         </div>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="import_wallet" @click="toImportWallet">
-            <div>导入钱包</div>
+            <div>{{ t('home.importWallet') }}</div>
             <img src="@/assets/home/arrow-right.png" alt="" class="arrow_icon">
         </div>
         
@@ -54,14 +54,14 @@
     >
       <!-- 编辑昵称 -->
       <div class="edit_name">
-        <div class="title">请输入子钱包名</div>
+        <div class="title">{{ t('home.inputSubWallet') }}</div>
         <van-cell-group inset>
           <van-field
             v-model="walletName"
-            placeholder="输入钱包名称"
+            :placeholder="t('home.inputWalletName')"
           />
         </van-cell-group>
-        <div class="btn button_active_full" @click="confirmName">确认</div>
+        <div class="btn button_active_full" @click="confirmName">{{ t('home.confirm') }}</div>
       </div>
     </van-popup>
   </van-popup>
@@ -70,7 +70,7 @@
 <script lang="ts" setup>
 import useAccountStore from "@/store/account/account";
 import { obscureString } from "@/utils/index";
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import useUserProfileStore from "@/store/usersProfile/userProfile"
 import { postRefreshUsersProfile } from "@/services/http/main";
 import validatePassword from "@/components/validatePassword.vue";
@@ -80,6 +80,10 @@ import inputString from "../inputString.vue";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import { useWalletService } from "@/services/walletService";
 import { walletDate } from "@/types/account";
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 // 使用钱包服务
 const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet,importFromSecretKey,preCreateSubWallet } = useWalletService();
 const userProfileStore=useUserProfileStore()
@@ -125,6 +129,12 @@ const parenWallet=ref<walletDate>({
     secretKey: "",
     address: ""
 })
+const passwordError = ref(t('home.passwordError'));
+watch(locale, (newLocale) => {
+    passwordError.value = t('home.passwordError');
+});
+passwordError.value = t('home.passwordError');
+
 const comfirmPassword=async(info: validateInfo)=>{
     if (info.password == accountStore.password){
        if(operateType.value=='import'){
@@ -134,7 +144,7 @@ const comfirmPassword=async(info: validateInfo)=>{
        }
 
     }else{
-        showFailToast("密码错误");
+        showFailToast(passwordError.value);
     }
    
     showValidatePop.value = false

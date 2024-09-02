@@ -3,7 +3,7 @@
     <div class="page">
      <div class="wrap">
       <div class="title-top">
-        发现
+        {{ t('discovery.discovery') }}
       </div>
       <div class="carousel">
         <swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -18,7 +18,7 @@
             <img src="@/assets/discovery/Merchant.png" alt="">
           </div>
           <div class="text">
-            消费挖矿
+            {{ t('discovery.burnMining') }}
           </div>
         </div>
         <div class="item" @click="toWorldSwap()">
@@ -26,7 +26,7 @@
             <img src="@/assets/discovery/worldSwap.png" alt="">
           </div>
           <div class="text">
-            WorldSwrap
+            WorldSwap
           </div>
         </div>
         <div class="item" @click="showCrossBridgePop=true">
@@ -34,7 +34,7 @@
             <img src="@/assets/discovery/chain.png" alt="">
           </div>
           <div class="text">
-            跨链桥
+            {{ t('discovery.crossBridge') }}
           </div>
         </div>
         <div class="item">
@@ -42,7 +42,7 @@
             <img src="@/assets/discovery/fully.png" alt="">
           </div>
           <div class="text">
-            满仓
+            {{ t('discovery.fullPosition') }}
           </div>
         </div>
         <div class="item" @click="tonodeVoting()">
@@ -50,7 +50,7 @@
             <img src="@/assets/discovery/node.png" alt="">
           </div>
           <div class="text">
-            节点投票
+            {{ t('discovery.nodeVoting') }}
           </div>
         </div>
       </div>
@@ -59,9 +59,9 @@
 
     <van-popup v-model:show="showCrossBridgePop" round style="border-radius:13px" >
       <div class="cross_pop">
-        <div class="title">选择跨链方向</div>
-        <div class="btn_toTron button_active_full" @click="toCrossBridge">D9到TRON</div>
-        <div class="btn_toTron button_active_plain" @click="toTrontoD9">TRON到D9</div>
+        <div class="title">{{ t('discovery.chooseCrossWay') }}</div>
+        <div class="btn_toTron button_active_full" @click="toCrossBridge">{{ t('discovery.D9toTron') }}</div>
+        <div class="btn_toTron button_active_plain" @click="toTrontoD9">{{ t('discovery.TrontoD9') }}</div>
       </div>
     </van-popup>
   </ion-page>
@@ -72,6 +72,10 @@ import { IonPage} from '@ionic/vue';
 import { Swipe, SwipeItem } from 'vant';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 defineComponent({
   components: {

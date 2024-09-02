@@ -5,39 +5,43 @@
             <div class="accept_modal" @click.stop>
                 <div class="accept_title">
                     <img src="@/assets/home/close.png" alt="" class="close_pic" @click="closeAcceptModal">
-                    <div>收款</div>
+                    <div>{{ t('home.receive') }}</div>
                 </div>
                 <img :src="qrCodeUrl" alt="" style="width: 57.7103vw" >
-                <div class="address_text">接收地址</div>
+                <div class="address_text">{{ t('home.receiveAddress') }}</div>
                 <div class="address_detail">
                     <div>{{ accountStore.activeWallet.address }}</div>
                     <img src="@/assets/home/copy.png" @click="copyAddress()" alt="" class="copy_pic">
                 </div>
-                <div class="set_btn" @click="showInputNumberPop=true">设置金额</div>
+                <div class="set_btn" @click="showInputNumberPop=true">{{ t('home.setAmount') }}</div>
             </div>
             <!-- </van-popup> -->
             <div class="receive_info">
                 <img src="@/assets/home/white_d9.png" alt="" class="d9_pic">
-                <div>Person (3842)</div>
+                <div>{{accountStore.activeWallet.name}}</div>
             </div>
         </div>
 
-       <inputNumber title="设置收款金额" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirm"></inputNumber>
+       <inputNumber :title="t('home.setAmountTitle')" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirm"></inputNumber>
     </ion-page>
 </template>
   
 <script lang="ts" setup>
-    import { IonPage } from '@ionic/vue';
-    import QrcodeVue from 'qrcode.vue';
-    import {onMounted, ref} from 'vue';
-    import { Clipboard } from '@capacitor/clipboard';
-    import useAccountStore from "@/store/account/account";
-    import {obscureString} from "@/utils/index"
-    
-    import QRCode from 'qrcode';
-    import useUserProfileStore from '@/store/usersProfile/userProfile';
-    import inputNumber from '@/components/inputNumber.vue'
-   import { showSuccessToast ,showFailToast} from 'vant';
+import { IonPage } from '@ionic/vue';
+import QrcodeVue from 'qrcode.vue';
+import {onMounted, ref, watch} from 'vue';
+import { Clipboard } from '@capacitor/clipboard';
+import useAccountStore from "@/store/account/account";
+import {obscureString} from "@/utils/index"
+
+import QRCode from 'qrcode';
+import useUserProfileStore from '@/store/usersProfile/userProfile';
+import inputNumber from '@/components/inputNumber.vue'
+import { showSuccessToast ,showFailToast} from 'vant';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
     const accountStore = useAccountStore();
     const payUrl = ref('')
     const userProfileStore=useUserProfileStore()
@@ -58,11 +62,16 @@
         emit('closeAcceptModal')
     }
 
-   const  copyAddress=async()=>{
+    const copySuccess = ref(t('home.copySuccess'));
+    watch(locale, (newLocale) => {
+        copySuccess.value = t('home.copySuccess');
+    });
+    copySuccess.value = t('home.copySuccess');
+    const copyAddress=async()=>{
     Clipboard.write({
         string: accountStore.activeWallet.address
     }).then(() => {
-        showSuccessToast('复制成功！')
+        showSuccessToast(copySuccess.value)
     });
    }
    onMounted(async() => {
@@ -84,15 +93,23 @@ const setTheAmount=async()=>{
 
 }
 
+const setSuccess = ref(t('home.setSuccess'));
+const setError = ref(t('home.setError'));
+watch(locale, (newLocale) => {
+    setSuccess.value = t('home.setSuccess');
+    setError.value = t('home.setError');
+});
+setSuccess.value = t('home.setSuccess');
+setError.value = t('home.setError');
 
 const showInputNumberPop = ref(false)
 const confirm =async (num:number)=>{
    try {
     await userProfileStore.merchantQrcodeGenerateAction(num)
     qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString);
-    showSuccessToast('设置成功！')
+    showSuccessToast(setSuccess.value)
    } catch (error) {
-    showFailToast('设置失败！')
+    showFailToast(setError.value)
    }
     showInputNumberPop.value=false
 }

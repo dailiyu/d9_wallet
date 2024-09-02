@@ -9,19 +9,12 @@
       <div class="functions">
         <div class="function_item" @click="showWalletList = !showWalletList">
           <img src="@/assets/home/list.png" alt="" class="function_pic">
-          <div class="function_ch">钱包列表</div>
+          <div class="function_ch">{{ t('home.walletList') }}</div>
           
         </div>
         <div class="function_item">
-  
-            <scanQRCode >
-              <template #scan="{ onClick }">
-                <div @click="onClick">
-                  <img src="@/assets/home/scan.png" alt="" class="function_pic">
-                  <div class="function_ch" @click="startScan" >扫一扫</div>
-                </div>            
-              </template>
-            </scanQRCode>
+          <img src="@/assets/home/scan.png" alt="" class="function_pic">
+          <div class="function_ch" @click="startScan" >{{ t('home.scan') }}</div>
         </div>
       </div>
     </div>
@@ -36,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage } from '@ionic/vue';
+
 import homeSwiper from '@/components/home/homeSwiper.vue';
 import homgTransferModal from '@/components/home/homeTransferModal.vue';
 import homeAcceptModal  from '@/components/home/homeAcceptModal.vue'
@@ -53,14 +46,15 @@ import { useQrController } from '@/services/QrControllerService';
 import { D9QrCodeData } from '@/types';
 import { postAllowanceMarketMaker } from '@/services/http/usdt';
 import { onBeforeRouteLeave } from 'vue-router';
-
+import { IonPage } from '@ionic/vue';
+import { useI18n } from 'vue-i18n';
 // 使用 useQrController hook 获取扫描功能
 const { scan, stopScan, isScanning } = useQrController();
  const addressBookStore=useAddressBookStore()
  const userProfileStore=useUserProfileStore()
 const accountStore = useAccountStore();
 const marketStore=useMarketStore();
-
+const { t } = useI18n();
 // 定义 ref 来存储扫描结果
 const scannedData = ref<D9QrCodeData | undefined>(undefined);
 const toAddress=ref<string>('')

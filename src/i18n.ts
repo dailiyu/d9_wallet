@@ -13,7 +13,8 @@ const i18n = createI18n({
     en,
     zh,
     vi
-  }
+  },
+  legacy: false
 });
 
 export default i18n;

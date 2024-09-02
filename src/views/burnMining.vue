@@ -1,6 +1,6 @@
 <template>
 <ion-page class="main_page">
-    <navBar title="消费挖矿" iconColor="#fff" ></navBar>
+    <navBar :title="t('discovery.burnMining')" iconColor="#fff" ></navBar>
     <div class="content">
         <div class="burn_top">
             <img src="@/assets/discovery/burn-bg.png" alt="" class="burn_bg">
@@ -31,20 +31,20 @@
                 <div class="total_amount">
                     <div class="exchange_item">
                         <div>
-                            <div class="exchange_text">基础可兑换</div>
+                            <div class="exchange_text">{{ t('home.basicConvertibility') }}</div>
                             <div class="exchange_num">
                                 {{userProfileStore.basicConvertibility  }}  
                             </div>
                         </div>
                         <div>
-                            <div class="exchange_text">加速可兑换</div>
+                            <div class="exchange_text">{{ t('home.acceleratedConvertibility') }}</div>
                         <div class="exchange_num">
                             {{ userProfileStore.acceleratedConvertibility }}
                         </div>
                         </div>
                     </div>
                     <div class="current_amount">
-                        <div class="current_text">当前可兑换数量</div>
+                        <div class="current_text">{{ t('home.currentConvertibility') }}</div>
                         <div class="current_num">{{ userProfileStore.convertibility }}</div>
                     </div>
                     <div class="percentage">100 = 1 D9</div>
@@ -55,24 +55,24 @@
                 </div>
             </div>
         </div>
-        <div class="title">关于消费挖矿</div>
+        <div class="title">{{ t('burnMining.aboutBurnMing') }}</div>
         <div class="detail">
-            消费挖矿是一个利用区块链技术实现去中心化积分管理与分配的商业平台，通过引入商家码，帮助商家提升客户粘性，增加销售额。消费者在商家联盟内消费时，不仅能获得商品，还能获取相应的积分，积分具有实际价值并能持续增值。这种模式为商家提供了一种低成本、高效益的营销工具，同时也提升了消费者的消费体验和满意度。
+            {{ t('burnMining.aboutBurnMingContent') }}
         </div>
         <img src="@/assets/discovery/burn-mining.png" alt="" class="pic">
-        <div class="title">如何激活商家码</div>
+        <div class="title">{{ t('burnMining.activeMerchantCode') }}</div>
         <div class="detail">
-            激活商家码需要商家首先在D9商家联盟平台注册并通过审核，购买一定数量的积分，然后在后台系统中生成商家码。商家将这些商家码通过线上或线下渠道发放给消费者，消费者在使用商家码进行消费时，即可激活并开始享受积分回馈。
+            {{ t('burnMining.activeMerchantCodeContent') }}
         </div>
         <img src="@/assets/discovery/burn-merchant.png" alt="" class="pic">
-        <div class="title">如何使用商家码</div>
+        <div class="title">{{ t('burnMining.useMerchantCode') }}</div>
         <div class="detail">
-            使用商家码时，消费者需通过D9商家联盟的应用程序扫描商家码，系统将识别并验证商家码。成功验证后，消费者将根据消费金额获得相应的积分奖励，这些积分可以在联盟内的任何商家处使用，购买商品或服务，或参与其他活动。
+            {{ t('burnMining.useMerchantCodeContent') }}
         </div>
         <img src="@/assets/discovery/burn-code.png" alt="" class="pic">
-        <div class="title">如何赠送积分</div>
+        <div class="title">{{ t('burnMining.usePointGift') }}</div>
         <div class="detail">
-            赠送积分是商家通过D9商家联盟平台购买积分后，在后台系统中选择特定的消费者或群体进行发放。系统会通过短信、邮件或应用内通知的方式告知消费者积分奖励。消费者登录D9商家联盟账户后可查看和领取积分，这些积分将直接存入消费者的积分账户中，并可用于联盟内的消费。
+            {{ t('burnMining.usePointGiftContent') }}
         </div>
         <img src="@/assets/discovery/burn-point.png" alt="" class="pic">
     </div>
@@ -83,8 +83,11 @@
 import useUserProfileStore from '@/store/usersProfile/userProfile';
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t } = useI18n();
 const  userProfileStore= useUserProfileStore();
 const router = useRouter()
 function toMerchantCode(){
