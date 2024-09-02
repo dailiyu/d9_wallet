@@ -24,16 +24,27 @@ const routes: Array<RouteRecordRaw> = [
         component:()=>import('@/views/assetRecord.vue'),
       },
       {
-        path: 'transactionDetail',
+        path: 'transactionDetail/:transferIndex/:transferType',
         component:()=>import('@/views/transactionDetail.vue'),
+        name:"transactionDetail"
       },
       {
         path: 'swap',
         component:()=>import('@/views/swap.vue'),
       },
       {
-        path: 'swapRecords',
+        path: 'swapRecords/:swapIndex',
         component:()=>import('@/views/swapRecords.vue'),
+        name:'swapDetail'
+      },
+      {
+        path: 'swapUserRecords/:swapIndex',
+        component:()=>import('@/views/swapUserRecords.vue'),
+        name:'swapUserDetail'
+      },
+      {
+        path: 'scan',
+        component:()=>import('@/views/scan.vue'),
       },
       {
         path: 'swapAllRecords',

@@ -28,3 +28,43 @@ export interface D9QrCodeData {
   accountId: string;
   amount: number;
 }
+
+
+export interface flashExchangeData {
+  event_id: string;
+  d9_token: string;
+  usdt_token: string;
+  fee_token: string;
+  d9_rate: string;
+  usdt_rate: string;
+  block_number: number;
+  block_hash: string;
+  timestamp: string;
+  extrinsic_hash: string;
+  from_address: string;
+  to_address: string;
+  d9: string;
+  usdt: string;
+  fee: string;
+  actions: string;
+}
+
+
+export  interface transferData {
+  event_id: string;
+  d9_token: string;
+  usdt_token: string;
+  fee_token: string;
+  block_number: number;
+  block_hash: string;
+  timestamp: string; 
+  extrinsic_hash: string;
+  from_address: string;
+  to_address: string;
+  d9: string;
+  usdt: string;
+  fee: string;
+  actions: string; 
+}
+
+ 

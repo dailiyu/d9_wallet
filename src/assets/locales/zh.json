@@ -1,5 +1,8 @@
 {
     "hello": "你好",
-    "welcome": "欢迎使用我们的应用程序"
-  }
+    "welcome": "欢迎使用我们的应用程序",
+    "home":{
+      "name":"ergou"
+    }
+}
   

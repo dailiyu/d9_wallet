@@ -25,10 +25,10 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <!-- <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div> -->
-                <van-cell-group inset>
+                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
+                <!-- <van-cell-group inset>
                   <van-field v-model="walletBalance" :type="balanceType" readonly/>
-                </van-cell-group>
+                </van-cell-group> -->
               </div>
               <div class="buttons">
                 <div class="button_item" @click="transfer">转账</div>

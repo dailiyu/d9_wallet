@@ -88,7 +88,8 @@ interface AccountState {
     rates:Rates,
     marketTransaction:TransactionData,
     flashExchangeDataList:flashExchangeData[],
-    curPage:number
+    curPage:number,
+    haveNext:boolean
 }
 
 
@@ -124,7 +125,8 @@ const useMarketStore = defineStore('market', {
        usdtSumChangeRate: 0
     },
     flashExchangeDataList:[],
-    curPage:1
+    curPage:1,
+    haveNext:true
   }),
   actions: {
    async getExchangeRateAction(){
@@ -171,10 +173,13 @@ const useMarketStore = defineStore('market', {
       this.marketTransaction.usdtSumLast48To24Hours=metaData.data.usdt_sum_last_48_to_24_hours
       this.marketTransaction.usdtSumChangeRate=metaData.data.usdt_sum_change_rate
    },
-   async getMarketFlashExchangeData(){
+   async getMarketFlashExchangeDataAction(){
       const metaData=await postMarketFlashExchangeData(this.curPage)
-      this.curPage=this.curPage++
-      this.flashExchangeDataList.push(metaData.data.results)
+      this.curPage=this.curPage+1
+      this.flashExchangeDataList=[...this.flashExchangeDataList,...metaData.data.results]
+      this.haveNext=metaData.data.next?true:false
+      console.log(this.flashExchangeDataList);
+      
    },
   async fetchAllData(){
     this.getExchangeRateAction()
@@ -183,7 +188,7 @@ const useMarketStore = defineStore('market', {
     this.getPoolsTotalNumber()
     this.getRateUsdtToOther()
     this.getMarketTransactionData()
-    this.getMarketFlashExchangeData()
+    this.getMarketFlashExchangeDataAction()
    }
 }
 });

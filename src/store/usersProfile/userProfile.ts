@@ -1,3 +1,4 @@
+import type{ flashExchangeData, transferData } from './../../types/index';
 import { defineStore } from "pinia";
 import { postUsdtBalance } from "@/services/http/usdt";
 import { postGetD9Balances } from "@/services/http/balances";
@@ -11,6 +12,7 @@ import {
 import { postGetNodeRewardsData, postvoteNumber } from "@/services/http/node";
 import useAccountStore from "../account/account";
 import { postBurningPortfolio } from "@/services/http/burning";
+import { postUserD9TransferData, postUserFlashExchangeData, postUserUsdtTransferData } from "@/services/http/IndexServer";
 
 const accountStore = useAccountStore();
 
@@ -42,7 +44,16 @@ interface userProfileState {
   balancePaid: number; // 总提币数
   lastWithdrawal: number; // 最后提取时间，使用 Unix 时间戳
   lastBurn: number; // 最后燃烧时间，使用 Unix 时间戳
-  merchantCodeExpiry:number
+  merchantCodeExpiry:number,
+  curPage:number,
+  flashExchangeDataList:flashExchangeData[],
+  haveNext:boolean,
+  d9TransferList:transferData[],
+  curD9TransferPage:number,
+  hasD9TransferNext:boolean,
+  curUsdtTransferPage:number,
+  usdtTransferList:transferData[],
+  hasUsdtTransferNext:boolean
 }
 
 const useUserProfileStore = defineStore("userProfile", {
@@ -66,7 +77,16 @@ const useUserProfileStore = defineStore("userProfile", {
     balancePaid: 0, // 总提币数
     lastWithdrawal: 0, // 最后提取时间，使用 Unix 时间戳
     lastBurn: 0, // 最后燃烧时间，使用 Unix 时间戳
-    merchantCodeExpiry:0
+    merchantCodeExpiry:0,
+    curPage:1,
+    flashExchangeDataList:[],
+    haveNext:true,
+    d9TransferList:[],
+    curD9TransferPage:1,
+    hasD9TransferNext:true,
+    usdtTransferList:[],
+    curUsdtTransferPage:1,
+    hasUsdtTransferNext:true
   }),
   actions: {
     async getUsdtBalanceAction() {
@@ -129,6 +149,27 @@ const useUserProfileStore = defineStore("userProfile", {
       const metaData=await postGetMerchantExpiry()
       this.merchantCodeExpiry=metaData.data.results.expiry_date
     },
+    async getUserFlashExchangeDataAction(){
+      const metaData=await postUserFlashExchangeData(this.curPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
+      this.curPage=this.curPage+1
+      this.flashExchangeDataList=[...this.flashExchangeDataList,...metaData.data.results]
+      this.haveNext=metaData.data.next?true:false
+      console.log('user',this.flashExchangeDataList);
+    },
+    async getUserD9TransferAction(){
+      const metaData=await postUserD9TransferData(this.curD9TransferPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
+      this.curD9TransferPage=this.curD9TransferPage+1
+      this.d9TransferList=[...this.d9TransferList,...metaData.data.results]
+      this.hasD9TransferNext=metaData.data.next?true:false
+      console.log('d9transfer',  this.d9TransferList);
+    },
+    async getUserUsdtTransferAction(){
+      const metaData=await postUserUsdtTransferData(this.curUsdtTransferPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
+      this.curUsdtTransferPage=this.curUsdtTransferPage+1
+      this.usdtTransferList=[...this.usdtTransferList,...metaData.data.results]
+      this.hasUsdtTransferNext=metaData.data.next?true:false
+      console.log('usdttransfer',  this.usdtTransferList);
+    },
     async fetchAllData() {
       this.getUsdtBalanceAction();
       this.getD9BalanceAction();
@@ -139,6 +180,9 @@ const useUserProfileStore = defineStore("userProfile", {
       // this.getAirdropNumberAction();
       this.getBurningPortfolioAction();
       this.getMerchantCodeExpiryAction();
+      this.getUserFlashExchangeDataAction()
+      this.getUserD9TransferAction()
+      this.getUserUsdtTransferAction()
     },
   },
 });

@@ -15,41 +15,41 @@
             <div class="detail">
                 <div class="detail_item">
                     <div class="detail_text" style="color: #0E932E;">
-                        {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?'转出':'转入'}} {{marketStore.flashExchangeDataList[swapIndex].usdt_token }} USDT
+                        {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?'转出':'转入'}} {{userProfileStore.flashExchangeDataList[swapIndex].usdt_token }} USDT
                     </div>
                     <div class="detail_no">
                         <div>
-                            {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].from_address:marketStore.flashExchangeDataList[swapIndex].to_address}} 
+                            {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?userProfileStore.flashExchangeDataList[swapIndex].from_address:userProfileStore.flashExchangeDataList[swapIndex].to_address}} 
                         </div>
-                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].from_address:marketStore.flashExchangeDataList[swapIndex].to_address)">
+                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?userProfileStore.flashExchangeDataList[swapIndex].from_address:userProfileStore.flashExchangeDataList[swapIndex].to_address)">
                     </div>
                 </div>
 
                 <div class="detail_item">
                     <div class="detail_text" style="color: #0065B2;">
-                        {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?'转入':'转出'}} {{marketStore.flashExchangeDataList[swapIndex].d9_token}} D9
+                        {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?'转入':'转出'}} {{userProfileStore.flashExchangeDataList[swapIndex].d9_token}} D9
                     </div>
                     <div class="detail_no">
                         <div>
-                            {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].to_address:marketStore.flashExchangeDataList[swapIndex].from_address}} 
+                            {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?userProfileStore.flashExchangeDataList[swapIndex].to_address:userProfileStore.flashExchangeDataList[swapIndex].from_address}} 
                         </div>
-                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].to_address:marketStore.flashExchangeDataList[swapIndex].from_address)">
+                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?userProfileStore.flashExchangeDataList[swapIndex].to_address:userProfileStore.flashExchangeDataList[swapIndex].from_address)">
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="title">订单时间</div>
-        <div class="time">{{ formatTimestamp(marketStore.flashExchangeDataList[swapIndex].timestamp) }}</div>
+        <div class="time">{{ formatTimestamp(userProfileStore.flashExchangeDataList[swapIndex].timestamp) }}</div>
 
         <div class="title">订单号</div>
-        <div class="time">{{ marketStore.flashExchangeDataList[swapIndex].extrinsic_hash }}</div>
+        <div class="time">{{ userProfileStore.flashExchangeDataList[swapIndex].extrinsic_hash }}</div>
 
         <div class="title">手续费</div>
-        <div class="fee">{{ marketStore.flashExchangeDataList[swapIndex].fee_token }} D9</div>
+        <div class="fee">{{ userProfileStore.flashExchangeDataList[swapIndex].fee_token }} D9</div>
 
         <div class="title">汇率</div>
-        <div class="time">1 USDT ≈ {{marketStore.flashExchangeDataList[swapIndex].d9_rate}} D9</div>
+        <div class="time">1 USDT ≈ {{userProfileStore.flashExchangeDataList[swapIndex].d9_rate}} D9</div>
     </div>
   </ion-page>
 </template>
@@ -62,9 +62,12 @@ import { Clipboard } from '@capacitor/clipboard';
 import { ref } from 'vue';
 import { formatTimestamp } from '@/utils';
 import { showSuccessToast } from 'vant';
+import useUserProfileStore from '@/store/usersProfile/userProfile';
 const route = useRoute();
-const marketStore=useMarketStore()
+// const marketStore=useMarketStore()
 const swapIndex = Number(route.params.swapIndex)
+
+const userProfileStore=useUserProfileStore()
 const  copyAddress=async(address:string)=>{
     Clipboard.write({
         string: address

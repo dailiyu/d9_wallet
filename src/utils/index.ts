@@ -2,6 +2,10 @@
 import QRCode from 'qrcode';
 
 import dayjs from 'dayjs';
+import { format, formatDistanceToNow, parseISO } from 'date-fns';
+import { zhCN } from 'date-fns/locale';
+
+
 
 //处理地址字符串s
 export function obscureString(input: string): string {
@@ -39,6 +43,16 @@ export const generateQRCode = async (text: string): Promise<string> => {
 }
 
 
+//传入时间戳显示xx前
+export  function timeAgo(timestamp: string): string {
+  const date = parseISO(timestamp);
+  return formatDistanceToNow(date, { addSuffix: true, locale: zhCN });
+}
+
+export function formatTimestamp(timestamp: string): string {
+  const date = parseISO(timestamp);
+  return format(date, 'yyyy-MM-dd HH:mm');
+}
 
 
 

@@ -1,7 +1,7 @@
 <template>
     <ion-page  class="clear-ion-page ">
       <div>切换语言页</div>
-    <div>{{ t('hello') }}</div>
+    <div>{{ t('') }}</div>
     <div>{{ t('welcome') }}</div>
     <div @click="setLanguage('en')">English</div>
     <div @click="setLanguage('zh')">中文</div>
