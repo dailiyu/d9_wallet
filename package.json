@@ -29,6 +29,7 @@
     "@varlet/ui": "^3.3.9",
     "apexcharts": "^3.52.0",
     "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "ionicons": "^7.0.0",
     "localforage": "^1.10.0",

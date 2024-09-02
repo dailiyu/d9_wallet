@@ -1,19 +1,21 @@
 <template>
   <ion-page>
     <navBar title="交易详情"></navBar>
-    <div class="content">
+    <div class="content" v-if="transferType=='d9'">
         <div class="trade_nav">
             <img src="@/assets/home/success-fill.png" alt="" class="success_icon">
             <div class="trade_text">交易成功</div>
-            <div class="number">+100 D9</div>
+            <div class="number" >{{ userProfileStore.d9TransferList[Number(transferIndex)].to_address==accountStore.activeWallet.address?'+':'-'}}
+                {{ userProfileStore.d9TransferList[Number(transferIndex)].d9_token }} D9</div>
+           
         </div>
 
         <div class="title">
             发送方
         </div>
         <div class="address">
-            <div>0x144C746CD142a330D943808422f3A5F511eeD367a</div>
-            <img src="@/assets/home/copy.png" alt="" class="copy_icon">
+            <div>{{ userProfileStore.d9TransferList[Number(transferIndex)].from_address }}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.d9TransferList[Number(transferIndex)].from_address)">
         </div>
         <div class="text_en">(TRX-2)</div>
         
@@ -21,8 +23,8 @@
             接收方
         </div>
         <div class="address">
-            <div>0x144C746943808422f3A5F511eeD367CD142a330Da</div>
-            <img src="@/assets/home/copy.png" alt="" class="copy_icon">
+            <div>{{ userProfileStore.d9TransferList[Number(transferIndex)].to_address }}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.d9TransferList[Number(transferIndex)].to_address)">
         </div>
         <div class="text_en">(TRX-7)</div>
         
@@ -30,7 +32,66 @@
             网络费
         </div>
         <div class="in_fee">
-            11.94 D9
+            {{ userProfileStore.d9TransferList[Number(transferIndex)].fee_token }} D9
+        </div>
+        <div class="line"></div>
+        
+        <div class="title ">
+            交易哈希
+        </div>
+        <div class="address">
+            <div>{{userProfileStore.d9TransferList[Number(transferIndex)].extrinsic_hash  }}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon"@click="copyAddress(userProfileStore.d9TransferList[Number(transferIndex)].extrinsic_hash )">
+        </div>
+        
+        <div class="title">
+            区块高度
+        </div>
+        <div class="address">
+            <div>{{userProfileStore.d9TransferList[Number(transferIndex)].block_number}}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.d9TransferList[Number(transferIndex)].block_number.toString())">
+        </div>
+        
+        <div class="title">
+            交易时间
+        </div>
+        <div class="address">
+            <div>{{formatTimestamp( userProfileStore.d9TransferList[Number(transferIndex)].timestamp) }}</div>
+        </div>
+    </div>
+  
+    <div class="content" v-if="transferType=='usdt'">
+        <div class="trade_nav">
+            <img src="@/assets/home/success-fill.png" alt="" class="success_icon">
+            <div class="trade_text">交易成功</div>
+            <div class="number" >{{ userProfileStore.usdtTransferList[Number(transferIndex)].to_address==accountStore.activeWallet.address?'+':'-'}}
+                {{ userProfileStore.usdtTransferList[Number(transferIndex)].d9_token }} D9</div>
+           
+        </div>
+
+        <div class="title">
+            发送方
+        </div>
+        <div class="address">
+            <div>{{ userProfileStore.usdtTransferList[Number(transferIndex)].from_address }}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress( userProfileStore.usdtTransferList[Number(transferIndex)].from_address )">
+        </div>
+        <div class="text_en">(TRX-2)</div>
+        
+        <div class="title">
+            接收方
+        </div>
+        <div class="address">
+            <div>{{ userProfileStore.usdtTransferList[Number(transferIndex)].to_address }}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.usdtTransferList[Number(transferIndex)].to_address)">
+        </div>
+        <div class="text_en">(TRX-7)</div>
+        
+        <div class="title">
+            网络费
+        </div>
+        <div class="in_fee">
+            {{ userProfileStore.usdtTransferList[Number(transferIndex)].fee_token }} D9
         </div>
         <div class="line"></div>
         
@@ -38,33 +99,54 @@
             交易哈希
         </div>
         <div class="address">
-            <div>0x144C745F511eeD367CD142a330Da6943808422f3A</div>
-            <img src="@/assets/home/copy.png" alt="" class="copy_icon">
+            <div>{{userProfileStore.usdtTransferList[Number(transferIndex)].extrinsic_hash  }}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.usdtTransferList[Number(transferIndex)].extrinsic_hash)">
         </div>
         
         <div class="title">
             区块高度
         </div>
         <div class="address">
-            <div>57414325</div>
-            <img src="@/assets/home/copy.png" alt="" class="copy_icon">
+            <div>{{userProfileStore.usdtTransferList[Number(transferIndex)].block_number}}</div>
+            <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.usdtTransferList[Number(transferIndex)].block_number.toString())">
         </div>
         
         <div class="title">
             交易时间
         </div>
         <div class="address">
-            <div>12/18 13:10:30</div>
+            <div>{{formatTimestamp( userProfileStore.usdtTransferList[Number(transferIndex)].timestamp) }}</div>
         </div>
     </div>
+
   </ion-page>
 </template>
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
+import useAccountStore from "@/store/account/account";
+import { formatTimestamp, obscureString } from '@/utils';
+import { Clipboard } from '@capacitor/clipboard';
+import { showSuccessToast } from 'vant';
+const accountStore = useAccountStore();
+const route = useRoute();
+const { transferIndex, transferType } = toRefs(route.params);
 // import navBar from '@/components/navBar.vue'
+
+const  copyAddress=async(address:string)=>{
+    Clipboard.write({
+        string: address
+    }).then(() => {
+        showSuccessToast('复制成功！')
+    });
+   }
+
+const marketStore=useMarketStore()
+const  userProfileStore= useUserProfileStore();
 </script>
 
 <style lang="scss" scoped>

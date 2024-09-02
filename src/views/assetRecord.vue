@@ -5,8 +5,10 @@
       <div class="asset_nav">
         <img src="@/assets/home/logo_d9.png" alt="" class="logo" v-if="type=='d9'">
         <img src="@/assets/home/logo_usdt.png" alt="" class="logo" v-if="type=='usdt'">
-        <div class="balance" :style="{'color':type=='d9'?'#0065B2':'#0E932E'}">15,661.92</div>
-        <div class="total">$ 7,210.80</div>
+        <div class="balance" :style="{'color':type=='d9'?'#0065B2':'#0E932E'}" v-if="type=='d9'">{{ userProfileStore.d9Balance }}</div>
+        <div class="balance" :style="{'color':type=='d9'?'#0065B2':'#0E932E'}" v-else>{{ userProfileStore.usdtBalance }}</div>
+        <div class="total" v-if="type=='usdt'">$ {{ userProfileStore.usdtBalance }}</div>
+        <div class="total" v-if="type=='d9'">$ {{(userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)}}</div>
       </div>
       <van-cell-group inset>
         <van-field v-model="price" label="价格" input-align="right" readonly >
@@ -16,17 +18,37 @@
         </van-field>
       </van-cell-group>
       <div class="title">交易记录</div>
-      <div class="record_list">
-        <div class="list_item" @click="toDetail()">
-          <img src="@/assets/home/sell.png" alt="" class="sell_icon">
+      <div class="record_list" v-if="type=='d9'">
+        <div class="list_item" v-for="(item,index) in userProfileStore.d9TransferList"   @click="toDetail(index)"  >
+          <img src="@/assets/home/sell.png" alt="" class="sell_icon" v-if="item.to_address!==accountStore.activeWallet.address">
+          <img src="@/assets/home/buy.png" alt="" class="sell_icon" v-else>
           <!-- <img src="@/assets/home/buy.png" alt="" class="sell_icon"> -->
           <div class="list_info">
-            <div class="no">TCSC3t……dz8Rhl</div>
-            <div class="time">2023-10-18 19:00</div>
+            <div class="no" v-if="item.to_address!==accountStore.activeWallet.address">{{ obscureString(item.to_address) }}</div>
+            <div class="no" v-else>{{ obscureString(item.from_address) }}</div>
+            <div class="time">{{ formatTimestamp(item.timestamp) }}</div>
           </div>
-          <div class="sell_money">-233,487.00</div>
+          <div class="sell_money">{{ item.to_address==accountStore.activeWallet.address?'+':'-'}}
+            {{ item.d9_token }}</div>
           <!-- <div class="buy_money">+233,487.00</div> -->
         </div>
+        <div style="width: 100%; text-align: center;margin-top: 4vw 0;" @click="loadMore" v-show="userProfileStore.hasD9TransferNext">加载更多...</div>
+      </div>
+      <div class="record_list"  v-if="type=='usdt'">
+        <div class="list_item" v-for="(item,index) in userProfileStore.usdtTransferList"   @click="toDetail(index)"  >
+          <img src="@/assets/home/sell.png" alt="" class="sell_icon" v-if="item.to_address!==accountStore.activeWallet.address">
+          <img src="@/assets/home/buy.png" alt="" class="sell_icon" v-else>
+          <!-- <img src="@/assets/home/buy.png" alt="" class="sell_icon"> -->
+          <div class="list_info">
+            <div class="no" v-if="item.to_address!==accountStore.activeWallet.address">{{ obscureString(item.to_address) }}</div>
+            <div class="no" v-else>{{ obscureString(item.from_address) }}</div>
+            <div class="time">{{ formatTimestamp(item.timestamp) }}</div>
+          </div>
+          <div class="sell_money">{{ item.to_address==accountStore.activeWallet.address?'+':'-'}}
+            {{ item.usdt_token }}</div>
+          <!-- <div class="buy_money">+233,487.00</div> -->
+        </div>
+        <div style="width: 100%; text-align: center;margin-top: 4vw 0;" @click="loadMore" v-show="userProfileStore.hasUsdtTransferNext">加载更多...</div>
       </div>
       <div class="btns">
         <div class="transfer button_active_plain" @click="transfer">转账</div>
@@ -44,16 +66,34 @@ import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 // import navBar from '@/components/navBar.vue'
+import useAccountStore from "@/store/account/account";
 import homgTransferModal from '@/components/home/homeTransferModal.vue';
 import homeAcceptModal  from '@/components/home/homeAcceptModal.vue'
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import useMarketStore from '@/store/market/market';
+import { formatTimestamp, obscureString } from '@/utils';
+
+const marketStore=useMarketStore()
+const accountStore = useAccountStore();
+const  userProfileStore= useUserProfileStore();
 const price = ref('')
 const route = useRoute()
 const type = route.query.type
 const router = useRouter()
-function toDetail(){
-  router.push('/main/transactionDetail')
+function toDetail(index:number){
+  router.push({name:'transactionDetail',params:{transferIndex:Number(index),transferType:String(type)}})
 }
 
+
+const loadMore=()=>{
+  if(type=='d9'){
+    userProfileStore.getUserD9TransferAction()
+  }else{
+    userProfileStore.getUserUsdtTransferAction()
+
+  }
+ 
+}
 const showAcceptModal = ref(false)
 const showTransferModal = ref(false)
 

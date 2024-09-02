@@ -1,6 +1,6 @@
 
 import { postGetReserves,postGetUsdtToOtherRate } from '@/services/http/amm';
-import { postMarketTransactionData } from '@/services/http/IndexServer';
+import { postMarketFlashExchangeData, postMarketTransactionData } from '@/services/http/IndexServer';
 import { postGetTotalBurned } from '@/services/http/main';
 import { postGetAllVolume } from '@/services/http/mining';
 import { postGetRank } from '@/services/http/node';
@@ -54,6 +54,26 @@ import { defineStore } from 'pinia';
    usdtSumChangeRate: number;
  }
  
+
+ interface flashExchangeData {
+   event_id: string;
+   d9_token: string;
+   usdt_token: string;
+   fee_token: string;
+   d9_rate: string;
+   usdt_rate: string;
+   block_number: number;
+   block_hash: string;
+   timestamp: string;
+   extrinsic_hash: string;
+   from_address: string;
+   to_address: string;
+   d9: string;
+   usdt: string;
+   fee: string;
+   actions: string;
+}
+
   
 
 interface AccountState {
@@ -66,7 +86,10 @@ interface AccountState {
     TotalBurned:number,
     poolsTotalNumber:number,
     rates:Rates,
-    marketTransaction:TransactionData
+    marketTransaction:TransactionData,
+    flashExchangeDataList:flashExchangeData[],
+    curPage:number,
+    haveNext:boolean
 }
 
 
@@ -100,7 +123,10 @@ const useMarketStore = defineStore('market', {
        usdtSumLast24Hours: '',
        usdtSumLast48To24Hours: '',
        usdtSumChangeRate: 0
-    }
+    },
+    flashExchangeDataList:[],
+    curPage:1,
+    haveNext:true
   }),
   actions: {
    async getExchangeRateAction(){
@@ -138,7 +164,7 @@ const useMarketStore = defineStore('market', {
       this.rates.VND=ratesResults.find((item: { name: string; }) => item.name === 'vnd').price
       this.rates.THB=ratesResults.find((item: { name: string; }) => item.name === 'thb').price
    },
-   async getmarketTransactionData(){
+   async getMarketTransactionData(){
       const metaData=await postMarketTransactionData()
       this.marketTransaction.transactionCountLast24Hours=metaData.data.transaction_count_last_24_hours
       this.marketTransaction.transactionCountLast48To24Hours=metaData.data.transaction_count_last_48_to_24_hours
@@ -147,13 +173,22 @@ const useMarketStore = defineStore('market', {
       this.marketTransaction.usdtSumLast48To24Hours=metaData.data.usdt_sum_last_48_to_24_hours
       this.marketTransaction.usdtSumChangeRate=metaData.data.usdt_sum_change_rate
    },
+   async getMarketFlashExchangeDataAction(){
+      const metaData=await postMarketFlashExchangeData(this.curPage)
+      this.curPage=this.curPage+1
+      this.flashExchangeDataList=[...this.flashExchangeDataList,...metaData.data.results]
+      this.haveNext=metaData.data.next?true:false
+      console.log(this.flashExchangeDataList);
+      
+   },
   async fetchAllData(){
-   this.getExchangeRateAction()
-   this.getRankAction()
+    this.getExchangeRateAction()
+    this.getRankAction()
     this.gettBurningTotalsAction()
     this.getPoolsTotalNumber()
     this.getRateUsdtToOther()
-    this.getmarketTransactionData()
+    this.getMarketTransactionData()
+    this.getMarketFlashExchangeDataAction()
    }
 }
 });

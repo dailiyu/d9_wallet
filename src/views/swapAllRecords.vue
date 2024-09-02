@@ -2,10 +2,10 @@
     <ion-page class="main_page">
     <navBar title="所有记录" ></navBar>
     <div class="content">
-        <div class="record_item">
+        <div class="record_item" v-for="(item,index) in userProfileStore.flashExchangeDataList" @click="toRecords(index)">
             <div class="text">
                 <div>成功</div>
-                <div class="time">2024/07/30 19:00</div>
+                <div class="time">{{formatTimestamp(item.timestamp ) }}</div>
             </div>
             <div class="type_item">
                 <div class="type_left">
@@ -13,9 +13,9 @@
                     <div>D9</div>
                 </div>
                 <div class="type_middle">
-                    <div>1 D9 ≈ 0.159971 USDT</div>
+                    <div>1 D9 ≈ {{ item.usdt_rate }} USDT</div>
                     <img src="@/assets/discovery/exchange.png" alt="" class="type_icon">
-                    <div>1 USDT~ 3339.159971 D9</div>
+                    <div>1 USDT~ {{ item.d9_rate }} D9</div>
                 </div>
                 <div class="type_left">
                     <div>USDT</div>
@@ -23,17 +23,29 @@
                 </div>
             </div>
             <div class="num">
-                <div>43,531,20</div>
-                <div class="num_usdt">61,20</div>
+                <div>{{ item.d9_token }}</div>
+                <div class="num_usdt">{{ item.usdt_token }}</div>
             </div>
         </div>
+        <div style="width: 100%; text-align: center;" @click="loadMore" v-if="userProfileStore.haveNext">加载更多...</div>
     </div>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
+import useUserProfileStore from "@/store/usersProfile/userProfile";
+import { formatTimestamp } from '@/utils';
+import router from '@/router';
 // import navBar from '@/components/navBar.vue'
+const userProfileStore = useUserProfileStore();
+function toRecords(index:number){
+    router.push({name:'swapUserDetail',params:{swapIndex:index}})
+}
+
+const loadMore=async ()=>{
+    userProfileStore.getUserFlashExchangeDataAction()
+}
 </script>
 
 <style lang="scss" scoped>

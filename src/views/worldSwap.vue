@@ -45,7 +45,6 @@
                 <div class="tran_money">{{ marketStore.marketTransaction.transactionCountLast24Hours }}</div>
             </div>
         </div>
-
         <div class="title">
             当前汇率
         </div>
@@ -86,26 +85,28 @@
                 <div class="grid_t">详情</div>
             </van-col>
         </van-row>
-        <van-row :gutter="[6, 0]" class="grid_table" @click="toRecords">
+        <van-row :gutter="[6, 0]" class="grid_table" @click="toRecords(index)" v-for="(item,index) in marketStore.flashExchangeDataList">
             <van-col span="5">
-                <div class="type padding" style="color: #CD4E45;">Buy</div>
-                <!-- <div class="type" style="color: #32C390;">Sell</div> -->
+                <div class="type padding" style="color: #CD4E45;" v-show="item.actions=='USDTToD9Conversion'">Buy</div>
+                <div class="type padding" style="color: #32C390;"  v-show="item.actions=='D9ToUSDTConversion'">Sell</div>
             </van-col>
             <van-col span="5">
-                <div class="amount padding">$231</div>
+                <div class="amount padding">${{ item.usdt_token }}</div>
             </van-col>
             <van-col span="5">
-                <div class="time padding">100,000</div>
+                <div class="time padding">{{ item.d9_token }}</div>
             </van-col>
             <van-col span="5">
-                <div class="time padding">13分钟前</div>
+                <div class="time padding">{{ timeAgo(item.timestamp) }}</div>
             </van-col>
-            <van-col span="4" @click.stop="showValidatePop=true">
+            <van-col span="4">
                 <div class="padding">
                     <img src="@/assets/home/order-inspection-fill.png" alt="" class="de_icon padding">
                 </div>
             </van-col>
         </van-row>
+        <div style="width: 100%; text-align: center; margin-top: 5vw" @click="loadingMore" v-if="marketStore.haveNext">加载更多...</div>
+        <div class="loading"></div>
     </div>
     <validatePassword type="verify" :isShow="showValidatePop" @close="showValidatePop=false" @confirm="confirmVote"></validatePassword>
     <inputNumber :isShow="showInputPop" @close="showInputPop=false" @confirm="confirmNum"></inputNumber>
@@ -116,12 +117,14 @@
 import { IonPage } from '@ionic/vue';
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import type {flashExchangeData} from "@/types/index"
 // import navBar from '@/components/navBar.vue'
 import ApexCharts from 'apexcharts'
 import useMarketStore from "@/store/market/market"
 import validatePassword from '@/components/validatePassword.vue';
 import { validateInfo } from '@/types/index'
 import inputNumber from '@/components/inputNumber.vue';
+import { timeAgo } from '@/utils';
 
 const marketStore=useMarketStore()
 
@@ -191,8 +194,8 @@ function toAddLiquidity(){
 function toSwap(){
     router.push('/main/swap')
 }
-function toRecords(){
-    router.push('/main/swapRecords')
+function toRecords(index:number){
+    router.push({name:'swapDetail',params:{swapIndex:index}})
 }
 
 const showValidatePop = ref(false)
@@ -205,6 +208,10 @@ const confirmVote = (info:validateInfo)=>{
 const confirmNum = (num:string)=>{
     console.log(num);
     
+}
+
+const loadingMore=async()=>{
+  await  marketStore.getMarketFlashExchangeDataAction()
 }
 </script>
 

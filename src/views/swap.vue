@@ -58,10 +58,10 @@
             </div>
         </div>
 
-        <div class="record_item" @click="toRecords()">
+        <div class="record_item" @click="toRecords(0)">
             <div class="text">
                 <div>成功</div>
-                <div class="time">2024/07/30 19:00</div>
+                <div class="time">{{ formatTimestamp(userProfileStore.flashExchangeDataList[0].timestamp) }}</div>
             </div>
             <div class="type_item">
                 <div class="type_left">
@@ -79,8 +79,8 @@
                 </div>
             </div>
             <div class="num">
-                <!-- <div>{{ marketStore.transactionList[0] }}</div> -->
-                <!-- <div class="num_usdt">{{ marketStore.transactionList[0].data.usdt }}</div> -->
+                <div>{{userProfileStore.flashExchangeDataList[0].d9_token }}</div>
+                <div class="num_usdt">{{ userProfileStore.flashExchangeDataList[0].usdt_token}}</div>
             </div>
         </div>
     </div>
@@ -102,12 +102,14 @@ import ValidatePassword from "@/components/validatePassword.vue";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import useAccountStore from "@/store/account/account";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
+
 import useMarketStore from '@/store/market/market';
 import { postGetUsdt,postGetD9 } from '@/services/http/amm';
 import { postAllowanceMarketMaker, postUsdtTransfer } from "@/services/http/usdt";
 import {postRefreshUsersProfile} from "@/services/http/main"
 
 import { validateInfo } from '@/types';
+import { formatTimestamp } from '@/utils';
 const showPasswordPop = ref(false);
  const marketStore=useMarketStore()
 const userProfileStore = useUserProfileStore();
@@ -123,8 +125,8 @@ onMounted(()=>{
 
 })
 
-function toRecords(){
-    router.push('/main/swapRecords')
+function toRecords(index:number){
+    router.push({name:'swapUserDetail',params:{swapIndex:index}})
 }
 
 function toAll(){
