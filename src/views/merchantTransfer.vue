@@ -1,22 +1,22 @@
 <template>
 <ion-page class="main_page">
-    <navBar title="商家转账" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
+    <navBar :title="t('burnMining.merchantTransfer')" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
     <div class="content">
-        <div class="title">商家账户</div>
+        <div class="title">{{ t('burnMining.merchantAccount') }}</div>
         <div class="address">
             DAUS1281******SAD3842
         </div>
 
         <div class="title">
-            <div>支付金额</div>
+            <div>{{ t('burnMining.payAmount') }}</div>
             <div class="unit">CNY</div>  
         </div>
         <div class="pay_box">
             <van-cell-group inset>
-                <van-field v-model="inputNumber" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
+                <van-field v-model="inputNumber" label="￥" :placeholder="t('burnMining.inputPayAmount')" label-width="4.2056vw" type="number" />
             </van-cell-group>
             <div class="asset_amout">
-                <div class="text">需要资产数量</div>
+                <div class="text">{{ t('burnMining.needAssetAmount') }}</div>
                 <div class="asset_unit">
                     <img src="@/assets/home/logo_usdt.png" alt="" class="logo">
                     <div>USDT</div>
@@ -24,23 +24,23 @@
                 <div class="amount_num">{{ (inputNumber||0)/marketStore.rates.CNY }}</div>
             </div>
             <div class="asset_amout">
-                <div class="text">余额</div>
+                <div class="text">{{ t('home.balance') }}</div>
                 <div class="amount_num">{{ userProfileStore.usdtBalance  }}</div>
             </div>
             <div class="asset_amout">
-                <div class="text">商家收到数量</div>
+                <div class="text">{{ t('burnMining.merchantReceiveAmount') }}</div>
                 <div class="amount_num">{{ ((inputNumber||0)/marketStore.rates.CNY )*0.84 }}</div>
             </div>
             <div class="get_point">
-                <div class="point_text">可获得积分</div>
+                <div class="point_text">{{ t('burnMining.availablePoint') }}</div>
                 <div class="percentage">100 = 1 USDT</div>
                 <div class="num">{{ (((inputNumber||0)/marketStore.rates.CNY)*100 ).toFixed(2) }}</div>
             </div>
         </div>
 
-        <div class="title">网络费</div>
+        <div class="title">{{ t('home.internetFee') }}</div>
         <div class="fee">
-            <div class="text">预计网络费用</div>
+            <div class="text">{{ t('home.estimateInternetFee') }}</div>
             <div class="unit">
                 <img src="@/assets/home/square_d9.png" alt="" class="logo">
                 <div>D9</div>
@@ -48,7 +48,7 @@
             <div>7.00</div>
         </div>
 
-        <div class="btn button_active_full">确认转账</div>
+        <div class="btn button_active_full">{{ t('burnMining.confirmTransfer') }}</div>
     </div>
 </ion-page>
 </template>
@@ -58,6 +58,10 @@ import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 const marketStore=useMarketStore()
 const userProfileStore = useUserProfileStore();
 // import navBar from '@/components/navBar.vue'

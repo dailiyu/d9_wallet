@@ -1,14 +1,14 @@
 <template>
 <ion-page class="main_page">
-    <navBar title="赠送积分"></navBar>
+    <navBar :title="t('burnMining.giftPoint')"></navBar>
     <div class="content">
         <div class="title">
-            <div>收款地址</div>
+            <div>{{ t('burnMining.receiveAddress') }}</div>
             <img src="@/assets/home/address-book-fill.png" alt="" class="addredd_icon">
         </div>
         <div class="address">
             <van-cell-group inset>
-                <van-field v-model="address" placeholder="输入或粘贴接钱包地址" >
+                <van-field v-model="address" :placeholder="t('burnMining.inputWalletAddress')" >
                     <template #right-icon>
                         <img src="@/assets/home/scan-grey.png" alt="" class="scan_icon">
                     </template>
@@ -16,36 +16,36 @@
             </van-cell-group>
         </div>
         <div class="title">
-            <div>支付金额</div>
+            <div>{{ t('burnMining.payAmount') }}</div>
             <div class="unit">CNY</div>
         </div>
         <div class="pay_box">
             <van-cell-group inset>
-                <van-field v-model="payNumber" label="￥" placeholder="请输入支付金额" label-width="4.2056vw" type="number" />
+                <van-field v-model="payNumber" label="￥" :placeholder="t('burnMining.inputPayAmount')" label-width="4.2056vw" type="number" />
             </van-cell-group>
             <div class="asset_amout">
-                <div class="text">需要资产数量</div>
+                <div class="text">{{ t('burnMining.needAssetAmount') }}</div>
                 <div class="asset_unit">
                     USDT
                 </div>
                 <div class="amount_num">{{ (payNumber/marketStore.rates.CNY)*0.16 }}</div>
             </div>
             <div class="asset_amout">
-                <div class="text">余额</div>
+                <div class="text">{{ t('home.balance') }}</div>
                 <div class="amount_num">{{ userProfileStore.usdtBalance }}</div>
             </div>
             <div class="asset_amout">
-                <div class="text">商家积分</div>
+                <div class="text">{{ t('burnMining.merchantPoint') }}</div>
                 <div class="amount_num">{{ ((payNumber/marketStore.rates.CNY)*16).toFixed(2) }}</div>
             </div>
             <div class="get_point">
-                <div class="point_text">用户积分</div>
+                <div class="point_text">{{ t('burnMining.userPoint') }}</div>
                 <div class="percentage">100 = 1 USDT</div>
                 <div class="num">{{((payNumber/marketStore.rates.CNY)*100 ).toFixed(2)}}</div>
             </div>
         </div>
 
-        <div class="btn button_active_full" @click="showPasswordPop=true">确认</div>
+        <div class="btn button_active_full" @click="showPasswordPop=true">{{ t('home.confirm') }}</div>
     </div>
     <validatePassword
       @confirm="confirm"
@@ -65,6 +65,10 @@ import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { validateInfo } from '@/types';
 import { postMerchantGivePointsUsdt } from '@/services/http/merchant';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 const userProfileStore = useUserProfileStore();
 const showPasswordPop = ref(false);
 // import navBar from '@/components/navBar.vue'
@@ -74,11 +78,14 @@ const accountStore=useAccountStore()
 const marketStore=useMarketStore()
 
 
+const giving = ref(t('burnMining.giving'));
+const giveSuccess = ref(t('burnMining.giving'));
+const passwordError = ref(t('home.passwordError'));
 
 const confirm=async(info: validateInfo)=>{
     if (info.password == accountStore.password){
     const Toast = showLoadingToast({
-    message: "赠送中...",
+    message: giving.value,
     forbidClick: false,
     duration: 300000,
   });
@@ -90,9 +97,9 @@ const confirm=async(info: validateInfo)=>{
  })
     Toast.close();
     await  userProfileStore.fetchAllData()
-    showSuccessToast("赠送成功");
+    showSuccessToast(giveSuccess.value);
   }else{
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
 }
 

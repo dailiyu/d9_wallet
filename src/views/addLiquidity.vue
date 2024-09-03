@@ -1,8 +1,8 @@
 <template>
   <ion-page class="main_page">
-    <navBar title="增加流动性"></navBar>
+    <navBar :title="t('worldSwap.addLiquidity')"></navBar>
     <div class="content">
-        <div class="title">总流动性</div>
+        <div class="title">{{ t('worldSwap.totalLiquidity') }}</div>
         <div class="total_box">
             <div class="total_num">
                 $ {{(Number(( marketStore.d9LiquidityToken*marketStore.exchangeRateD9ToUsdt).toFixed(4))+Number(marketStore.usdtLiquidityToken)).toFixed(4)}}
@@ -25,16 +25,16 @@
         </van-tabs> -->
         <ion-segment :value="current" mode="ios" @ionChange="changeTab">
             <ion-segment-button :value="0">
-                <ion-label>增加流动性</ion-label>
+                <ion-label>{{ t('worldSwap.addLiquidity') }}</ion-label>
             </ion-segment-button>
             <ion-segment-button :value="1">
-                <ion-label>移出流动性</ion-label>
+                <ion-label>{{ t('worldSwap.removeLiquidity') }}</ion-label>
             </ion-segment-button>
         </ion-segment>
 
         <div class="liquidity_content">
             <div class="content_title">
-                <div>我的仓位</div>
+                <div>{{ t('worldSwap.myPosition') }}</div>
                 <div class="logos">
                     <img src="@/assets/home/logo_d9.png" alt="" class="logo_icon">
                     <img src="@/assets/home/logo_usdt.png" alt="" class="logo_icon">
@@ -50,7 +50,7 @@
                     <div class="number" style="color:#0E932E">15,661.92</div>
                 </div>
                 <div class="num_item">
-                    <div>资金池代币</div>
+                    <div>{{ t('worldSwap.liquidityPoolToken') }}</div>
                     <div class="number" style="color:#8E8C8E">15,661.92</div>
                 </div>
             </div>
@@ -62,12 +62,12 @@
                     <van-cell-group inset>
                         <van-field
                             v-model="d9Number"
-                            placeholder="请输入增加数量"
+                            :placeholder="t('worldSwap.inputAddAmount')"
                             type="number"
                         />
                     </van-cell-group>
                     <div class="c_balance">
-                        <div>余额</div>
+                        <div>{{ t('home.balance') }}</div>
                         <div class="c_num">{{ userProfileStore.d9Balance }}</div>
                     </div>
                 </div>
@@ -78,12 +78,12 @@
                     <van-cell-group inset>
                         <van-field
                             v-model="usdtNumber"
-                            placeholder="请输入增加数量"
+                            :placeholder="t('worldSwap.inputAddAmount')"
                             type="number"
                         />
                     </van-cell-group>
                     <div class="c_balance">
-                        <div>余额</div>
+                        <div>{{ t('home.balance') }}</div>
                         <div class="c_num">{{  userProfileStore.usdtBalance }}</div>
                     </div>
                 </div>
@@ -103,8 +103,8 @@
             </div>
 
         </div>
-        <div class="add_btn button_active_full" v-if="!current" @click="showPasswordPop=true,handleType='add'">确定增加</div>
-        <div class="add_btn button_active_full" v-else  @click="showPasswordPop=true,handleType='remove'">确定移出</div>
+        <div class="add_btn button_active_full" v-if="!current" @click="showPasswordPop=true,handleType='add'">{{ t('worldSwap.confirmAdd') }}</div>
+        <div class="add_btn button_active_full" v-else  @click="showPasswordPop=true,handleType='remove'">{{ t('worldSwap.confirmRemove') }}</div>
     </div>
     <validatePassword
       @confirm="confirm"
@@ -128,6 +128,10 @@ import { validateInfo } from '@/types';
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import { IonSegmentCustomEvent, SegmentChangeEventDetail  } from '@ionic/core';
 import useAccountStore from "@/store/account/account";
+import { useI18n } from 'vue-i18n';
+
+
+
 const accountStore = useAccountStore();
 const marketStore=useMarketStore();
 const userProfileStore = useUserProfileStore();
@@ -155,12 +159,17 @@ const removeLiquidity=async()=>{
     await postRemoveLiquidity()
 }
 
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+const operating = ref(t('worldSwap.operating'));
+const operateSuccess = ref(t('worldSwap.operateSuccess'));
+const passwordError = ref(t('home.passwordError'));
 
 const confirm=async(info: validateInfo)=>{
     if (info.password == accountStore.password){
         if(handleType.value=='add'){
             const Toast = showLoadingToast({
-                message: "操作中...",
+                message: operating.value,
                 forbidClick: false,
                 duration: 30000,
             });
@@ -169,10 +178,10 @@ const confirm=async(info: validateInfo)=>{
                 Toast.close();
                 usdtNumber.value=0
                 d9Number.value=0
-                showSuccessToast("操作成功");
+                showSuccessToast(operateSuccess.value);
         }else if(handleType.value=='remove'){
             const Toast = showLoadingToast({
-                message: "操作中...",
+                message: operating.value,
                 forbidClick: false,
                 duration: 30000,
             });
@@ -181,11 +190,11 @@ const confirm=async(info: validateInfo)=>{
                 Toast.close();
                 usdtNumber.value=0
                 d9Number.value=0
-                showSuccessToast("操作成功");
+                showSuccessToast(operateSuccess.value);
         }
    
   }else{
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
 }
 

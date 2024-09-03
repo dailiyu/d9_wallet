@@ -3,17 +3,17 @@
     <navBar title="WorldSwap" iconColor="#fff" bgLink="src/assets/discovery/ws_bg.png"></navBar>
     <div class="content">
         <div class="title">
-            总流动性
+            {{ t('worldSwap.totalLiquidity') }}
         </div>
         <div class="total">
             <div class="total_num">$ {{(Number(( marketStore.d9LiquidityToken*marketStore.exchangeRateD9ToUsdt).toFixed(4))+Number(marketStore.usdtLiquidityToken)).toFixed(4)}}</div>
             <div class="btns">
-                <div class="btn_item button_active_full" @click="toAddLiquidity">增加流动性</div>
-                <div class="btn_item button_active_full" @click="toSwap">交易</div>
+                <div class="btn_item button_active_full" @click="toAddLiquidity">{{ t('worldSwap.addLiquidity') }}</div>
+                <div class="btn_item button_active_full" @click="toSwap">{{ t('worldSwap.transfer') }}</div>
             </div>
         </div>
         <div class="title">
-            走势图
+            {{ t('worldSwap.sparklines') }}
         </div>
         <div class="chart_box">
             <div id="chart"></div>
@@ -27,7 +27,7 @@
             <div class="transaction_item">
                 <div class="transaction_top">
                     <div>
-                        <span class="text_b">成交额</span>
+                        <span class="text_b">{{ t('worldSwap.volumn') }}</span>
                         <span class="text_s">（24h）</span>
                     </div>
                     <div class="percentage" style="color: #32C390;">{{marketStore.marketTransaction.usdtSumChangeRate}}%</div>
@@ -37,7 +37,7 @@
             <div class="transaction_item">
                 <div class="transaction_top">
                     <div>
-                        <span class="text_b">交易数</span>
+                        <span class="text_b">{{ t('worldSwap.dealNumber') }}</span>
                         <span class="text_s">（24h）</span>
                     </div>
                     <div class="percentage" style="color: #CD4E45;">{{marketStore.marketTransaction.transactionCountChangeRate}}%</div>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="title">
-            当前汇率
+            {{ t('worldSwap.currentRate') }}
         </div>
         <div class="currency">
             <div class="logo_item">
@@ -70,19 +70,19 @@
 
         <van-row :gutter="[6, 0]">
             <van-col span="5">
-                <div class="grid_t">类型</div>
+                <div class="grid_t">{{ t('worldSwap.type') }}</div>
             </van-col>
             <van-col span="5">
-                <div class="grid_t">成交额</div>
+                <div class="grid_t">{{ t('worldSwap.volumn') }}</div>
             </van-col>
             <van-col span="5">
-                <div class="grid_t">数量</div>
+                <div class="grid_t">{{ t('worldSwap.quantity') }}</div>
             </van-col>
             <van-col span="5">
-                <div class="grid_t">时间</div>
+                <div class="grid_t">{{ t('worldSwap.time') }}</div>
             </van-col>
             <van-col span="4">
-                <div class="grid_t">详情</div>
+                <div class="grid_t">{{ t('worldSwap.detail') }}</div>
             </van-col>
         </van-row>
         <van-row :gutter="[6, 0]" class="grid_table" @click="toRecords(index)" v-for="(item,index) in marketStore.flashExchangeDataList">
@@ -105,7 +105,7 @@
                 </div>
             </van-col>
         </van-row>
-        <div style="width: 100%; text-align: center; margin-top: 5vw" @click="loadingMore" v-if="marketStore.haveNext">加载更多...</div>
+        <div style="width: 100%; text-align: center; margin-top: 5vw" @click="loadingMore" v-if="marketStore.haveNext">{{ t('worldSwap.loadMore') }}</div>
         <div class="loading"></div>
     </div>
     <validatePassword type="verify" :isShow="showValidatePop" @close="showValidatePop=false" @confirm="confirmVote"></validatePassword>
@@ -125,6 +125,10 @@ import validatePassword from '@/components/validatePassword.vue';
 import { validateInfo } from '@/types/index'
 import inputNumber from '@/components/inputNumber.vue';
 import { timeAgo } from '@/utils';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 const marketStore=useMarketStore()
 
@@ -296,6 +300,7 @@ const loadingMore=async()=>{
         justify-content: space-between;
         .transaction_item {
             flex: 1;
+            min-height: 21.1589vw;
             margin-right: 2.3364vw;
             border-radius: 13px;
             background-color: #fff;

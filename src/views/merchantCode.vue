@@ -1,8 +1,8 @@
 <template>
 <ion-page class="main_page">
-    <navBar title="商家码" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
+    <navBar :title="t('burnMining.merchantCode')" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
     <div class="content">
-        <div class="title">有效期倒计时</div>
+        <div class="title">{{ t('burnMining.countDown') }}</div>
         <div class="time_box">
             <div class="time_num">{{ days }}</div>
             <div class="time_unit">d</div>
@@ -13,12 +13,12 @@
             <div class="time_num">{{ seconds }}</div>
             <div class="time_unit">s</div>
         </div>
-        <div class="add_time" @click="isShow=true">增加时效</div>
+        <div class="add_time" @click="isShow=true">{{ t('burnMining.addTime') }}</div>
 
         <img :src="qrCodeUrl" alt="" class="qr_code" >
 
         <div class="address" @click="toMerchangTransfer">{{ obscureString(accountStore.activeWallet.address)  }}</div>
-        <div class="btn button_active_full" @click="toPointGift">积分赠送</div>
+        <div class="btn button_active_full" @click="toPointGift">{{ t('burnMining.pointGift') }}</div>
     </div>
 
     <van-popup
@@ -32,34 +32,34 @@
       @close="isShow=false"
     >
       <div class="input_time">
-        <div class="title">选择时间</div>
+        <div class="title">{{ t('burnMining.chooseTime') }}</div>
         <van-radio-group v-model="checked" checked-color="#0065FF">
             <van-cell-group inset>
-                <van-cell title="1个月" clickable @click="checked = '1'">
+                <van-cell :title="t('burnMining.oneMonth')" clickable @click="checked = '1'">
                     <template #right-icon>
                         <van-radio name="1" />
                     </template>
                 </van-cell>
 
-                <van-cell title="3个月" clickable @click="checked = '3'">
+                <van-cell :title="t('burnMining.threeMonth')" clickable @click="checked = '3'">
                     <template #right-icon>
                         <van-radio name="3" />
                     </template>
                 </van-cell>
 
-                <van-cell title="6个月" clickable @click="checked = '6'">
+                <van-cell :title="t('burnMining.sixMonth')" clickable @click="checked = '6'">
                     <template #right-icon>
                         <van-radio name="6" />
                     </template>
                 </van-cell>
 
-                <van-cell title="12个月" clickable @click="checked = '12'">
+                <van-cell :title="t('burnMining.twelveMonth')" clickable @click="checked = '12'">
                     <template #right-icon>
                         <van-radio name="12" />
                     </template>
                 </van-cell>
 
-                <van-cell title="24个月" clickable @click="checked = '24'">
+                <van-cell :title="t('burnMining.twentyFourMonth')" clickable @click="checked = '24'">
                     <template #right-icon>
                         <van-radio name="24" />
                     </template>
@@ -78,7 +78,7 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
-import { ref, onBeforeUpdate, onMounted, onUnmounted } from 'vue';
+import { ref, onBeforeUpdate, onMounted, onUnmounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import QRCode from 'qrcode';
 import useAccountStore from "@/store/account/account";
@@ -87,6 +87,10 @@ import useUserProfileStore from '@/store/usersProfile/userProfile';
 import { postMerchantSubscribe } from '@/services/http/merchant';
 import { validateInfo } from "@/types";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 const showValidatePop = ref(false)
 const userProfileStore=useUserProfileStore()
 const accountStore=useAccountStore()
@@ -146,10 +150,22 @@ onUnmounted(() => {
   clearInterval(intervalId.value);
 });
 
+const activateMerchantCode = ref(t('burnMining.activateMerchantCode'));
+const activateSuccess = ref(t('burnMining.activateSuccess'));
+const passwordError = ref(t('home.passwordError'));
+watch(locale, (newLocale) => {
+    activateMerchantCode.value = t('burnMining.activateMerchantCode');
+    activateSuccess.value = t('burnMining.activateSuccess');
+    passwordError.value = t('home.passwordError');
+});
+activateMerchantCode.value = t('burnMining.activateMerchantCode');
+activateSuccess.value = t('burnMining.activateSuccess');
+passwordError.value = t('home.passwordError');
+
 const confirm=async (info:validateInfo)=>{
     if (info.password == accountStore.password) {
         const Toast = showLoadingToast({
-      message: "正在开通...",
+      message: activateMerchantCode.value,
       forbidClick: false,
       duration: 300000,
     });
@@ -158,9 +174,9 @@ const confirm=async (info:validateInfo)=>{
     await postMerchantSubscribe({usdt_base_units:Number(checked.value)*10})
     Toast.close();
     await userProfileStore.fetchAllData();
-    showSuccessToast("开通成功！");
+    showSuccessToast(activateSuccess.value);
     }else{
-        showFailToast("密码错误");
+        showFailToast("passwordError.value");
     }
 }
 

@@ -42,7 +42,7 @@
             <img src="@/assets/discovery/fully.png" alt="">
           </div>
           <div class="text">
-            {{ t('discovery.fullPosition') }}
+            {{ t('discovery.moneyCelestial') }}
           </div>
         </div>
         <div class="item" @click="tonodeVoting()">
