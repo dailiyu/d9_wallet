@@ -2,33 +2,33 @@
     <ion-page class="main_page">
     <navBar title="DPOC" iconColor="#fff" ></navBar>
     <div class="content">
-        <div class="title">总矿池数量</div>
+        <div class="title">{{ t('DPOC.totalMiningAmount') }}</div>
         <div class="amount">{{ marketStore.poolsTotalNumber }}</div>
 
         <div class="destroy">
-            <div class="sub_t">当前全球已销毁</div>
+            <div class="sub_t">{{ t('DPOC.currentGlobalBurnAmount') }}</div>
             <div class="d_num">{{ marketStore.TotalBurned }}</div>
         </div>
 
         <div class="destroy">
-            <div class="sub_t">当前全球算力值</div>
+            <div class="sub_t">{{ t('DPOC.currentGlobalHashRate') }}</div>
             <div class="d_num">9,021,031.20</div>
         </div>
 
         <div class="total">
             <div class="total_item">
-                <div class="total_t">可销毁代币数额</div>
+                <div class="total_t">{{ t('DPOC.burnableTokenAmount') }}</div>
                 <div class="total_num">{{ userProfileStore.d9Balance }}</div>
                 <div class="total_text">
-                    <div @click="showInputNumberPop=true, operateType='burning' ">销毁</div>
+                    <div @click="showInputNumberPop=true, operateType='burning' ">{{ t('DPOC.burn') }}</div>
                     <img src="@/assets/home/arrow-right.png" alt="" class="total_icon">
                 </div>
             </div>
             <div class="total_item">
-                <div class="total_t">可提币代币数额</div>
+                <div class="total_t">{{ t('DPOC.withdrawableTokenAmount') }}</div>
                 <div class="total_num">231,100.00</div>
                 <div class="total_text">
-                    <div @click="showPasswordPop=true">提币</div>
+                    <div @click="showPasswordPop=true">{{ t('DPOC.withdrawTokens') }}</div>
                     <img src="@/assets/home/arrow-right.png" alt="" class="total_icon">
                 </div>
             </div>
@@ -36,36 +36,36 @@
 
         <div class="time_box">
             <div class="time_item">
-                <div>上次燃烧时间</div>
+                <div>{{ t('DPOC.lastBurnTime') }}</div>
                 <div class="time">{{ formatTimestampToMMDDHHMM(userProfileStore.lastBurn) }}</div>
             </div>
             <div class="time_item">
-                <div>上次提取时间</div>
+                <div>{{ t('DPOC.lastWithdrawalTime') }}</div>
                 <div class="time">{{ formatTimestampToMMDDHHMM(userProfileStore.lastWithdrawal) }}</div>
             </div>
         </div>
 
         <div class="accumulation_box">
             <div class="accumulation_item">
-                <div>剩余产出总量</div>
+                <div>{{ t('DPOC.remainingTotalOutput') }}</div>
                 <div class="a_num">{{ userProfileStore.balanceDue }}</div>
             </div>
             <div class="accumulation_item">
-                <div>基础产出累积</div>
+                <div>{{ t('DPOC.basicOutputAccumulation') }}</div>
                 <div class="a_num">7,210.80</div>
             </div>
             <div class="accumulation_item">
-                <div>算力加速累计</div>
+                <div>{{ t('DPOC.cumulativeHashRateAcceleration') }}</div>
                 <div class="a_num">7,210.80</div>
             </div>
         </div>
         <div class="amount_box">
             <div class="amount_item">
-                <div>销毁总数量</div>
+                <div>{{ t('DPOC.totalAmountDestroyed') }}</div>
                 <div class="a_num">{{ userProfileStore.amountBurned }}</div>
             </div>
             <div class="amount_item">
-                <div>总提币数量</div>
+                <div>{{ t('DPOC.totalWithdrawalAmount') }}</div>
                 <div class="a_num">{{ userProfileStore.balancePaid }}</div>
             </div>
         </div>
@@ -76,7 +76,7 @@
           :isShow="showPasswordPop"
           @close="showPasswordPop = false"
         ></validatePassword>
-        <inputNumber title="输入销毁代币数" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
+        <inputNumber :title="t('DPOC.inputBurnAmount')" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
   </ion-page>
 </template>
 
@@ -93,6 +93,10 @@ import useAccountStore from "@/store/account/account";
 import { ref } from 'vue';
 import router from '@/router';
 import { postMiningBurning, postMiningWithdraw } from '@/services/http/main';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const burningNumber=ref<number>(0)
 const showInputNumberPop = ref(false)
 const confirmNumber = (num:number)=>{
@@ -112,6 +116,7 @@ function toMyNode() {
   router.push("/main/myNode");
 }
 
+const passwordError = ref(t('home.passwordError'))
 const confirm = async (info: validateInfo) => {
   if (info.password == accountStore.password) {
     if(operateType.value=='burning'){
@@ -120,14 +125,15 @@ const confirm = async (info: validateInfo) => {
         await  dealWithdraw()
     }
   } else {
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
 };
 
-
+const burning = ref(t('DPOC.burning'))
+const burnSuccess = ref(t('DPOC.burnSuccess'))
 const dealBurning=async()=>{
     const Toast = showLoadingToast({
-      message: "销毁中...",
+      message: burning.value,
       forbidClick: false,
       duration: 300000,
     });
@@ -135,12 +141,14 @@ const dealBurning=async()=>{
     await postMiningBurning({amount:burningNumber.value})
     Toast.close();
     await userProfileStore.fetchAllData();
-    showSuccessToast("代币销毁成功");
+    showSuccessToast(burnSuccess.value);
 }
 
+const withdrawing = ref(t('DPOC.withdrawing'))
+const withdrawSuccess = ref(t('DPOC.withdrawSuccess'))
 const dealWithdraw=async ()=>{
     const Toast = showLoadingToast({
-      message: "提取中...",
+      message: withdrawing.value,
       forbidClick: false,
       duration: 300000,
     });
@@ -148,7 +156,7 @@ const dealWithdraw=async ()=>{
     await postMiningWithdraw()
     Toast.close();
     await userProfileStore.fetchAllData();
-    showSuccessToast("提取成功");
+    showSuccessToast(withdrawSuccess.value);
 }
 
 </script>

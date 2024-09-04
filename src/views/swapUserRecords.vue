@@ -1,10 +1,10 @@
 <template>
     <ion-page class="main_page">
-    <navBar title="兑换详情" ></navBar>
+    <navBar :title="t('swap.exchangeDetail')" ></navBar>
     <div class="content">
         <div class="success">
             <img src="@/assets/home/success-fill.png" alt="" class="s_icon">
-            <div>兑换成功</div>
+            <div>{{ t('swap.exchangeSuccess') }}</div>
         </div>
         <div class="details">
             <div class="logo_box">
@@ -15,7 +15,7 @@
             <div class="detail">
                 <div class="detail_item">
                     <div class="detail_text" style="color: #0E932E;">
-                        {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?'转出':'转入'}} {{userProfileStore.flashExchangeDataList[swapIndex].usdt_token }} USDT
+                        {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?t('swap.withdrawal'):t('swap.deposit')}} {{userProfileStore.flashExchangeDataList[swapIndex].usdt_token }} USDT
                     </div>
                     <div class="detail_no">
                         <div>
@@ -27,7 +27,7 @@
 
                 <div class="detail_item">
                     <div class="detail_text" style="color: #0065B2;">
-                        {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?'转入':'转出'}} {{userProfileStore.flashExchangeDataList[swapIndex].d9_token}} D9
+                        {{userProfileStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?t('swap.deposit'):t('swap.withdrawal')}} {{userProfileStore.flashExchangeDataList[swapIndex].d9_token}} D9
                     </div>
                     <div class="detail_no">
                         <div>
@@ -39,16 +39,16 @@
             </div>
         </div>
 
-        <div class="title">订单时间</div>
+        <div class="title">{{ t('swap.orderTime') }}</div>
         <div class="time">{{ formatTimestamp(userProfileStore.flashExchangeDataList[swapIndex].timestamp) }}</div>
 
-        <div class="title">订单号</div>
+        <div class="title">{{ t('swap.orderNo') }}</div>
         <div class="time">{{ userProfileStore.flashExchangeDataList[swapIndex].extrinsic_hash }}</div>
 
-        <div class="title">手续费</div>
+        <div class="title">{{ t('swap.transactionFee') }}</div>
         <div class="fee">{{ userProfileStore.flashExchangeDataList[swapIndex].fee_token }} D9</div>
 
-        <div class="title">汇率</div>
+        <div class="title">{{ t('swap.rate') }}</div>
         <div class="time">1 USDT ≈ {{userProfileStore.flashExchangeDataList[swapIndex].d9_rate}} D9</div>
     </div>
   </ion-page>
@@ -63,16 +63,21 @@ import { ref } from 'vue';
 import { formatTimestamp } from '@/utils';
 import { showSuccessToast } from 'vant';
 import useUserProfileStore from '@/store/usersProfile/userProfile';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const route = useRoute();
 // const marketStore=useMarketStore()
 const swapIndex = Number(route.params.swapIndex)
 
 const userProfileStore=useUserProfileStore()
+const copySuccess = ref(t('home.copySuccess'))
 const  copyAddress=async(address:string)=>{
     Clipboard.write({
         string: address
     }).then(() => {
-        showSuccessToast('复制成功！')
+        showSuccessToast(copySuccess.value)
     });
    }
 
@@ -104,6 +109,9 @@ const  copyAddress=async(address:string)=>{
             }
             .logo_item {
                 width: 8.4112vw;
+            }
+            img {
+                max-width: fit-content;
             }
         }
         .detail {

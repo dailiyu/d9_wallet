@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <navBar title="地址簿"></navBar>
+    <navBar :title="t('mySelf.addressBook')"></navBar>
     <div class="content">
         <div class="address_item" v-for="(addressMessage,index) in addressBookStore.addressBooks">
             <div class="info_box">
@@ -13,9 +13,9 @@
                 </div>
                 <img src="@/assets/myself/arrow-right-2.png" alt="" class="arrow_right">
             </div>
-            <div class="notes">备注:{{ addressMessage.message }}</div>
+            <div class="notes">{{ t('mySelf.note') }}:{{ addressMessage.message }}</div>
         </div>
-        <div class="btn button_active_full" @click="toAdd">添加地址</div>
+        <div class="btn button_active_full" @click="toAdd">{{ t('mySelf.addAddress') }}</div>
     </div>
     
   </ion-page>
@@ -27,6 +27,10 @@ import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
 import useAddressBookStore from "@/store/addressBook/addressBook"
 import {obscureString} from "@/utils/index"
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
  const addressBookStore=useAddressBookStore()
 const router = useRouter()
 function toAdd(){

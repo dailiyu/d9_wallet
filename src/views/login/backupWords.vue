@@ -1,13 +1,13 @@
 <template>
   <ion-page>
-    <navBar title="备份助记词"></navBar>
+    <navBar :title="t('login.backupWord')"></navBar>
     <div class="content">
         <div class="account">
          {{ obscureString(accountStore.temporaryWallet.address) }}
       </div>
-      <div class="title">备份助记词</div>
+      <div class="title">{{ t('login.backupWord') }}</div>
       <div class="tips">
-        使用纸和笔正确抄写助记词
+        {{ t('login.writeWord') }}
       </div>
       <div class="words_box">
         <div class="words_item" v-for="(item, index) in wordsList" :key="index">
@@ -15,17 +15,17 @@
         </div>
       </div>
       
-      <div class="btn button_active_full" @click="toNext()">验证备份</div>
+      <div class="btn button_active_full" @click="toNext()">{{ t('login.validateBackup') }}</div>
 
-      <div class="title">备份提示</div>
+      <div class="title">{{ t('login.backupTip') }}</div>
 
       <div class="tips">
-        获得助记词等于拥有钱包资产所有权，如果你的手机丢失、被盗、损坏，助记词可以用来恢复你的账户。
+        {{ t('login.recoveryAccount') }}
       </div>
-      <div class="title">备份提示</div>
+      <div class="title">{{ t('login.backupTip') }}</div>
       <div class="tips">
-        <div>妥善保管至隔离网络的安全地方；</div>
-        <div> 请勿将助记词在联网环境下分享和储存，比如邮件、相册、社交应用等。</div>
+        <div>{{ t('login.accurateSave') }}</div>
+        <div> {{ t('login.donotShare') }}</div>
       </div>
     </div>
   </ion-page>
@@ -37,6 +37,10 @@ import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
 import useAccountStore from "@/store/account/account";
 import {obscureString} from "@/utils/index"
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const accountStore = useAccountStore();
 const wordsList = accountStore.temporaryWallet.mnemonic.split(' ')
 const router = useRouter()

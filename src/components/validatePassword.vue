@@ -13,52 +13,52 @@
     >
       <!-- 编辑昵称 -->
       <div class="edit_name" v-if="type == 'name'">
-        <div class="title">验证密码</div>
+        <div class="title">{{ t('home.validatePassword') }}</div>
         <van-cell-group inset>
           <van-field
             v-model="password"
-            placeholder="需要您的钱包密码才能继续"
+            :placeholder="t('home.inputPassword')"
             type="password"
           />
         </van-cell-group>
         <van-cell-group inset>
-          <van-field v-model="name" placeholder="新名称" />
+          <van-field v-model="name" :placeholder="t('home.newName')" />
         </van-cell-group>
-        <div class="btn button_active_full" @click="confirm">确认</div>
+        <div class="btn button_active_full" @click="confirm">{{ t('home.confirm') }}</div>
       </div>
       <!-- 导出助记词/私钥 -->
       <div class="edit_name" v-if="type == 'verify'">
-        <div class="title">验证密码</div>
+        <div class="title">{{ t('home.validatePassword') }}</div>
         <van-cell-group inset>
           <van-field
             v-model="password"
-            placeholder="需要您的钱包密码才能继续"
+            :placeholder="t('home.inputPassword')"
             type="password"
           />
         </van-cell-group>
-        <div class="btn button_active_full" @click="confirm">确认</div>
+        <div class="btn button_active_full" @click="confirm">{{ t('home.confirm') }}</div>
       </div>
       <!-- 修改密码 -->
       <div class="edit_name" v-if="type == 'modify'">
-        <div class="title">验证密码</div>
+        <div class="title">{{ t('home.validatePassword') }}</div>
         <van-cell-group inset>
-          <van-field v-model="password" placeholder="旧密码" type="password" />
+          <van-field v-model="password" :placeholder="t('home.oldPassword')" type="password" />
         </van-cell-group>
         <van-cell-group inset>
           <van-field
             v-model="newPassword1"
-            placeholder="新密码"
+            :placeholder="t('home.newPassword')"
             type="password"
           />
         </van-cell-group>
         <van-cell-group inset>
           <van-field
             v-model="newPassword2"
-            placeholder="确认新密码"
+            :placeholder="t('home.confirmNewPassword')"
             type="password"
           />
         </van-cell-group>
-        <div class="btn button_active_full" @click="confirm">确认</div>
+        <div class="btn button_active_full" @click="confirm">{{ t('home.confirm') }}</div>
       </div>
     </van-popup>
   </div>
@@ -70,6 +70,9 @@
 import { reactive, ref } from "vue";
 // import navBar from '@/components/navBar.vue'
 import { showToast } from "vant";
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 type validateInfo = {
   password: string;
   name: string;
@@ -93,14 +96,19 @@ const params = ref<validateInfo>({
 const newPassword1 = ref("");
 const newPassword2 = ref("");
 
+const passwordLength = ref(t('login.passwordLength'))
+const inputNewName = ref(t('home.inputNewName'))
+const inputNewPassword = ref(t('home.inputNewPassword'))
+const newPasswordLength = ref(t('home.newPasswordLength'))
+const passwordIncorrect = ref(t('home.passwordIncorrect'))
 const confirm = async () => {
   if (password.value.length < 8) {
-    showToast("密码长度需要大于8");
+    showToast(passwordLength.value);
     return;
   }
 
   if (props.type == "name") {
-    if (!name.value) return showToast("请输入新名称");
+    if (!name.value) return showToast(inputNewName.value);
     params.value = {
       ...params.value,
       password: password.value,
@@ -112,15 +120,15 @@ const confirm = async () => {
     params.value = { ...params.value, password: password.value };
     password.value = "";
   } else {
-    if (!newPassword1.value || !newPassword2) return showToast("请输入新密码");
+    if (!newPassword1.value || !newPassword2) return showToast(inputNewPassword.value);
 
     if (newPassword1.value.length < 8 || newPassword2.value.length < 8)
-      return showToast("新密码长度需要大于8");
+      return showToast(newPasswordLength.value);
 
     if (
       newPassword1.value !== newPassword2.value
     )
-      return showToast("密码输入不一致");
+      return showToast(passwordIncorrect.value);
 
     params.value = {
       ...params.value,

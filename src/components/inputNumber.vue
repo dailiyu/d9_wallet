@@ -15,11 +15,11 @@
         <van-cell-group inset>
           <van-field
             v-model="amount"
-            placeholder="请输入数量"
+            :placeholder="t('swap.inputAmount')"
             type="number"
           />
         </van-cell-group>
-        <div class="btn button_active_full" @click="confirm">确认</div>
+        <div class="btn button_active_full" @click="confirm">{{ t('home.confirm') }}</div>
       </div>
     </van-popup>
   </div>
@@ -28,6 +28,9 @@
 <script setup>
 import { showToast } from 'vant';
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 defineProps({
     isShow: {

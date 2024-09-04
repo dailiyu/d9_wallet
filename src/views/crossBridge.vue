@@ -1,13 +1,13 @@
 <template>
   <ion-page class="main_page">
-    <navBar title="跨链桥" iconColor="#fff" bgLink="src/assets/discovery/cb_bg.png"></navBar>
+    <navBar :title="t('discovery.crossBridge')" iconColor="#fff" bgLink="src/assets/discovery/cb_bg.png"></navBar>
     <div class="content">
-        <div class="title">当前钱包地址</div>
+        <div class="title">{{ t('crossBridge.currentWalletAddress') }}</div>
         <div class="w_address">{{ obscureString(accountStore.activeWallet.address) }}</div>
 
-        <div class="title">接收地址</div>
+        <div class="title">{{ t('home.receiveAddress') }}</div>
         <van-cell-group inset>
-            <van-field v-model="address" placeholder="请输入接收地址" />
+            <van-field v-model="address" :placeholder="t('crossBridge.inputReceiveAddress')" />
         </van-cell-group>
 
         <div class="transfer_box">
@@ -17,10 +17,10 @@
                     <img src="@/assets/home/transfer.png" alt="" class="t_icon">
                 </div>
                 <van-cell-group inset>
-                    <van-field v-model="value" placeholder="请输入转出数量" type="number" :style="{'font-size': value?'4.9065vw':'2.8037vw'}" />
+                    <van-field v-model="value" :placeholder="t('crossBridge.inputTransferAmount')" type="number" :style="{'font-size': value?'4.9065vw':'2.8037vw'}" />
                 </van-cell-group>
                 <div class="trans_text">
-                    <div>余额</div>
+                    <div>{{ t('home.balance') }}</div>
                     <div class="trans_num">{{ profileState.d9Balance }}</div>
                 </div>
             </div>
@@ -34,25 +34,25 @@
                 </div>
                 <div class="trans_amount">9,923,012</div>
                 <div class="trans_text">
-                    将接收数量
+                    {{ t('crossBridge.willReceiveAmount') }}
                 </div>
             </div>
         </div>
 
-        <div class="title">温馨提示</div>
+        <div class="title">{{ t('crossBridge.kindReminder') }}</div>
         <div class="tips">
             <div class="tip_item">
-                1、单次跨链资产数量最少20000枚Usdt或以上;
+                1、{{ t('crossBridge.reminder1') }};
             </div>
             <div class="tip_item">
-                2、Trom向D9转移USDT额外补贴1.5%数额;
+                2、{{ t('crossBridge.reminder2') }};
             </div>
             <div class="tip_item">
-                3、D9向Trom转移USDT收取3%的手续费;
+                3、{{ t('crossBridge.reminder3') }};
             </div>
         </div>
 
-        <div class="btn button_active_full">确定兑换</div>
+        <div class="btn button_active_full">{{ t('crossBridge.confirmExchange') }}</div>
     </div>
   </ion-page>
 </template>
@@ -67,6 +67,9 @@ const accountStore = useAccountStore();
 import userProfileState from "@/store/usersProfile/userProfile"
 const profileState=userProfileState()
 // import navBar from '@/components/navBar.vue'
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 const address = ref('')
 const value = ref('')

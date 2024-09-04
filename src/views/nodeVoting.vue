@@ -1,49 +1,49 @@
 <template>
   <ion-page class="main_page">
     <navBar
-      title="节点投票"
+      :title="t('discovery.nodeVoting')"
       iconColor="#fff"
       bgLink="src/assets/discovery/node_bg.png"
     ></navBar>
     <div class="content">
-      <div class="title">我的账户</div>
+      <div class="title">{{ t('home.myAccount') }}</div>
       <div class="vote_amount">
-        <div class="vote_text">可投票数</div>
+        <div class="vote_text">{{ t('nodeVoting.votesAvailableNumber') }}</div>
         <div class="vote_num">
           {{ userProfileStore.totalVotes - userProfileStore.votesSpent }}
         </div>
       </div>
       <div class="vote_amount">
-        <div class="vote_text">已投票数</div>
+        <div class="vote_text">{{ t('nodeVoting.votesCast') }}</div>
         <div class="vote_num">{{ userProfileStore.votesSpent }}</div>
         <div class="detail" @click="toVotingDetail()">
-          <div>详情</div>
+          <div>{{ t('worldSwap.detail') }}</div>
           <img src="@/assets/home/arrow-right.png" alt="" class="arrow_icon" />
         </div>
       </div>
       <div class="vote_amount">
-        <div class="vote_text">我的节点</div>
+        <div class="vote_text">{{ t('nodeVoting.myNode') }}</div>
         <div class="node_num">
           {{ (myNodes.length!! && myNodes[0].node_name) || "blank" }}
         </div>
         <div class="detail">
-          <div @click="showChangeNameValidatePop=true">修改名称</div>
+          <div @click="showChangeNameValidatePop=true">{{ t('nodeVoting.editName') }}</div>
           <img src="@/assets/home/arrow-right.png" alt="" class="arrow_icon" />
         </div>
       </div>
 
       <div class="bonus">
         <div>
-          <div class="bonus_text" >待领取奖励</div>
+          <div class="bonus_text" >{{ t('nodeVoting.pendingRewards') }}</div>
           <div class="bonus_num">{{ userProfileStore.rewardsNumber || 0 }}</div>
         </div>
         <div class="btn button_active_full" @click="showValidatePop=true, operateType='withdraw'">
-          领取奖励
+          {{ t('nodeVoting.collectRewards') }}
         </div>
       </div>
 
       <van-cell-group inset>
-        <van-field v-model="keyWord" placeholder="搜索节点">
+        <van-field v-model="keyWord" :placeholder="t('nodeVoting.searchNode')">
           <template #right-icon>
             <img
               src="@/assets/discovery/search.png"
@@ -57,19 +57,19 @@
 
       <van-row :gutter="[6, 0]">
         <van-col span="3">
-          <div class="grid_t">排名</div>
+          <div class="grid_t">{{ t('nodeVoting.range') }}</div>
         </van-col>
         <van-col span="7">
-          <div class="grid_t">节点名称</div>
+          <div class="grid_t">{{ t('nodeVoting.nodeName') }}</div>
         </van-col>
         <van-col span="6">
-          <div class="grid_t">当前票数</div>
+          <div class="grid_t">{{ t('nodeVoting.currentVoteCount') }}</div>
         </van-col>
         <van-col span="5">
-                <div class="grid_t">比例</div>
+                <div class="grid_t">{{ t('nodeVoting.percentage') }}</div>
             </van-col>
         <van-col span="3">
-          <div class="grid_t">投票</div>
+          <div class="grid_t">{{ t('nodeVoting.vote') }}</div>
         </van-col>
       </van-row>
       <van-row
@@ -114,7 +114,7 @@
       </van-row>
     </div>
     <validatePassword type="verify" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirm"></validatePassword>
-    <inputNumber title="请输入投票数量" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
+    <inputNumber :title="t('nodeVoting.inputVoteAmount')" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
     <validatePassword type="name" @close="showChangeNameValidatePop=false" :isShow="showChangeNameValidatePop" @confirm="confirmValidate"></validatePassword>
   </ion-page>
 </template>
@@ -132,6 +132,9 @@ import { validateInfo } from "@/types";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import validatePassword from '@/components/validatePassword.vue';
 import inputNumber from '@/components/inputNumber.vue'
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 const showChangeNameValidatePop=ref<boolean>(false)
 const operateType=ref<'withdraw'|'vote'>('withdraw')
 const voteNumber=ref(0)
@@ -166,6 +169,7 @@ function toMyNode() {
   router.push("/main/myNode");
 }
 
+const passwordError = ref(t('home.passwordError'))
 const confirm = async (info: validateInfo) => {
   if (info.password == accountStore.password) {
     if(operateType.value=='withdraw'){
@@ -175,13 +179,15 @@ const confirm = async (info: validateInfo) => {
     }
    
   } else {
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
 };
 
+const claiming = ref(t('nodeVoting.claiming'))
+const claimedSuccess = ref(t('nodeVoting.claimedSuccess'))
 const withdrawReward = async () => {
   const Toast = showLoadingToast({
-      message: "领取中...",
+      message: claiming.value,
       forbidClick: false,
       duration: 300000,
     });
@@ -189,7 +195,7 @@ const withdrawReward = async () => {
     await postWithdrawReward({ node_id: accountStore.activeWallet.address });
     Toast.close();
     await userProfileStore.fetchAllData();
-    showSuccessToast("奖励领取成功");
+    showSuccessToast(claimedSuccess.value);
 };
 
 const search = () => {
@@ -218,9 +224,11 @@ const clickVote = async (nodeData: {
   
 };
 
+const voting = ref(t('nodeVoting.voting'))
+const voteSuccess = ref(t('nodeVoting.voteSuccess'))
 const vote=async()=>{
   const Toast = showLoadingToast({
-      message: "投票中...",
+      message: voting.value,
       forbidClick: false,
       duration: 300000,
     });
@@ -228,7 +236,7 @@ const vote=async()=>{
   await postDelegateVotes({ candidate: selectedNodeData.value.node_id, amount: voteNumber.value });
   Toast.close();
     await userProfileStore.fetchAllData();
-    showSuccessToast("投票成功");
+    showSuccessToast(voteSuccess.value);
 
 }
 
@@ -242,10 +250,12 @@ const confirmNumber = async(num:number)=>{
     operateType.value='vote'
 }
 
+const editing = ref(t('nodeVoting.editing'))
+const editSuccess = ref(t('nodeVoting.editSuccess'))
 const confirmValidate=async(info:validateInfo)=>{
   if (info.password == accountStore.password) {
     const Toast = showLoadingToast({
-      message: "修改中...",
+      message: editing.value,
       forbidClick: false,
       duration: 300000,
     });
@@ -254,9 +264,9 @@ const confirmValidate=async(info:validateInfo)=>{
     await postChangeCandidateName({name:info.name})
     Toast.close();
     await userProfileStore.fetchAllData();
-    showSuccessToast("修改成功！");
+    showSuccessToast(editSuccess.value);
   }else{
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
    
     

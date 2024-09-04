@@ -153,7 +153,7 @@ const showCrossBridgePop = ref(false)
       max-width: 25%; /* 确保每行最多四个元素 */
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      // justify-content: center;
       align-items: center;
       margin-bottom: 2.3364vw; /* 添加间距，以便元素之间有一些间隙 */
       margin-top: 2.3364vw;

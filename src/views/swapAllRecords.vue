@@ -1,10 +1,10 @@
 <template>
     <ion-page class="main_page">
-    <navBar title="所有记录" ></navBar>
+    <navBar :title="t('swap.allRecord')" ></navBar>
     <div class="content">
         <div class="record_item" v-for="(item,index) in userProfileStore.flashExchangeDataList" @click="toRecords(index)">
             <div class="text">
-                <div>成功</div>
+                <div>{{ t('swap.success') }}</div>
                 <div class="time">{{formatTimestamp(item.timestamp ) }}</div>
             </div>
             <div class="type_item">
@@ -27,7 +27,7 @@
                 <div class="num_usdt">{{ item.usdt_token }}</div>
             </div>
         </div>
-        <div style="width: 100%; text-align: center;" @click="loadMore" v-if="userProfileStore.haveNext">加载更多...</div>
+        <div style="width: 100%; text-align: center;" @click="loadMore" v-if="userProfileStore.haveNext">{{ t('worldSwap.loadMore') }}</div>
     </div>
   </ion-page>
 </template>
@@ -38,6 +38,10 @@ import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { formatTimestamp } from '@/utils';
 import router from '@/router';
 // import navBar from '@/components/navBar.vue'
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const userProfileStore = useUserProfileStore();
 function toRecords(index:number){
     router.push({name:'swapUserDetail',params:{swapIndex:index}})

@@ -1,40 +1,40 @@
 <template>
   <ion-page>
-    <navBar title="节点设置" ></navBar>
+    <navBar :title="t('mySelf.nodeSetting')" ></navBar>
     <div class="content">
         <div class="speed">
             <div class="speed_item">
-                <div class="speed_text">节点速度</div>
+                <div class="speed_text">{{ t('mySelf.nodeSpeed') }}</div>
                 <div class="speed_level">
                     <!-- 200以下 -->
                     <div class="level_item">
                         <div class="dot bgc_green"></div>
                         <div class="level_text color_green">
-                            快
+                            {{ t('mySelf.fast') }}
                         </div>
                     </div>
                     <!-- 500-1000 -->
                     <div class="level_item">
                         <div class="dot bgc_orange"></div>
                         <div class="level_text color_orange">
-                            一般
+                            {{ t('mySelf.normal') }}
                         </div>
                     </div>
                     <!-- 1000以上 -->
                     <div class="level_item">
                         <div class="dot bgc_red"></div>
                         <div class="level_text color_red">
-                            慢
+                            {{ t('mySelf.low') }}
                         </div>
                     </div>
                 </div>
             </div>
             <div class="speed_tip">
-                区块高度: 高度值越大，代表节点数据同步更完善，其稳定性更好。在节点速度差不多的情况下，选择高度值大的节点，体验会更好。
+                {{ t('mySelf.speedTip') }}
             </div>
         </div>
 
-        <div class="title">默认节点</div>
+        <div class="title">{{ t('mySelf.defaultNode') }}</div>
 
         <div class="node_item">
             <div>
@@ -97,7 +97,7 @@
         </div>
 
         <div class="btn button_active_full">
-            添加自定义节点
+            {{ t('mySelf.addCustomNode') }}
         </div>
     </div>
   </ion-page>
@@ -106,6 +106,9 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 const fastSpeed = ref<number>(0)
 const lowSpeed1 = ref<number>(0)

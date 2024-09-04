@@ -25,10 +25,10 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
-                <!-- <van-cell-group inset>
+                <!-- <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div> -->
+                <van-cell-group inset>
                   <van-field v-model="walletBalance" :type="balanceType" readonly/>
-                </van-cell-group> -->
+                </van-cell-group>
               </div>
               <div class="buttons">
                 <div class="button_item" @click="transfer">{{ t('home.transfer') }}</div>
@@ -566,7 +566,7 @@ position: relative;
             background-color: #0065FF;
             width: 33.4112vw;
             height: 12.6168vw;
-            line-height: 12.6168vw;
+            // line-height: 12.6168vw;
             border-radius: 9px;
             color: #fff;
             font-size: 4.2056vw;
@@ -574,6 +574,9 @@ position: relative;
             margin: 0 auto;
             text-align: center;
             margin-top: 6.7757vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
           }
         }
         .item2 {

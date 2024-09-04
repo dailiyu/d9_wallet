@@ -1,10 +1,10 @@
 <template>
   <ion-page>
-    <navBar title="确认助记词"></navBar>
+    <navBar :title="t('login.confirmWord')"></navBar>
     <div class="content">
-      <div class="title">确认助记词</div>
+      <div class="title">{{ t('login.confirmWord') }}</div>
       <div class="tips">
-          <div>使用纸和笔正确抄写助记词</div>
+          <div>{{ t('login.writeWord') }}</div>
           <img src="@/assets/login/change.png" alt="" class="pic" @click="reset()">
       </div>
       <!-- <van-cell-group inset>
@@ -24,7 +24,7 @@
           {{item}}
         </div>
       </div>
-      <div class="btn button_active_full" @click="toNext()">确认</div>
+      <div class="btn button_active_full" @click="toNext()">{{ t('home.confirm') }}</div>
     </div>
   </ion-page>
 </template>
@@ -35,6 +35,10 @@ import navBar from '@/components/navBar.vue'
 import useAccountStore from "@/store/account/account";
 import {stringArraysEqual} from "@/utils/index"
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const accountStore = useAccountStore();
 const router = useRouter()
 const wordList = reactive({

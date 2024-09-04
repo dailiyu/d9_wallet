@@ -14,14 +14,14 @@
           <img src="@/assets//myself/avatar.jpg" alt="">
         </div>
         <div class="right">
-          <div class="top">您好</div>
+          <div class="top">{{ t('mySelf.hello') }}</div>
           <div class="bottom">{{ obscureString(accountStore.activeWallet.address) }}</div>
         </div>
       </div>
       <div class="wallet-box">
         <div class="balance">
           <div class="balance-top">
-          <div class="text"> 钱包余额</div>
+          <div class="text"> {{ t('home.walletBalance') }}</div>
             <img class="eye-icon" src="@/assets/eye_closed_t.png" alt="" @click="balanceType='password'" v-if="balanceType=='text'">
             <img class="eye-icon" src="@/assets/eye_open_t.png" alt="" @click="balanceType='text'" v-if="balanceType=='password'">
           </div>
@@ -35,7 +35,7 @@
         </div>
         <div class="wallet-bottom">
       <div class="mini-box" @click="toWalletManagement">
-        <div class="top">钱包管理</div>
+        <div class="top">{{ t('home.walletManagement') }}</div>
         <div class="bottom">
           <div class="left">2</div>
           <div class="right">
@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="mini-box">
-        <div class="top">有效空投</div>
+        <div class="top">{{ t('mySelf.validAirdrop') }}</div>
         <div class="bottom">
           <div class="left">{{ userProfileStore.airdropsNumber }}</div>
           <div class="right">
@@ -58,7 +58,7 @@
         <div class="item" @click="toAddress()">
           <div class="left"> 
               <img class="icon" src="../assets/myself/address-book.png" alt="">
-              <div class="text">地址簿</div>
+              <div class="text">{{ t('mySelf.addressBook') }}</div>
           </div>
           <div class="right">
             <div class="arrow-righr">
@@ -69,7 +69,7 @@
         <div class="item" @click="toSetting()">
           <div class="left"> 
               <img class="icon" src="../assets/myself/settings.png" alt="">
-              <div class="text">系统设置</div>
+              <div class="text">{{ t('mySelf.systemSetting') }}</div>
           </div>
           <div class="right">
             <div class="arrow-righr">
@@ -80,7 +80,7 @@
         <div class="item">
           <div class="left"> 
               <img class="icon" src="../assets/myself/search.png" alt="">
-              <div class="text">检查版本</div>
+              <div class="text">{{ t('mySelf.checkVersion') }}</div>
           </div>
           <div class="right">
             <div class="arrow-righr">
@@ -91,7 +91,7 @@
         <div class="item">
           <div class="left"> 
               <img class="icon" src="../assets/myself/info.png" alt="">
-              <div class="text">关于D9</div>
+              <div class="text">{{ t('mySelf.aboutD9') }}</div>
           </div>
           <div class="right">
             <div class="arrow-righr">
@@ -101,7 +101,7 @@
         </div>
       </div>
       <div class="version">
-        版本号: v1.0.23123
+        {{ t('mySelf.versionNo') }}: v1.0.23123
       </div>
       </div>
     </div>
@@ -124,6 +124,10 @@ import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
 import { ref } from 'vue';
 import { FieldType } from 'vant';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const marketStore=useMarketStore()
 const  accountStore=useAccountStore()
 const  userProfileStore= useUserProfileStore();

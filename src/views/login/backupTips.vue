@@ -1,12 +1,12 @@
 <template>
   <ion-page>
-    <navBar title="备份助记词"></navBar>
+    <navBar :title="t('login.backupWord')"></navBar>
     <div class="content">
         <div class="tips">
-            在下一步里，您将看到可以恢复钱包的助记词
+            {{ t('login.nextStep') }}
         </div>
         <div class="tips">
-            (12个单词)，请谨记以下安全点!
+            {{ t('login.rememberTip') }}
         </div>
         <div class="check_box">
             <van-checkbox-group v-model="checked">
@@ -32,7 +32,7 @@
                 </van-cell-group>
             </van-checkbox-group>
         </div>
-        <div class="btn button_active_full" @click="toNext()">我知道了</div>
+        <div class="btn button_active_full" @click="toNext()">{{ t('login.getIt') }}</div>
     </div>
   </ion-page>
 </template>
@@ -47,18 +47,25 @@ import { useWalletService } from "@/services/walletService";
 const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet } = useWalletService();
 const accountStore = useAccountStore();
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const checked = ref([]);
+const assetLost = ref(t('login.assetLost'))
+const assetStole = ref(t('login.assetStole'))
+const protectWord = ref(t('login.protectWord'))
 const list = reactive([
     {
-        text: '如果我弄丢了助记词，我的资产将永远丢失!',
+        text: assetLost.value,
         isChecked: false
     },
     {
-        text: '如果我向任何人透露或分享我的助记词，我的资产可能会被盗!',
+        text: assetStole.value,
         isChecked: false
     },
     {
-        text: '保护好助记词的安全的责任全部在于我!',
+        text: protectWord.value,
         isChecked: false
     }
     ])

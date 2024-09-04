@@ -1,9 +1,9 @@
 <template>
     <ion-page>
-      <navBar title="导入方式" ></navBar>
+      <navBar :title="t('login.importMethod')" ></navBar>
       <div class="content">
           <van-radio-group v-model="checked" shape="dot" checked-color="#2269F6" icon-size="3.7383vw">
-              <van-radio name="mnemonic">助记词导入</van-radio>
+              <van-radio name="mnemonic">{{ t('login.wordImport') }}</van-radio>
               <van-cell-group inset :style="{'border': checked=='mnemonic'? '1px solid #2664F2':'1px solid #E7EBF2'}">
                   <van-field
                       v-model="mnemonic"
@@ -14,7 +14,7 @@
                   />
               
               </van-cell-group>
-              <van-radio name="privateKey">私钥导入</van-radio>
+              <van-radio name="privateKey">{{ t('login.privateKeyImport') }}</van-radio>
               <van-cell-group inset :style="{'border': checked=='privateKey'? '1px solid #2664F2':'1px solid #E7EBF2'}">
                   <van-field
                       v-model="privateKey"
@@ -26,7 +26,7 @@
               </van-cell-group>
           </van-radio-group>
   
-          <div class="btn button_active_full" @click="dealImport"> 导入</div>
+          <div class="btn button_active_full" @click="dealImport"> {{ t('login.import') }}</div>
       </div>
     </ion-page>
   </template>
@@ -38,6 +38,10 @@
   import { useWalletService } from '@/services/walletService';
   import { useRouter } from 'vue-router';
   import useAccountStore from "@/store/account/account";
+  import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
   const checked = ref<'mnemonic'|'privateKey'>('mnemonic')
   const  mnemonic= ref('')
 

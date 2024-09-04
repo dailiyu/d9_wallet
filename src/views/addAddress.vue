@@ -1,12 +1,12 @@
 <template>
   <ion-page>
-    <navBar title="添加地址"></navBar>
+    <navBar :title="t('mySelf.addAddress')"></navBar>
     <div class="content">
-        <div class="title">名称</div>
+        <div class="title">{{ t('mySelf.name') }}</div>
         <van-cell-group inset>
             <van-field v-model="name" />
         </van-cell-group>
-        <div class="title">地址</div>
+        <div class="title">{{ t('mySelf.address') }}</div>
         <van-cell-group inset>
             <van-field 
             v-model="address"
@@ -17,15 +17,15 @@
             </van-field>
         </van-cell-group>
         <div class="title">
-            <span>备注</span>
-            <span style="color: #8E8C8E;">（选填）</span>
+            <span>{{ t('mySelf.note') }}</span>
+            <span style="color: #8E8C8E;">（{{ t('mySelf.optional') }}）</span>
         </div>
         <van-cell-group inset>
             <van-field v-model="message" />
         </van-cell-group>
     </div>
     <!-- <div class="btn button_active_full">保存</div> -->
-    <div class="btn button_active_full" style="background-color: #BDC5D7;" @click="saveAddress()">保存</div>
+    <div class="btn button_active_full" style="background-color: #BDC5D7;" @click="saveAddress()">{{ t('mySelf.save') }}</div>
   </ion-page>
 </template>
 <script lang="ts" setup>
@@ -34,6 +34,9 @@ import { reactive, ref } from 'vue'
 import navBar from '@/components/navBar.vue'
 import useAddressBookStore from "@/store/addressBook/addressBook"
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 const router = useRouter()
 const addressBookStore=useAddressBookStore()
 const name = ref<string>('')

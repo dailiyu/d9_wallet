@@ -1,6 +1,6 @@
 <template>
     <ion-page class="main_page">
-    <navBar title="闪兑" ></navBar>
+    <navBar :title="t('home.swap')" ></navBar>
     <div class="content">
         <div class="swap_box" :style="{'flex-direction':isD9ToUsdt?'row-reverse':'unset'}">
             <div class="swap_item" :style="{'margin-right':isD9ToUsdt?'0':'4.2056vw'}">
@@ -12,7 +12,7 @@
                 <div class="item_bottom">
                     <div class="num">{{ userProfileStore.usdtBalance }}</div>
                     <van-cell-group inset>
-                        <van-field  :disabled="isD9ToUsdt? true:false" @input="dealUstdInputChange()" v-model="usdtAmount" placeholder="请输入数量" input-align="center" />
+                        <van-field  :disabled="isD9ToUsdt? true:false" @input="dealUstdInputChange()" v-model="usdtAmount" :placeholder="t('swap.inputAmount')" input-align="center" />
                     </van-cell-group>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="item_bottom">
                     <div class="num">{{ userProfileStore.d9Balance }}</div>
                     <van-cell-group inset>
-                        <van-field  @input="dealD9InputChange()"  :disabled="!isD9ToUsdt? true:false" v-model="d9Amount" placeholder="请输入数量" input-align="center" />
+                        <van-field  @input="dealD9InputChange()"  :disabled="!isD9ToUsdt? true:false" v-model="d9Amount" :placeholder="t('swap.inputAmount')" input-align="center" />
                     </van-cell-group>
                 </div>
             </div>
@@ -34,33 +34,33 @@
 
         <div class="swap_text">
             <div class="text_item">
-                <div>可用</div>
+                <div>{{ t('swap.available') }}</div>
                 <div class="text_num" >{{ isD9ToUsdt? userProfileStore.d9Balance:userProfileStore.usdtBalance  }} {{ isD9ToUsdt?"D9":"USDT" }}</div>
                
             </div>
             <div class="text_item">
-                <div>交易价格</div>
+                <div>{{ t('swap.tradePrice') }}</div>
                 <div class="text_num">1 USDT ≈ 14.0355 D9</div>
             </div>
             <div class="text_item">
-                <div>费用</div>
+                <div>{{ t('swap.fee') }}</div>
                 <div class="text_num"> ≈ {{ isD9ToUsdt?(d9Amount||0)*0.003:(usdtAmount||0)*0.003}} {{ isD9ToUsdt?"D9":"USDT" }}</div>
             </div>
         </div>
 
-        <div class="btn button_active_full" @click="showPasswordPop=true">闪兑</div>
+        <div class="btn button_active_full" @click="showPasswordPop=true">{{ t('home.swap') }}</div>
 
         <div class="record_text">
-            <div class="lastest">最近一条记录</div>
+            <div class="lastest">{{ t('swap.latestRecord') }}</div>
             <div class="all" @click="toAll()">
-                <div>所有记录</div>
+                <div>{{ t('swap.allRecord') }}</div>
                 <img src="@/assets/home/arrow-right.png" alt="" class="text_icon">
             </div>
         </div>
 
         <div class="record_item" @click="toRecords(0)">
             <div class="text">
-                <div>成功</div>
+                <div>{{ t('swap.success') }}</div>
                 <div class="time">{{ formatTimestamp(userProfileStore.flashExchangeDataList[0].timestamp) }}</div>
             </div>
             <div class="type_item">
@@ -110,6 +110,11 @@ import {postRefreshUsersProfile} from "@/services/http/main"
 
 import { validateInfo } from '@/types';
 import { formatTimestamp } from '@/utils';
+import { useI18n } from 'vue-i18n';
+
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+
 const showPasswordPop = ref(false);
  const marketStore=useMarketStore()
 const userProfileStore = useUserProfileStore();
@@ -167,10 +172,15 @@ const flashExchangeUsdtToD9=async()=>{
 
 }
 
+
+const operating = ref(t('worldSwap.operating'))
+const swapSuccess = ref(t('swap.swapSuccess'))
+const passwordError = ref(t('home.passwordError'))
+
 const confirm=async(info: validateInfo)=>{
     if (info.password == accountStore.password){
     const Toast = showLoadingToast({
-    message: "操作中...",
+    message: operating.value,
     forbidClick: false,
     duration: 300000,
   });
@@ -187,9 +197,9 @@ const confirm=async(info: validateInfo)=>{
     d9Amount.value=0
     usdtAmount.value=0
     await  userProfileStore.fetchAllData()
-    showSuccessToast("闪兑成功");
+    showSuccessToast(swapSuccess.value);
   }else{
-    showFailToast("密码错误");
+    showFailToast(passwordError.value);
   }
 }
 

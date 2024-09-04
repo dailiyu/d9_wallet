@@ -1,25 +1,25 @@
 <template>
   <ion-page>
-    <navBar title="系统设置"></navBar>
+    <navBar :title="t('mySelf.systemSetting')"></navBar>
     <div class="content">
       <div class="setting_item" @click="showLanguage=!showLanguage">
         <div>
             <img src="@/assets/myself/multi-language.png" alt="" class="icon">
-            <span>多语言</span>
+            <span>{{ t('mySelf.multiLanguage') }}</span>
         </div>
         <img src="@/assets/myself/arrow-right.png" alt="" class="arrow_right">
       </div>
       <div class="setting_item" @click="toNodeSetting">
         <div>
             <img src="@/assets/myself/node-setting.png" alt="" class="icon">
-            <span>节点设置</span>
+            <span>{{ t('mySelf.nodeSetting') }}</span>
         </div>
         <img src="@/assets/myself/arrow-right.png" alt="" class="arrow_right">
       </div>
       <div class="setting_item" @click="toCurrencyUnit">
         <div>
             <img src="@/assets/myself/money-exchange.png" alt="" class="icon">
-            <span>货币单位</span>
+            <span>{{ t('mySelf.currencyUnit') }}</span>
         </div>
         <img src="@/assets/myself/arrow-right.png" alt="" class="arrow_right">
       </div>
@@ -27,7 +27,7 @@
 
     <van-popup v-model:show="showLanguage" round :style="{ padding: '8.8785vw', width: '88.3178vw' }" duration="0" :overlay-style="{opacity: '0.4'}">
         <div class="multilanguage_pop">
-            <div class="title">选择语言</div>
+            <div class="title">{{ t('mySelf.chooseLanguage') }}</div>
             <van-radio-group v-model="checked" shape="dot">
                 <van-radio name="1" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('zh')">简体中文</van-radio>
                 <van-radio name="2" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('en')"> English </van-radio>

@@ -2,8 +2,8 @@
   <ion-page>
     <div class="main">
       <img src="@/assets/home/d9-network.png" alt="" class="logo_pic">
-      <div class="add_btn button_active_full" @click="toCreateAccount">新建账户</div>
-      <div class="import_btn button_active_plain" @click="toImportAccount">导入账户</div>
+      <div class="add_btn button_active_full" @click="toCreateAccount">{{ t('login.createAccount') }}</div>
+      <div class="import_btn button_active_plain" @click="toImportAccount">{{ t('login.importAccount') }}</div>
     </div>
   </ion-page>
 </template>
@@ -11,6 +11,9 @@
 <script setup lang="ts">
 import { IonPage } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 const router = useRouter()
 function toCreateAccount(){

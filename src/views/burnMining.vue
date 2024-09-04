@@ -30,13 +30,13 @@
                 <img src="@/assets/discovery/lightning.png" alt="" class="lightning_pic">
                 <div class="total_amount">
                     <div class="exchange_item">
-                        <div>
+                        <div class="item_content">
                             <div class="exchange_text">{{ t('home.basicConvertibility') }}</div>
                             <div class="exchange_num">
                                 {{userProfileStore.basicConvertibility  }}  
                             </div>
                         </div>
-                        <div>
+                        <div class="item_content">
                             <div class="exchange_text">{{ t('home.acceleratedConvertibility') }}</div>
                         <div class="exchange_num">
                             {{ userProfileStore.acceleratedConvertibility }}
@@ -50,8 +50,15 @@
                     <div class="percentage">100 = 1 D9</div>
                 </div>
                 <div class="btns">
-                    <img src="@/assets/discovery/receive-btn.png" alt="" class="burn_bg" @click="toMerchantCode">
-                    <img src="@/assets/discovery/give-btn.png" alt="" class="burn_bg" @click="toPointGift">
+                    <div class="btn1" @click="toMerchantCode">
+                        <div>{{ t('burnMining.merchantReceive') }}</div>
+                        <img src="@/assets/discovery/receive-btn.png" alt="" class="burn_bg">
+                    </div>
+                    <div class="btn2" @click="toPointGift">
+                        <div>{{ t('burnMining.giftPoint') }}</div>
+                        <img src="@/assets/discovery/give-btn.png" alt="" class="burn_bg">
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -174,9 +181,16 @@ function toPointGift(){
                 right: 0;
                 .exchange_item {
                     display: flex;
-                    align-items: center;
+                    // align-items: center;
                     justify-content: space-evenly;
                     text-align: center;
+                    .item_content {
+                        flex: 1;
+                        margin-right: 2.3364vw;
+                        &:last-child {
+                            margin-right: 0;
+                        }
+                    }
                     .exchange_text {
                         font-weight: 400;
                         font-size: 3.7383vw;
@@ -215,13 +229,65 @@ function toPointGift(){
                 position: absolute;
                 left: 8.6449vw;
                 right: 8.6449vw;
-                bottom: -0.9346vw;
+                z-index: 10;
+                bottom: 6.0654vw;
                 padding: 0 6.5421vw;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                img {
+                padding-top: 2.3364vw;
+                .btn1 {
+                    text-align: center;
+                    font-family: 'HYYaKuHeiW';
+                    font-size: 4.2056vw;
+                    color: #fff;
                     width: 30.8411vw;
+                    div {
+                        font-family: 'HYYaKuHeiW';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 30.8411vw;
+                        height: 52px;
+                        text-align: center;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .burn_bg {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        z-index: -1;
+                        width: 30.8411vw;
+                    }
+                }
+                .btn2 {
+                    text-align: center;
+                    font-family: 'HYYaKuHeiW';
+                    font-size: 4.2056vw;
+                    color: #fff;
+                    width: 30.8411vw;
+                    font-size: 4.2056vw;
+                    color: #fff;
+                    div {
+                        font-family: 'HYYaKuHeiW';
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 30.8411vw;
+                        height: 52px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .burn_bg {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        z-index: -1;
+                        width: 30.8411vw;
+                    }
                 }
             }
         }

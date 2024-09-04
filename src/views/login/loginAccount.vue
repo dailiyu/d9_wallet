@@ -1,9 +1,9 @@
 <template>
   <ion-page>
-    <navBar title="创建钱包"></navBar>
+    <navBar :title="t('login.createWallet')"></navBar>
     <div class="content">
         <van-form>
-            <div class="title">设置钱包名称</div>
+            <div class="title">{{ t('login.setWalletName') }}</div>
             <van-cell-group inset>
                 <van-field
                     v-model="name"
@@ -12,14 +12,14 @@
                     type="textarea"
                 />
             </van-cell-group>
-            <div class="title">设置钱包密码</div>
+            <div class="title">{{ t('login.setWalletPassword') }}</div>
             <van-cell-group inset>
                 <van-field
                     v-model="password"
                     rows="1"
                     autosize
                     :type="passwordType"
-                    :rules="[{ validator: validatePassword, message: '密码长度需大于等于8' }]"
+                    :rules="[{ validator: validatePassword, message: t('login.passwordLength') }]"
                 >
                 <template #right-icon>
                     <!-- <img src="@/assets/login/view-fill.png" alt="" class="view_icon"> -->
@@ -28,14 +28,14 @@
                 </template>
                 </van-field>
             </van-cell-group>
-            <div class="title">确认钱包密码</div>
+            <div class="title">{{ t('login.confirmWalletPassword') }}</div>
             <van-cell-group inset>
                 <van-field
                     v-model="ensurePassword"
                     rows="1"
                     autosize
                     :type="ensurePasswordType"
-                    :rules="[{ validator: validatePassword, message: '密码长度需大于等于8' }]"
+                    :rules="[{ validator: validatePassword, message: t('login.passwordLength') }]"
                 >
                 <template #right-icon>
                     <!-- <img src="@/assets/login/view-fill.png" alt="" class="view_icon"> -->
@@ -44,7 +44,7 @@
                 </template>
                 </van-field>
             </van-cell-group>
-            <div class="title">提示信息</div>
+            <div class="title">{{ t('login.tipMessage') }}</div>
             <van-cell-group inset>
                 <van-field
                     v-model="message"
@@ -54,7 +54,7 @@
                 />
             </van-cell-group>
         </van-form>
-        <div class="btn button_active_full" @click=toNext()>导入</div>
+        <div class="btn button_active_full" @click=toNext()>{{ t('login.import') }}</div>
     </div>
   </ion-page>
 </template>
@@ -65,6 +65,9 @@ import navBar from '@/components/navBar.vue'
 import {useRouter } from 'vue-router';
 import useAccountStore from "@/store/account/account";
 import { FieldType } from 'vant';
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 const passwordType = ref<FieldType>('password')
 const ensurePasswordType = ref<FieldType>('password')

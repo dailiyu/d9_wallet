@@ -15,11 +15,11 @@
           <van-cell-group inset>
             <van-field
               v-model="text"
-              placeholder="请输入数量"
+              :placeholder="t('swap.inputAmount')"
               type="sting"
             />
           </van-cell-group>
-          <div class="btn button_active_full" @click="confirm">确认</div>
+          <div class="btn button_active_full" @click="confirm">{{ t('home.confirm') }}</div>
         </div>
       </van-popup>
     </div>
@@ -28,6 +28,9 @@
   <script setup>
   import { showToast } from 'vant';
   import { ref } from 'vue';
+  import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
   
   defineProps({
       isShow: {
@@ -44,8 +47,9 @@
   function closePop(){
       emit('close')
   }
+  const inputWalletName = ref(t('home.inputNameToast'))
   function confirm(){
-      if (!string.value) return showToast('请输入钱包名')
+      if (!string.value) return showToast(inputWalletName.value)
       emit('confirm', string.value)
   }
 

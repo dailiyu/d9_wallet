@@ -1,8 +1,8 @@
 <template>
   <ion-page>
-    <navBar title="导入账户"></navBar>
+    <navBar :title="t('login.importAccount')"></navBar>
     <div class="content">
-        <div class="title">设置钱包名称</div>
+        <div class="title">{{ t('login.setWalletName') }}</div>
         <van-cell-group inset>
             <van-field
                 v-model="name"
@@ -11,7 +11,7 @@
                 type="textarea"
             />
         </van-cell-group>
-        <div class="title">设置钱包密码</div>
+        <div class="title">{{ t('login.setWalletPassword') }}</div>
         <van-cell-group inset>
             <van-field
                 v-model="password"
@@ -24,7 +24,7 @@
             </template>
             </van-field>
         </van-cell-group>
-        <div class="title">确认钱包密码</div>
+        <div class="title">{{ t('login.confirmWalletPassword') }}</div>
         <van-cell-group inset>
             <van-field
                 v-model="ensurePassword"
@@ -33,7 +33,7 @@
                 type="textarea"
             />
         </van-cell-group>
-        <div class="title">提示信息</div>
+        <div class="title">{{ t('login.tipMessage') }}</div>
         <van-cell-group inset>
             <van-field
                 v-model="message"
@@ -42,7 +42,7 @@
                 type="textarea"
             />
         </van-cell-group>
-        <div class="btn button_active_full" @click="toNext">导入</div>
+        <div class="btn button_active_full" @click="toNext">{{ t('login.import') }}</div>
     </div>
   </ion-page>
 </template>
@@ -52,6 +52,9 @@ import { ref, reactive } from 'vue'
 import navBar from '@/components/navBar.vue'
 import {useRouter } from 'vue-router';
 import useAccountStore from "@/store/account/account";
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 const accountStore = useAccountStore();
 const message = ref('')
 const password = ref('')

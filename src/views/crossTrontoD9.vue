@@ -1,17 +1,17 @@
 <template>
 <ion-page>
-    <navBar title="TRON到D9" ></navBar>
+    <navBar :title="t('discovery.TrontoD9')" ></navBar>
     <div class="content">
-        <div class="title">D9跨链Dapp地址：</div>
+        <div class="title">{{ t('crossBridge.D9CrossAddress') }}：</div>
         <div class="address">
             <div>https://cross-chain.d9network.com/</div>
             <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress">
         </div>
         <div class="tips">
-            使用TP钱包的Dapp打开链接进行Usdt跨链，单次跨链数量最少20000枚或以上，跨链需收取3%手续费，当前向D9网络跨链免收手续费并可额外补贴1.5%数额。
+            {{ t('crossBridge.TrontoD9Tips1') }}
         </div>
         <div class="tips">
-            跨链过程使用双向随机加密错位区块记录技术，此技术会延长跨链的完成时间，需耐心等待。
+            {{ t('crossBridge.TrontoD9Tips2') }}
         </div>
     </div>
 </ion-page>
@@ -22,13 +22,16 @@ import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
 import { Clipboard } from '@capacitor/clipboard';
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
-
-
+import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
+const copySuccess = ref(t('home.copySuccess'))
 const  copyAddress=async()=>{
     Clipboard.write({
         string: 'https://cross-chain.d9network.com/'
     }).then(() => {
-        showSuccessToast('复制成功！')
+        showSuccessToast(copySuccess.value)
     });
    }
 </script>

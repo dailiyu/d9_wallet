@@ -1,16 +1,16 @@
 <template>
   <ion-page class="main_page">
-    <navBar title="投票详情" ></navBar>
+    <navBar :title="t('nodeVoting.voteDetail')" ></navBar>
     <div class="content">
         <van-row :gutter="[6, 0]">
             <van-col span="10">
-                <div class="grid_t">投票详情</div>
+                <div class="grid_t">{{ t('nodeVoting.voteDetail') }}</div>
             </van-col>
             <van-col span="8">
-                <div class="grid_t">投票数</div>
+                <div class="grid_t">{{ t('nodeVoting.voteNumber') }}</div>
             </van-col>
             <van-col span="6">
-                <div class="grid_t">操作</div>
+                <div class="grid_t">{{ t('nodeVoting.operate') }}</div>
             </van-col>
         </van-row>
 
@@ -22,12 +22,12 @@
                 <div class="time padding">{{ voteData.vote }}</div>
             </van-col>
             <van-col span="6">
-                <div class="amount padding" style="color: #0065FF;" @click="cancelVote(voteData.node_id)">撤销</div>
+                <div class="amount padding" style="color: #0065FF;" @click="cancelVote(voteData.node_id)">{{ t('nodeVoting.revoke') }}</div>
             </van-col>
         </van-row>
     </div>
     <validatePassword type="name" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirmValidate"></validatePassword>
-    <inputNumber title="设置撤销投票数量" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
+    <inputNumber :title="t('nodeVoting.setRevokeNumber')" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
   </ion-page>
 </template>
 
@@ -40,9 +40,13 @@ import { postCancelVotes } from '@/services/http/node';
 import validatePassword from '@/components/validatePassword.vue';
 import {validateInfo} from '@/types/index'
 import inputNumber from '@/components/inputNumber.vue'
+import { useI18n } from 'vue-i18n';
+// 使用 useI18n 钩子获取 t 方法和 locale
+const { t, locale } = useI18n();
 
 const userProfileStore=useUserProfileStore()
 // import navBar from '@/components/navBar.vue'
+
 
 
  const cancelVote=async(node_id:string)=>{
