@@ -165,9 +165,10 @@ export function postGetUsdt(queryInfo: {
 
 
 //移除流动性
-export function postRemoveLiquidity() {
+export function postRemoveLiquidity(queryInfo:{percent:number}) {
   return httpRequest.post({
     url: '/amm/remove/liquidity/',
+    data:queryInfo
   })
 }
 /*
@@ -185,6 +186,17 @@ export function postGetUsdtToOtherRate() {
     url: '/usdt/price/rate/',
   })
 }
+
+
+export function postLiquidMoneyCalculation(queryInfo:{from_currency:'USDT'|'D9',to_currency:'USDT'|'D9',from_amount:number}){
+  return httpRequest.post({
+    url: '/amm/estimate/exchange/',
+    data:queryInfo
+  })
+}
+
+
+
 
 
 

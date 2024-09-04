@@ -86,7 +86,7 @@ const confirm=async(info: validateInfo)=>{
  
  await postMerchantGivePointsUsdt({
     consumer_id:address.value,
-    amount:payNumber.value/marketStore.rates.CNY
+    amount:Number(payNumber.value/marketStore.rates.CNY)
  })
     Toast.close();
     await  userProfileStore.fetchAllData()

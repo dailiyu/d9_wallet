@@ -97,7 +97,10 @@
                     </template>
                 </van-slider>
                 <div class="select_box">
-                    <div class="select_item" >0%</div>
+                    <div class="select_item" @click="changeProgress(0)">0%</div>
+                    <div class="select_item" @click="changeProgress(25)">25%</div>
+                    <div class="select_item" @click="changeProgress(50)">50%</div>
+                    <div class="select_item" @click="changeProgress(75)">75%</div>
                     <div class="select_item" @click="changeProgress(100)">100%</div>
                 </div>
             </div>
@@ -118,7 +121,7 @@
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
 import { ref } from 'vue';
-import { postAddLiquidity, postRemoveLiquidity } from '@/services/http/amm';
+import { postAddLiquidity, postLiquidMoneyCalculation, postRemoveLiquidity } from '@/services/http/amm';
 // import navBar from '@/components/navBar.vue'
 import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
@@ -137,7 +140,7 @@ const current = ref(0)
 const d9Number = ref<number>()
 const usdtNumber=ref<number>()
 const handleType=ref<'add'|'remove'>('add')
-const value = ref(100)
+const value = ref<number>(100)
 function changeTab(event:IonSegmentCustomEvent<SegmentChangeEventDetail>){
     current.value = event.detail.value as number
 }
@@ -146,13 +149,16 @@ function changeProgress(number:number) {
 }
 
 const addLiquidity=async()=>{
+    const metaData=  await postLiquidMoneyCalculation({from_currency:'D9',to_currency:'USDT',from_amount:200})
+    const usdt=metaData.results.meta_data.usdt
+    const d9=metaData.results.meta_data.d9
     await postAddLiquidity({
-        usdt_amount:usdtNumber.value=0,
-        d9_amount:d9Number.value=0
+        usdt_amount:usdt,
+        d9_amount:d9
     })
 }
 const removeLiquidity=async()=>{
-    await postRemoveLiquidity()
+    await postRemoveLiquidity({percent:value.value})
 }
 
 
@@ -162,7 +168,7 @@ const confirm=async(info: validateInfo)=>{
             const Toast = showLoadingToast({
                 message: "操作中...",
                 forbidClick: false,
-                duration: 30000,
+                duration: 90000,
             });
             showPasswordPop.value=false
                 await addLiquidity()
