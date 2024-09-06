@@ -95,9 +95,9 @@ const showValidatePop = ref(false)
 </script>
 
 <style lang="scss" scoped>
-::v-deep .navBar {
-    background: #F8F8F8;
-}
+// ::v-deep .navBar {
+//     background: #F8F8F8;
+// }
 .content {
     background-color: #F8F8F8;
     .title {

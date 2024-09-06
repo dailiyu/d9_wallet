@@ -50,7 +50,9 @@
     "inputNewName": "Confirm New Password",
     "inputNewPassword": "Please enter new password",
     "newPasswordLength": "New password length must be greater than 8",
-    "passwordIncorrect": "Password does not match"
+    "passwordIncorrect": "Password does not match",
+    "copyMnemonic":"Copy Mnemonic",
+     "setError":"Operation failed"
   },
   "discovery": {
     "discovery": "Discovery",
@@ -85,7 +87,7 @@
     "activateSuccess": "Activation Successful!",
     "merchantAccount": "Merchant Account",
     "merchantTransfer": "Merchant Transfer",
-    "payAmount": "Pay Amount",
+    "payAmount": "Amount of gift",
     "inputPayAmount": "Please enter the payment amount",
     "needAssetAmount": "Required Asset Amount",
     "merchantReceiveAmount": "Amount Received by Merchant",
@@ -259,14 +261,16 @@
     "passwordSave": "The wallet password is only used for the encryption and decryption of the private key and mnemonic phrase. The wallet password is stored only on the phone. If forgotten, it cannot be recovered!",
     "donotScreenshot": "Do not take screenshots of the private key or mnemonic phrase to avoid being intercepted by malicious software!",
     "importMethod": "Do not take screenshots of the import method for the private key or mnemonic phrase to avoid being intercepted by malicious software!",
+    "importType":"Import method",
     "wordImport": "Mnemonic Import",
     "privateKeyImport": "Private Key Import",
-    "import": "Import",
+    "import": "Next step",
     "setWalletName": "Set Wallet Name",
     "setWalletPassword": "Set Wallet Password",
     "confirmWalletPassword": "Confirm Wallet Password",
     "tipMessage": "Tip Message",
     "createWallet": "Create Wallet",
-    "passwordLength": "Password length must be greater than or equal to 8"
+    "passwordLength": "Password length must be greater than or equal to 8",
+    "sameTips":"Passwords do not match"
   }
 }

@@ -36,7 +36,7 @@ const { preCreateWallet,removeWallet ,changeActiveWallet,addWallet,importFromSec
 const accountStore = useAccountStore();
 
 onMounted(() => {
-  accountStore.loadLocalCacheAction()
+
 })
 
 // 定义生成钱包的方法

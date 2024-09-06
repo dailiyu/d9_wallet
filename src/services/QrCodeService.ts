@@ -11,12 +11,13 @@ export class QrCodeService {
       // 提取查询参数
       const accountId = params.get('account_id');
       const amount = params.get('amount');
-
-      if (accountId && amount) {
+      const qrType=params.get('type')
+      if (accountId && amount&&qrType) {
         const data: D9QrCodeData = {
           type: 'WalletAddress',
           accountId,
           amount: parseFloat(amount),
+          qrType
         };
         return data;
       } else {

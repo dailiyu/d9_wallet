@@ -92,7 +92,6 @@ export function postMerchantGivePointsUsdt(queryInfo: {
 
 //用usdt转账给商家
   export function postSendUsdtPayment(queryInfo: {
-    keypair:string,
     merchant_id:string,
     amount:number
   }) {
@@ -117,7 +116,8 @@ export function postMerchantSubscribe(queryInfo: {
 
 //生成二维码???
 export function postQrcodeGenerate(queryInfo: {
-  amount:number//设置收款金额 默认0即可
+  amount:number,//设置收款金额 默认0即可
+  type:string
 }) {
   return httpRequest.post({
     url:'/qrcode/generate/',

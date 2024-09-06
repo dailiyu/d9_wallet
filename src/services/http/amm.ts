@@ -196,6 +196,24 @@ export function postLiquidMoneyCalculation(queryInfo:{from_currency:'USDT'|'D9',
 }
 
 
+//获取个人流动性lptoken
+export function postLiquidityProvider(){
+  return httpRequest.post({
+    url: '/amm/get/liquidity/provider/',
+    
+  })
+}
+
+
+export function postTotalLpToken(){
+  return httpRequest.post({
+    url: '/amm/get/total/lp/tokens/',
+    
+  })
+}
+
+
+
 
 
 

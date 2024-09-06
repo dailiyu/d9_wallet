@@ -50,6 +50,7 @@ function closePop(){
 function confirm(){
     if (!amount.value) return showToast('请输入数量')
     emit('confirm', amount.value)
+  amount.value=undefined
 }
 
 </script>

@@ -48,6 +48,7 @@ import { postAllowanceMarketMaker } from '@/services/http/usdt';
 import { onBeforeRouteLeave } from 'vue-router';
 import { IonPage } from '@ionic/vue';
 import { useI18n } from 'vue-i18n';
+import router from '@/router';
 // 使用 useQrController hook 获取扫描功能
 const { scan, stopScan, isScanning } = useQrController();
  const addressBookStore=useAddressBookStore()
@@ -68,9 +69,18 @@ const startScan = async () => {
     const result = await scan();
     if (result) {
       // scannedData.value = result;
-      toAddress.value=result.accountId
-      amount.value=result.amount
-       transferModal.value.$el.style.transform = 'translateY(0%)'
+    
+      const accountId=result.accountId
+      const inputMount=result.amount
+      const qrType=result.qrType
+      if(qrType=='transfer'){
+        toAddress.value=result.accountId
+        amount.value=result.amount
+         transferModal.value.$el.style.transform = 'translateY(0%)'
+      }else{
+        router.push({name:'merchantTransfer',params:{accountId}})
+      }
+      
     }
   } catch (err) {
     console.error('Failed to scan QR code:', err);
@@ -102,7 +112,7 @@ onMounted(async() => {
    userProfileStore.fetchAllData()
    marketStore.fetchAllData()
    await postAllowanceMarketMaker({amount:999999999})
- await addressBookStore.loadLocalCacheAction()
+
  setInterval(() => {
   postRefreshUsersProfile()
  }, 1000*60*10);

@@ -26,7 +26,7 @@
             </van-col>
         </van-row>
     </div>
-    <validatePassword type="name" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirmValidate"></validatePassword>
+    <validatePassword type="verify" @close="showValidatePop=false" :isShow="showValidatePop" @confirm="confirmValidate"></validatePassword>
     <inputNumber :title="t('nodeVoting.setRevokeNumber')" :isShow="showInputNumberPop" @close="showInputNumberPop=false" @confirm="confirmNumber"></inputNumber>
   </ion-page>
 </template>
@@ -41,37 +41,46 @@ import validatePassword from '@/components/validatePassword.vue';
 import {validateInfo} from '@/types/index'
 import inputNumber from '@/components/inputNumber.vue'
 import { useI18n } from 'vue-i18n';
+import { showFailToast, showLoadingToast, showSuccessToast } from 'vant';
+import useAccountStore from "@/store/account/account";
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
-
+const accountStore = useAccountStore();
 const userProfileStore=useUserProfileStore()
 // import navBar from '@/components/navBar.vue'
 
-
+const cancelNum=ref<number>(0)
+const cancelNodeId=ref<string>('')
 
  const cancelVote=async(node_id:string)=>{
-   try {
-    console.log("正在撤销投票");
-    await  postCancelVotes({node_id,votes:1})
-    await userProfileStore.fetchAllData()
-    console.log("撤销成功");
-    
-   } catch (error) {
-    console.log("撤销失败");
-    
-   }
+    showInputNumberPop.value=true
+    cancelNodeId.value=node_id
+   
  }
 
  const showValidatePop = ref(false)
  const showInputNumberPop = ref(false)
-function confirmValidate(info:validateInfo){
-    console.log(info);
-    showValidatePop.value = false
-    showInputNumberPop.value = true
+const confirmValidate=async(info:validateInfo)=>{
+    if (info.password == accountStore.password){
+    const Toast = showLoadingToast({
+    message: '正在撤销投票',
+    forbidClick: false,
+    duration: 300000,
+  });
+  showValidatePop.value = false
+   await postCancelVotes({node_id:cancelNodeId.value,votes:cancelNum.value})
+    Toast.close();
+    await  userProfileStore.fetchAllData()
+    showSuccessToast('撤销成功');
+  }else{
+    showFailToast('密码错误');
+  }
+    
 }
 const confirmNumber = (num:string)=>{
-    console.log(num);
-    showInputNumberPop.value = false
+    cancelNum.value=Number(num)
+    showInputNumberPop.value=false
+    showValidatePop.value=true
 }
 </script>
 

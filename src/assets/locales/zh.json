@@ -50,7 +50,9 @@
       "inputNewName": "确认新密码",
       "inputNewPassword": "请输入新密码",
       "newPasswordLength": "新密码长度需要大于8",
-      "passwordIncorrect": "密码输入不一致"
+      "passwordIncorrect": "密码输入不一致",
+      "copyMnemonic":"复制助记词",
+      "setError":"操作失败"
     },
     "discovery": {
       "discovery": "发现",
@@ -85,7 +87,7 @@
       "activateSuccess": "开通成功！",
       "merchantAccount": "商家账户",
       "merchantTransfer": "商家转账",
-      "payAmount": "支付金额",
+      "payAmount": "赠送金额",
       "inputPayAmount": "请输入支付金额",
       "needAssetAmount": "需要资产数量",
       "merchantReceiveAmount": "商家收到数量",
@@ -261,13 +263,15 @@
       "importMethod": "请勿对私导入方式钥、助记词做截图备份，避免被恶意软件截取！",
       "wordImport": "助记词导入",
       "privateKeyImport": "私钥导入",
-      "import": "导入",
+      "import": "下一步",
+      "importType":"导入方式",
       "setWalletName": "设置钱包名称",
       "setWalletPassword": "设置钱包密码",
       "confirmWalletPassword": "确认钱包密码",
       "tipMessage": "提示信息",
       "createWallet": "创建钱包",
-      "passwordLength": "密码长度需大于等于8"
+      "passwordLength": "密码长度需大于等于8",
+      "sameTips":"密码不一致!"
     }
   }
   

@@ -68,7 +68,7 @@
 <script lang="ts" setup>
 // import { IonPage } from '@ionic/vue';
 import { reactive, ref } from "vue";
-// import navBar from '@/components/navBar.vue'
+
 import { showToast } from "vant";
 import { useI18n } from 'vue-i18n';
 // 使用 useI18n 钩子获取 t 方法和 locale

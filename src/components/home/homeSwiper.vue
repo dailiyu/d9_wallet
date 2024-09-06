@@ -25,10 +25,7 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <!-- <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div> -->
-                <van-cell-group inset>
-                  <van-field v-model="walletBalance" :type="balanceType" readonly/>
-                </van-cell-group>
+                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
               </div>
               <div class="buttons">
                 <div class="button_item" @click="transfer">{{ t('home.transfer') }}</div>
@@ -71,7 +68,7 @@
                   <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="balanceType='password'" v-if="balanceType=='text'">
                   <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="balanceType='text'" v-if="balanceType=='password'">
                 </div>
-                <div class="text_right">
+                <div class="text_right"   @click="toWalletManagement()">
                   <div>{{ t('home.walletManagement') }}</div>
                   <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic">
                 </div>
@@ -87,7 +84,7 @@
                 <div class="button_item" @click="toSwap()">{{ t('home.swap') }}</div>
                 <div class="button_item" @click="toDPOC">DPOC</div>
               </div>
-              <div class="record">
+              <div class="record" @click="toSwapRecord">
                 <div class="r_left">
                   <img src="@/assets/home/time-history.png" alt="" class="r_pic">
                   <div>{{ t('home.transferRecord') }}</div>
@@ -191,23 +188,25 @@ onMounted(async() => {
 
 })
 
-
+const toSwapRecord=async ()=>{
+  router.push('')
+}
 
  // 使用 t 方法进行翻译
 const exchanging = ref(t('home.exchanging'));
-const exchangeSuccess = ref(t('home.exchangeSuccess'))
+const exchangeSuccess = ref(t('swap.exchangeSuccess'))
 const passwordError = ref(t('home.passwordError'))
 
 // 监听 locale 变化，当语言切换时更新 message
 watch(locale, (newLocale) => {
   exchanging.value = t('home.exchanging');
-  exchangeSuccess.value = t('home.exchangeSuccess');
+  exchangeSuccess.value = t('swap.exchangeSuccess');
   passwordError.value = t('home.passwordError');
 });
 
 // 初始设置 message
 exchanging.value = t('home.exchanging');
-exchangeSuccess.value = t('home.exchangeSuccess');
+exchangeSuccess.value = t('swap.exchangeSuccess');
 passwordError.value = t('home.passwordError');
 
 const confirm=async(info: validateInfo)=>{

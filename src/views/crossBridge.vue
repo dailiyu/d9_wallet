@@ -66,7 +66,7 @@ import {obscureString} from "@/utils/index"
 const accountStore = useAccountStore();
 import userProfileState from "@/store/usersProfile/userProfile"
 const profileState=userProfileState()
-// import navBar from '@/components/navBar.vue'
+import navBar from '@/components/navBarForCrossBridge.vue'
 import { useI18n } from 'vue-i18n';
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();

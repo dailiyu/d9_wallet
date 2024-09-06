@@ -50,7 +50,9 @@
     "inputNewName": "Xác nhận mật khẩu mới",
     "inputNewPassword": "Vui lòng nhập mật khẩu mới",
     "newPasswordLength": "Độ dài mật khẩu mới cần lớn hơn 8",
-    "passwordIncorrect": "Mật khẩu không khớp"
+    "passwordIncorrect": "Mật khẩu không khớp",
+    "copyMnemonic":"Sao chép cụm từ gợi nhớ",
+     "setError":"Thao tác thất bại"
   },
   "discovery": {
     "discovery": "Khám phá",
@@ -85,7 +87,7 @@
     "activateSuccess": "Kích hoạt thành công!",
     "merchantAccount": "Tài khoản Thương Nhân",
     "merchantTransfer": "Chuyển khoản Thương Nhân",
-    "payAmount": "Số tiền thanh toán",
+    "payAmount": "Số tiền tặng",
     "inputPayAmount": "Vui lòng nhập số tiền thanh toán",
     "needAssetAmount": "Số lượng tài sản cần",
     "merchantReceiveAmount": "Số lượng Thương Nhân nhận được",
@@ -259,14 +261,16 @@
     "passwordSave": "Mật khẩu ví chỉ được sử dụng để mã hóa và giải mã khóa riêng và cụm từ khôi phục. Mật khẩu ví chỉ được lưu trên điện thoại. Nếu quên mật khẩu, không thể khôi phục!",
     "donotScreenshot": "Không chụp ảnh màn hình khóa riêng hoặc cụm từ khôi phục để tránh bị phần mềm độc hại chặn!",
     "importMethod": "Không chụp ảnh màn hình phương pháp nhập khóa riêng hoặc cụm từ khôi phục để tránh bị phần mềm độc hại chặn!",
+    "importType":"Phương thức nhập khẩu",
     "wordImport": "Nhập cụm từ khôi phục",
     "privateKeyImport": "Nhập khóa riêng",
-    "import": "Nhập",
+    "import": "Bước tiếp theo",
     "setWalletName": "Đặt tên ví",
     "setWalletPassword": "Đặt mật khẩu ví",
     "confirmWalletPassword": "Xác nhận mật khẩu ví",
     "tipMessage": "Tin nhắn nhắc nhở",
     "createWallet": "Tạo ví",
-    "passwordLength": "Độ dài mật khẩu phải lớn hơn hoặc bằng 8"
+    "passwordLength": "Độ dài mật khẩu phải lớn hơn hoặc bằng 8",
+     "sameTips":"Mật khẩu không khớp!"
   }
 }

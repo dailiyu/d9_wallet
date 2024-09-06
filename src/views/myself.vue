@@ -37,7 +37,7 @@
       <div class="mini-box" @click="toWalletManagement">
         <div class="top">{{ t('home.walletManagement') }}</div>
         <div class="bottom">
-          <div class="left">2</div>
+          <div class="left">{{ accountStore.walletList.length||0 }}</div>
           <div class="right">
             <img class="arrow-right"  src="../assets/myself/right-btn.png" alt="">
           </div>

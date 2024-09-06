@@ -35,7 +35,8 @@ class HttpRequest {
     if (config.interceptors?.requestSuccessFn) {
       config = config.interceptors.requestSuccessFn(config) as HttpRequestConfig<T>
     }
-
+    
+    
     return new Promise<T>((resolve, reject) => {
       this.instance
         .request<any, T>(config)

@@ -6,7 +6,7 @@
       <text :style="{'color': iconColor?iconColor:'#000'}">{{ title }}</text>
     </div>
 
-    <img :src="bgLink" alt="" class="nav_bg" v-if="bgLink">
+    <img src="@/assets/discovery/code-bg.png" alt="" class="nav_bg" v-if="bgLink">
   </div>
 </template>
 
@@ -43,9 +43,10 @@ function back (){
     text-align: center;
     font-size: 4.9065vw;
     font-weight: 500;
-    padding-top: 9.3458vw;
+    padding-top: 14.3458vw;
     background-color: #fff;
     z-index: 10;
+  
     .nav_item {
       position: relative;
       .arrow_pic {

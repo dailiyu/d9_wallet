@@ -64,7 +64,7 @@ import { ref } from 'vue'
 import navBar from '@/components/navBar.vue'
 import {useRouter } from 'vue-router';
 import useAccountStore from "@/store/account/account";
-import { FieldType } from 'vant';
+import { FieldType, showFailToast } from 'vant';
 import { useI18n } from 'vue-i18n';
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
@@ -77,11 +77,19 @@ const password = ref('')
 const ensurePassword = ref('')
 const message = ref('')
 const router = useRouter()
+const lengthTips=t('login.passwordLength')
+const sameTips=t('login.sameTips')
 const toNext=async()=>{
-    if(ensurePassword.value===password.value){
+    if(ensurePassword.value===password.value&&password.value.length>=8 &&ensurePassword.value.length>= 8){
       await  accountStore.addtemporaryNameAction(name.value)
       await  accountStore.changePasswordAction(password.value)
         router.push('/backupTips')
+    }else{
+        if(password.value.length<8 ||ensurePassword.value.length<8){
+            showFailToast(lengthTips)
+        }else{
+            showFailToast(sameTips)
+        }
     }
 
 }

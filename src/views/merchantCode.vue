@@ -3,7 +3,7 @@
     <navBar :title="t('burnMining.merchantCode')" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
     <div class="content">
         <div class="title">{{ t('burnMining.countDown') }}</div>
-        <div class="time_box">
+        <div class="time_box" v-if="isOpen">
             <div class="time_num">{{ days }}</div>
             <div class="time_unit">d</div>
             <div class="time_num">{{ hours }}</div>
@@ -13,9 +13,19 @@
             <div class="time_num">{{ seconds }}</div>
             <div class="time_unit">s</div>
         </div>
+        <div class="time_box" v-else>
+            <div class="time_num">-</div>
+            <div class="time_unit">d</div>
+            <div class="time_num">-</div>
+            <div class="time_unit">h</div>
+            <div class="time_num">-</div>
+            <div class="time_unit">m</div>
+            <div class="time_num">-</div>
+            <div class="time_unit">s</div>
+        </div>
         <div class="add_time" @click="isShow=true">{{ t('burnMining.addTime') }}</div>
-
-        <img :src="qrCodeUrl" alt="" class="qr_code" >
+       
+          <img :src="qrCodeUrl" alt="" :class="{'qr_code':true,'qr_codeFilter':!isOpen}" >
 
         <div class="address" @click="toMerchangTransfer">{{ obscureString(accountStore.activeWallet.address)  }}</div>
         <div class="btn button_active_full" @click="toPointGift">{{ t('burnMining.pointGift') }}</div>
@@ -77,8 +87,8 @@
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
-// import navBar from '@/components/navBar.vue'
-import { ref, onBeforeUpdate, onMounted, onUnmounted, watch } from 'vue';
+import navBar from '@/components/navBarForMerchantCode.vue'
+import { ref, onBeforeUpdate, onMounted, onUnmounted, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import QRCode from 'qrcode';
 import useAccountStore from "@/store/account/account";
@@ -125,6 +135,14 @@ function toMerchangTransfer(){
 function toPointGift(){
     router.push('/main/pointGift')
 }
+
+const isOpen=computed(()=>{
+  const now = Date.now();
+  const timeDiff = userProfileStore.merchantCodeExpiry - now
+  return timeDiff>0?true:false
+})
+ 
+
 
 const updateCountdown = () => {
   const now = Date.now();
@@ -201,8 +219,9 @@ const confirm=async (info:validateInfo)=>{
     }
     .time_box {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         justify-content: center;
+        
         color: #fff;
         .time_num {
             font-size: 5.6075vw;
@@ -231,6 +250,10 @@ const confirm=async (info:validateInfo)=>{
 
     .qr_code {
         margin: 4.9065vw auto 2.5701vw;
+    }
+    .qr_codeFilter{
+      filter: blur(4px);
+      background-color: white;
     }
 
     .address {

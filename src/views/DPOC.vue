@@ -164,7 +164,7 @@ const dealWithdraw=async ()=>{
 <style lang="scss" scoped>
 ::v-deep .navBar {
     background-color: #0065FF;
-    padding-bottom: 7.243vw;
+    padding-bottom: 6.243vw;
 }
 .content {
     padding-top: 6.5421vw;

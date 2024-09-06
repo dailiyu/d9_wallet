@@ -29,9 +29,9 @@
         <div class="multilanguage_pop">
             <div class="title">{{ t('mySelf.chooseLanguage') }}</div>
             <van-radio-group v-model="checked" shape="dot">
-                <van-radio name="1" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('zh')">简体中文</van-radio>
-                <van-radio name="2" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('en')"> English </van-radio>
-                <van-radio name="3" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('vi')"> Tiếng Việt </van-radio>
+                <van-radio name="zh"  checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('zh')">简体中文</van-radio>
+                <van-radio name="en" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('en')"> English </van-radio>
+                <van-radio name="vi" checked-color="#0065FF" icon-size="3.5047vw" @click="setLanguage('vi')"> Tiếng Việt </van-radio>
             </van-radio-group>
         </div>
     </van-popup>
@@ -39,21 +39,33 @@
 </template>
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-
+import useAccountStore from "@/store/account/account";
+const accountStore = useAccountStore();
 // 使用 useI18n hook
 const { t, locale } = useI18n();
-
+const checked = ref<string>('vi')
 // 切换语言的函数
-const setLanguage = (lang: string) => {
+const setLanguage = (lang: 'zh'|'en'|'vi') => {
   locale.value = lang;
+  checked.value=lang
+
+  
+  accountStore.changeSelectedLanguageAction(lang )
   
 };
+
+onMounted(()=>{
+    checked.value=accountStore.selectedLanguage
+ 
+   
+})
+
 const showLanguage = ref(false)
-const checked = ref('1')
+
 
 const router = useRouter()
 function toCurrencyUnit(){

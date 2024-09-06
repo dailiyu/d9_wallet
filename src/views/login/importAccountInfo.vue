@@ -2,46 +2,58 @@
   <ion-page>
     <navBar :title="t('login.importAccount')"></navBar>
     <div class="content">
-        <div class="title">{{ t('login.setWalletName') }}</div>
-        <van-cell-group inset>
-            <van-field
-                v-model="name"
-                rows="1"
-                autosize
-                type="textarea"
-            />
-        </van-cell-group>
-        <div class="title">{{ t('login.setWalletPassword') }}</div>
-        <van-cell-group inset>
-            <van-field
-                v-model="password"
-                rows="1"
-                autosize
-                type="textarea"
-            >
-            <template #right-icon>
-                <img src="@/assets/login/view-fill.png" alt="" class="view_icon">
-            </template>
-            </van-field>
-        </van-cell-group>
-        <div class="title">{{ t('login.confirmWalletPassword') }}</div>
-        <van-cell-group inset>
-            <van-field
-                v-model="ensurePassword"
-                rows="1"
-                autosize
-                type="textarea"
-            />
-        </van-cell-group>
-        <div class="title">{{ t('login.tipMessage') }}</div>
-        <van-cell-group inset>
-            <van-field
-                v-model="message"
-                rows="1"
-                autosize
-                type="textarea"
-            />
-        </van-cell-group>
+        <van-form>
+            <div class="title">{{ t('login.setWalletName') }}</div>
+            <van-cell-group inset>
+                <van-field
+                    v-model="name"
+                    rows="1"
+                    autosize
+                    type="textarea"
+                />
+            </van-cell-group>
+            <div class="title">{{ t('login.setWalletPassword') }}</div>
+            <van-cell-group inset>
+                <van-field
+                    v-model="password"
+                    rows="1"
+                    autosize
+                    :type="passwordType"
+                    :rules="[{ validator: validatePassword, message: t('login.passwordLength') }]"
+                >
+                <template #right-icon>
+                    <!-- <img src="@/assets/login/view-fill.png" alt="" class="view_icon"> -->
+                    <img src="@/assets/eye_closed_grey.png" alt="" class="view_icon" v-if="passwordType=='text'" @click="passwordType='password'">
+                    <img src="@/assets/eye_open_grey.png" alt="" class="view_icon" v-if="passwordType=='password'" @click="passwordType='text'">
+                </template>
+                </van-field>
+            </van-cell-group>
+            <div class="title">{{ t('login.confirmWalletPassword') }}</div>
+            <van-cell-group inset>
+                <van-field
+                    v-model="ensurePassword"
+                    rows="1"
+                    autosize
+                    :type="ensurePasswordType"
+                    :rules="[{ validator: validatePassword, message: t('login.passwordLength') }]"
+                >
+                <template #right-icon>
+                    <!-- <img src="@/assets/login/view-fill.png" alt="" class="view_icon"> -->
+                    <img src="@/assets/eye_closed_grey.png" alt="" class="view_icon" v-if="ensurePasswordType=='text'" @click="ensurePasswordType='password'">
+                    <img src="@/assets/eye_open_grey.png" alt="" class="view_icon" v-if="ensurePasswordType=='password'" @click="ensurePasswordType='text'">
+                </template>
+                </van-field>
+            </van-cell-group>
+            <div class="title">{{ t('login.tipMessage') }}</div>
+            <van-cell-group inset>
+                <van-field
+                    v-model="message"
+                    rows="1"
+                    autosize
+                    type="textarea"
+                />
+            </van-cell-group>
+        </van-form>
         <div class="btn button_active_full" @click="toNext">{{ t('login.import') }}</div>
     </div>
   </ion-page>
@@ -53,22 +65,38 @@ import navBar from '@/components/navBar.vue'
 import {useRouter } from 'vue-router';
 import useAccountStore from "@/store/account/account";
 import { useI18n } from 'vue-i18n';
+import { FieldType } from 'vant';
+import { showFailToast, showLoadingToast, showSuccessToast } from 'vant';
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
 const accountStore = useAccountStore();
+const passwordType = ref<FieldType>('password')
+const ensurePasswordType = ref<FieldType>('password')
 const message = ref('')
 const password = ref('')
 const ensurePassword = ref('')
 const name = ref('')
 const router = useRouter()
-
+const lengthTips=t('login.passwordLength')
+const sameTips=t('login.sameTips')
 const toNext=async()=>{
-    if(ensurePassword.value===password.value){
+    if(ensurePassword.value===password.value&&password.value.length>=8 &&ensurePassword.value.length>= 8){
       await  accountStore.addtemporaryNameAction(name.value)
       await  accountStore.changePasswordAction(password.value)
       router.push('/importAccount')
+    }else{
+        if(password.value.length<8 ||ensurePassword.value.length<8){
+            showFailToast(lengthTips)
+        }else{
+            showFailToast(sameTips)
+        }
+       
     }
 
+}
+
+function validatePassword(val: string): boolean {
+  return val.length >= 8;
 }
 </script>
 <style lang="scss"scoped>
@@ -92,5 +120,4 @@ const toNext=async()=>{
         margin: 24.0654vw auto 0;
     }
 }
-
 </style>

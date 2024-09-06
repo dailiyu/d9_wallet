@@ -3,10 +3,18 @@
     <navBar :title="t('burnMining.merchantTransfer')" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
     <div class="content">
         <div class="title">{{ t('burnMining.merchantAccount') }}</div>
-        <div class="address">
+        <!-- <div class="address">
             DAUS1281******SAD3842
+        </div> -->
+        <div class="address">
+            <van-cell-group inset>
+                <van-field v-model="address" :placeholder="t('burnMining.inputWalletAddress')" >
+                    <template #right-icon>
+                        <img src="@/assets/home/scan-grey.png" alt="" class="scan_icon">
+                    </template>
+                </van-field>
+            </van-cell-group>
         </div>
-
         <div class="title">
             <div>{{ t('burnMining.payAmount') }}</div>
             <div class="unit">CNY</div>  
@@ -38,7 +46,7 @@
             </div>
         </div>
 
-        <div class="title">{{ t('home.internetFee') }}</div>
+        <!-- <div class="title">{{ t('home.internetFee') }}</div>
         <div class="fee">
             <div class="text">{{ t('home.estimateInternetFee') }}</div>
             <div class="unit">
@@ -46,10 +54,11 @@
                 <div>D9</div>
             </div>
             <div>7.00</div>
-        </div>
+        </div> -->
 
-        <div class="btn button_active_full">{{ t('burnMining.confirmTransfer') }}</div>
+        <div class="btn button_active_full" @click="showValidatePop=true">{{ t('burnMining.confirmTransfer') }}</div>
     </div>
+    <validatePassword type="verify" :isShow="showValidatePop" @close="showValidatePop=false" @confirm="confirmValidate"></validatePassword>
 </ion-page>
 </template>
 
@@ -59,13 +68,42 @@ import { ref } from 'vue';
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import useMarketStore from '@/store/market/market';
 import { useI18n } from 'vue-i18n';
+import { validateInfo } from '@/types';
+import useAccountStore from "@/store/account/account";
+import { showFailToast, showLoadingToast, showSuccessToast } from 'vant';
+import { postSendUsdtPayment } from '@/services/http/merchant';
+import navBar from '@/components/navBarForMerchantTransfer.vue'
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+const address=ref(route.params.accountId as string)
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
 const marketStore=useMarketStore()
-const userProfileStore = useUserProfileStore();
-// import navBar from '@/components/navBar.vue'
+const accountStore = useAccountStore();
+const userProfileStore=useUserProfileStore()
+
 const inputNumber = ref<number>()
+// const address = ref('')
+const showValidatePop = ref(false)
+const confirmValidate=async(info:validateInfo)=>{
+    if (info.password == accountStore.password){
+    const Toast = showLoadingToast({
+    message: '正在转账...',
+    forbidClick: false,
+    duration: 300000,
+  });
+  showValidatePop.value = false
+  const usdtNum=(inputNumber.value||0)/(marketStore.rates.CNY)
+   await postSendUsdtPayment({merchant_id:address.value,amount:usdtNum})
+    Toast.close();
+    await  userProfileStore.fetchAllData()
+    showSuccessToast('转账成功');
+  }else{
+    showFailToast('密码错误');
+  }
+    
+}
 </script>
 
 <style lang="scss" scoped>
@@ -98,14 +136,23 @@ const inputNumber = ref<number>()
             border-radius: 100px;
         }
     }
+    // .address {
+    //     border-radius: 13px;
+    //     background-color: #E7EBF2;
+    //     padding: 3.0374vw 3.7383vw;
+    //     font-weight: 500;
+    //     font-size: 3.5047vw;
+    //     color: #8E8C8E;
+    //     margin-bottom: 6.0748vw;
+    // }
     .address {
-        border-radius: 13px;
-        background-color: #E7EBF2;
-        padding: 3.0374vw 3.7383vw;
-        font-weight: 500;
-        font-size: 3.5047vw;
-        color: #8E8C8E;
         margin-bottom: 6.0748vw;
+        .scan_icon {
+            width: 4.6729vw;
+        }
+        .van-cell-group--inset {
+            margin: 0;
+        }
     }
     .pay_box {
         border-radius: 13px;

@@ -24,5 +24,5 @@ else {
 // 通过创建.env文件直接创建变量
 // console.log(import.meta.env.VITE_URL)
 
-export const TIME_OUT = 600000
+export const TIME_OUT = 6000000
 export { BASE_URL,QUERY_URL }

@@ -99,8 +99,9 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/merchantCode.vue')
       },
       {
-        path: 'merchantTransfer',
-        component: () => import('@/views/merchantTransfer.vue')
+        path: 'merchantTransfer/:accountId',
+        component: () => import('@/views/merchantTransfer.vue'),
+        name:'merchantTransfer'
       },
       {
         path: 'pointGift',

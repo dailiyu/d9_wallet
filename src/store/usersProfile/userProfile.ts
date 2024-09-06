@@ -13,6 +13,7 @@ import { postGetNodeRewardsData, postvoteNumber } from "@/services/http/node";
 import useAccountStore from "../account/account";
 import { postBurningPortfolio } from "@/services/http/burning";
 import { postUserD9TransferData, postUserFlashExchangeData, postUserUsdtTransferData } from "@/services/http/IndexServer";
+import { postLiquidityProvider } from '@/services/http/amm';
 
 const accountStore = useAccountStore();
 
@@ -39,6 +40,7 @@ interface userProfileState {
   voteList: voteData[];
   airdropsNumber: number;
   merchantCodeString: string;
+  userCodeString:string;
   amountBurned: number; // 销毁总数量
   balanceDue: number; // 剩余产出总量
   balancePaid: number; // 总提币数
@@ -53,7 +55,8 @@ interface userProfileState {
   hasD9TransferNext:boolean,
   curUsdtTransferPage:number,
   usdtTransferList:transferData[],
-  hasUsdtTransferNext:boolean
+  hasUsdtTransferNext:boolean,
+  userLpToken:number
 }
 
 const useUserProfileStore = defineStore("userProfile", {
@@ -72,6 +75,7 @@ const useUserProfileStore = defineStore("userProfile", {
     voteList: [],
     airdropsNumber: 0,
     merchantCodeString: "",
+    userCodeString:'',
     amountBurned: 0, // 销毁总数量
     balanceDue: 0, // 剩余产出总量
     balancePaid: 0, // 总提币数
@@ -86,7 +90,8 @@ const useUserProfileStore = defineStore("userProfile", {
     hasD9TransferNext:true,
     usdtTransferList:[],
     curUsdtTransferPage:1,
-    hasUsdtTransferNext:true
+    hasUsdtTransferNext:true,
+    userLpToken:0
   }),
   actions: {
     async getUsdtBalanceAction() {
@@ -134,8 +139,12 @@ const useUserProfileStore = defineStore("userProfile", {
       }
     },
     async merchantQrcodeGenerateAction(amount: number = 0) {
-      const metaData = await postQrcodeGenerate({ amount });
+      const metaData = await postQrcodeGenerate({ amount:0,type: 'merchant'});
       this.merchantCodeString = metaData.data.results;
+    },
+    async userQrcodeGenerateAction(amount: number = 0) {
+      const metaData = await postQrcodeGenerate({ amount,type:'transfer' });
+      this.userCodeString = metaData.data.results;
     },
     async getBurningPortfolioAction() {
       const metaData = await postBurningPortfolio();
@@ -147,7 +156,7 @@ const useUserProfileStore = defineStore("userProfile", {
     },
     async getMerchantCodeExpiryAction(){
       const metaData=await postGetMerchantExpiry()
-      this.merchantCodeExpiry=metaData.data.results.expiry_date
+      this.merchantCodeExpiry=metaData.data.results
     },
     async getUserFlashExchangeDataAction(){
       const metaData=await postUserFlashExchangeData(this.curPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
@@ -170,19 +179,49 @@ const useUserProfileStore = defineStore("userProfile", {
       this.hasUsdtTransferNext=metaData.data.next?true:false
       console.log('usdttransfer',  this.usdtTransferList);
     },
+    async getInitUserFlashExchangeDataAction(){
+      this.curPage=1
+      const metaData=await postUserFlashExchangeData(this.curPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
+      this.flashExchangeDataList=metaData.data.results
+      this.haveNext=metaData.data.next?true:false
+      console.log('user',this.flashExchangeDataList);
+    },
+    async getInitUserD9TransferAction(){
+      this.curD9TransferPage=1
+      const metaData=await postUserD9TransferData(this.curD9TransferPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
+      this.d9TransferList=metaData.data.results
+      this.hasD9TransferNext=metaData.data.next?true:false
+      console.log('d9transfer',  this.d9TransferList);
+    },
+    async getInitUserUsdtTransferAction(){
+      this.curUsdtTransferPage=1
+      const metaData=await postUserUsdtTransferData(this.curUsdtTransferPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
+      this.usdtTransferList=metaData.data.results
+      this.hasUsdtTransferNext=metaData.data.next?true:false
+      console.log('usdttransfer',  this.usdtTransferList);
+    },
+    async getUserLpTokenAction(){
+      const metaData=await postLiquidityProvider()
+      this.userLpToken=metaData.data.results
+      
+      
+    },
     async fetchAllData() {
       this.getUsdtBalanceAction();
       this.getD9BalanceAction();
       this.getUserProfileAction();
+      this.getVoteListAction()
       this.merchantQrcodeGenerateAction();
+      this.userQrcodeGenerateAction()
       this.getVoteNumberAction();
       this.getNodeRewardsDataAction();
       // this.getAirdropNumberAction();
       this.getBurningPortfolioAction();
       this.getMerchantCodeExpiryAction();
-      this.getUserFlashExchangeDataAction()
-      this.getUserD9TransferAction()
-      this.getUserUsdtTransferAction()
+      this.getInitUserUsdtTransferAction()
+      this.getInitUserD9TransferAction()
+      this.getInitUserFlashExchangeDataAction()
+      this.getUserLpTokenAction()
     },
   },
 });

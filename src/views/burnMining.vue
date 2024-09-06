@@ -51,11 +51,11 @@
                 </div>
                 <div class="btns">
                     <div class="btn1" @click="toMerchantCode">
-                        <div>{{ t('burnMining.merchantReceive') }}</div>
+                        <div  style="padding-bottom: 2vw;">{{ t('burnMining.merchantReceive') }}</div>
                         <img src="@/assets/discovery/receive-btn.png" alt="" class="burn_bg">
                     </div>
                     <div class="btn2" @click="toPointGift">
-                        <div>{{ t('burnMining.giftPoint') }}</div>
+                        <div style="padding-bottom: 2vw;">{{ t('burnMining.giftPoint') }}</div>
                         <img src="@/assets/discovery/give-btn.png" alt="" class="burn_bg">
                     </div>
                     
@@ -181,6 +181,7 @@ function toPointGift(){
                 right: 0;
                 .exchange_item {
                     display: flex;
+                    padding: 0 16vw;
                     // align-items: center;
                     justify-content: space-evenly;
                     text-align: center;

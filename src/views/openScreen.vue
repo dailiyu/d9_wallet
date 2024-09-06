@@ -10,15 +10,17 @@
   import useAccountStore from '@/store/account/account';
 import { IonPage } from '@ionic/vue';
 import { onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
   import { useRouter } from 'vue-router';
    const  accountStore=useAccountStore()
-  
+   const { t, locale } = useI18n();
   const router = useRouter()
 
 
 onMounted(async()=>{
-   await accountStore.loadLocalCacheAction()
+
    setTimeout(() => {
+   
     if(accountStore.walletList.length>0){
         router.push('/main/home')
     }else{

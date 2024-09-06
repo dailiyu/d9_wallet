@@ -27,6 +27,7 @@ export interface D9QrCodeData {
   type: 'WalletAddress';
   accountId: string;
   amount: number;
+  qrType:string
 }
 
 

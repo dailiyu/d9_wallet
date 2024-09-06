@@ -20,7 +20,7 @@
       </div>
 
       <div class="words_box">
-        <div :class="['words_item', {'active':wordList.selectedWord.indexOf(wordList.origin[index])!==-1}]" v-for="(item, index) in wordList.origin" :key="index" @click="selectWord(item)">
+        <div :class="['words_item', {'active':wordList.selectedWord.indexOf(randomWordList[index])!==-1}]" v-for="(item, index) in randomWordList" :key="index" @click="selectWord(item)">
           {{item}}
         </div>
       </div>
@@ -33,9 +33,10 @@ import { IonPage } from '@ionic/vue';
 import { ref, reactive } from 'vue'
 import navBar from '@/components/navBar.vue'
 import useAccountStore from "@/store/account/account";
-import {stringArraysEqual} from "@/utils/index"
+import {shuffleArray, stringArraysEqual} from "@/utils/index"
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
 
@@ -45,6 +46,9 @@ const wordList = reactive({
   origin: accountStore.temporaryWallet.mnemonic.split(' '),
   selectedWord: [] as string[]
 })
+
+const randomWordList=ref(shuffleArray(wordList.origin))
+
 function selectWord(item:string){
   if (wordList.selectedWord.indexOf(item)!==-1) return
   wordList.selectedWord.push(item)

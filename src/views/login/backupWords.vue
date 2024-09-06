@@ -14,7 +14,7 @@
           {{item}}
         </div>
       </div>
-      
+      <div style="width: 100%;text-align: center; margin-bottom: 5vw; color: #0065FF;" @click="copymnemonic">{{ t('home.copyMnemonic') }} </div>
       <div class="btn button_active_full" @click="toNext()">{{ t('login.validateBackup') }}</div>
 
       <div class="title">{{ t('login.backupTip') }}</div>
@@ -32,21 +32,31 @@
 </template>
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
 import useAccountStore from "@/store/account/account";
 import {obscureString} from "@/utils/index"
 import { useI18n } from 'vue-i18n';
+import { Clipboard } from '@capacitor/clipboard';
+import { showSuccessToast } from 'vant';
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
-
+const copySuccess = ref(t('home.copySuccess'));
+const copyMnemonic = ref(t('home.copyMnemonic'));
 const accountStore = useAccountStore();
 const wordsList = accountStore.temporaryWallet.mnemonic.split(' ')
 const router = useRouter()
 function toNext(){
   router.push('/confirmWords')
 }
+const copymnemonic=async ()=>{
+    Clipboard.write({
+        string: accountStore.temporaryWallet.mnemonic
+    }).then(() => {
+        showSuccessToast(copySuccess.value)
+    });
+   }
 </script>
 <style lang="scss"scoped>
 .content {

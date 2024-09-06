@@ -75,14 +75,14 @@ const { t, locale } = useI18n();
     });
    }
    onMounted(async() => {
-     await userProfileStore.merchantQrcodeGenerateAction()
+     await userProfileStore.userQrcodeGenerateAction()
      await  generateQrCode()
    })
 
    // 定义生成二维码的函数
 const generateQrCode = async () => {
   try {
-    qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString);
+    qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.userCodeString);
   } catch (err) {
     console.error('Failed to generate QR code:', err);
   }

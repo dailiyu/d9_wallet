@@ -1,6 +1,6 @@
 
-import { postGetReserves,postGetUsdtToOtherRate } from '@/services/http/amm';
-import { postMarketFlashExchangeData, postMarketTransactionData } from '@/services/http/IndexServer';
+import { postGetReserves,postGetUsdtToOtherRate, postTotalLpToken } from '@/services/http/amm';
+import { postMarketFlashExchangeData, postMarketSwapList, postMarketTransactionData } from '@/services/http/IndexServer';
 import { postGetTotalBurned } from '@/services/http/main';
 import { postGetAllVolume } from '@/services/http/mining';
 import { postGetRank } from '@/services/http/node';
@@ -89,7 +89,12 @@ interface AccountState {
     marketTransaction:TransactionData,
     flashExchangeDataList:flashExchangeData[],
     curPage:number,
-    haveNext:boolean
+    haveNext:boolean,
+    marketTotalLpToken:number,
+    MaketSwap1DayList:flashExchangeData[],
+    MaketSwap7DayList:flashExchangeData[],
+    MaketSwap14DayList:flashExchangeData[],
+    MaketSwap30DayList:flashExchangeData[]
 }
 
 
@@ -126,7 +131,12 @@ const useMarketStore = defineStore('market', {
     },
     flashExchangeDataList:[],
     curPage:1,
-    haveNext:true
+    haveNext:true,
+    marketTotalLpToken:0,
+    MaketSwap1DayList:[],
+    MaketSwap7DayList:[],
+    MaketSwap14DayList:[],
+    MaketSwap30DayList:[]
   }),
   actions: {
    async getExchangeRateAction(){
@@ -181,6 +191,34 @@ const useMarketStore = defineStore('market', {
       console.log(this.flashExchangeDataList);
       
    },
+   async getInitMarketFlashExchangeDataAction(){
+      this.curPage=1
+      const metaData=await postMarketFlashExchangeData(this.curPage)
+      this.flashExchangeDataList=metaData.data.results
+      this.haveNext=metaData.data.next?true:false
+      console.log(this.flashExchangeDataList);
+      
+   },
+   async getMarketTotalLpTokenAction(){
+      const metaData=await postTotalLpToken()
+      this.marketTotalLpToken=metaData.data.results
+   },
+   async getMaketSwap1DayListAction(){
+      const metaData=await postMarketSwapList(1)
+      this.MaketSwap1DayList=await metaData.data
+   },
+   async getMaketSwap7DayListAction(){
+      const metaData=await postMarketSwapList(7)
+      this.MaketSwap7DayList=await metaData.data
+   },
+   async getMaketSwap14DayListAction(){
+      const metaData=await postMarketSwapList(14)
+      this.MaketSwap14DayList=await metaData.data
+   },
+   async getMaketSwap30DayListAction(){
+      const metaData=await postMarketSwapList(30)
+      this.MaketSwap30DayList=await metaData.data
+   },
   async fetchAllData(){
     this.getExchangeRateAction()
     this.getRankAction()
@@ -188,7 +226,12 @@ const useMarketStore = defineStore('market', {
     this.getPoolsTotalNumber()
     this.getRateUsdtToOther()
     this.getMarketTransactionData()
-    this.getMarketFlashExchangeDataAction()
+    this.getInitMarketFlashExchangeDataAction()
+    this.getMarketTotalLpTokenAction()
+    this.getMaketSwap1DayListAction()
+    this.getMaketSwap7DayListAction()
+    this.getMaketSwap14DayListAction()
+    this.getMaketSwap30DayListAction()
    }
 }
 });

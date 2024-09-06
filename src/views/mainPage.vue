@@ -5,9 +5,9 @@
       <ion-tab-bar slot="bottom">
         <ion-tab-button
           tab="tab1"
-          href="/main/home"
+          
           :class="{ 'selected-tab': selectedTab === 'tab1' }"
-          @click="changeTab('tab1')"
+          @click="changeTab('tab1','/main/home')"
         >
           <ion-icon
             aria-hidden="true"
@@ -18,9 +18,9 @@
 
         <ion-tab-button
           tab="tab2"
-          href="/main/discovery"
+         
           :class="{ 'selected-tab': selectedTab === 'tab2' }"
-          @click="changeTab('tab2')"
+          @click="changeTab('tab2','/main/discovery')"
         >
           <ion-icon
             aria-hidden="true"
@@ -33,7 +33,7 @@
           tab="tab3"
           href="/main/myself"
           :class="{ 'selected-tab': selectedTab === 'tab3' }"
-          @click="changeTab('tab3')"
+          @click="changeTab('tab3','/main/myself')"
         >
           <ion-icon
             aria-hidden="true"
@@ -47,13 +47,16 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router';
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
 import { ref } from 'vue';
 
 const selectedTab = ref('tab1'); // Default selected tab
 
- const changeTab=(tab:string)=>{
+ const changeTab=(tab:string,path:string)=>{
   selectedTab.value=tab
+  router.push(path)
+
  }
 </script>
 

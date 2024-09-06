@@ -28,7 +28,7 @@
                 <div class="asset_unit">
                     USDT
                 </div>
-                <div class="amount_num">{{ (payNumber/marketStore.rates.CNY)*0.16 }}</div>
+                <div class="amount_num">{{ ((payNumber||0)/marketStore.rates.CNY)*0.16 }}</div>
             </div>
             <div class="asset_amout">
                 <div class="text">{{ t('home.balance') }}</div>
@@ -36,12 +36,12 @@
             </div>
             <div class="asset_amout">
                 <div class="text">{{ t('burnMining.merchantPoint') }}</div>
-                <div class="amount_num">{{ ((payNumber/marketStore.rates.CNY)*16).toFixed(2) }}</div>
+                <div class="amount_num">{{ (((payNumber||0)/marketStore.rates.CNY)*16).toFixed(2) }}</div>
             </div>
             <div class="get_point">
                 <div class="point_text">{{ t('burnMining.userPoint') }}</div>
                 <div class="percentage">100 = 1 USDT</div>
-                <div class="num">{{((payNumber/marketStore.rates.CNY)*100 ).toFixed(2)}}</div>
+                <div class="num">{{(((payNumber||0)/marketStore.rates.CNY)*100 ).toFixed(2)}}</div>
             </div>
         </div>
 
@@ -72,7 +72,7 @@ const { t, locale } = useI18n();
 const userProfileStore = useUserProfileStore();
 const showPasswordPop = ref(false);
 // import navBar from '@/components/navBar.vue'
-const payNumber = ref<number>(0)
+const payNumber = ref<number>()
 const address = ref('')
 const accountStore=useAccountStore()
 const marketStore=useMarketStore()
@@ -93,7 +93,7 @@ const confirm=async(info: validateInfo)=>{
  
  await postMerchantGivePointsUsdt({
     consumer_id:address.value,
-    amount:Number(payNumber.value/marketStore.rates.CNY)
+    amount:Number((payNumber.value||0)/marketStore.rates.CNY)
  })
     Toast.close();
     await  userProfileStore.fetchAllData()

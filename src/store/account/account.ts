@@ -10,7 +10,8 @@ interface AccountState {
   password:string,
   temporaryName:string
   activeIndex:number,
-  isFirstMainWallet:boolean
+  isFirstMainWallet:boolean,
+  selectedLanguage:string
 }
 
 const defaultWallet: walletDate = {
@@ -37,7 +38,8 @@ const useAccountStore = defineStore('account', {
     password:'',
     temporaryName:'',
     activeIndex:0,
-    isFirstMainWallet:true
+    isFirstMainWallet:true,
+    selectedLanguage:'zh'
   }),
   actions: {
     async addWalletAction(wallet: walletDate) {
@@ -73,16 +75,15 @@ const useAccountStore = defineStore('account', {
       this.activeWallet = { ...addPrefix(defaultWallet) };
       await storageAccounts.set('activeWallet', this.activeWallet);
     },
-    async loadLocalCacheAction() {
-      this.walletList = (await storageAccounts.get('walletList') ?? []).map(addPrefix);
-      this.activeWallet = addPrefix(await storageAccounts.get('activeWallet') ?? { ...defaultWallet });
-      this.password= await storageAccounts.get('password')
-      this.activeIndex=await storageAccounts.get('activeIndex')
-      this.isFirstMainWallet=await storageAccounts.get('isFirstMainWallet')
-    },
+  
     async changeIsFirstMainWallet(isFirst:boolean){
         this.isFirstMainWallet=isFirst
         await storageAccounts.set('isFirstMainWallet',isFirst)
+    },
+    async changeSelectedLanguageAction(language:string){
+      this.selectedLanguage=language
+
+      await storageAccounts.set('language',  this.selectedLanguage)
     },
     async changeActiveWallet(index: number) {
       this.activeWallet = addPrefix(this.walletList[index] ?? { ...defaultWallet });
@@ -95,7 +96,17 @@ const useAccountStore = defineStore('account', {
       this.activeWallet=this.walletList[0]
       this.activeIndex=0
       await storageAccounts.set('walletList', this.walletList);
-    }
+    },
+    async loadLocalCacheAction() {
+      this.walletList = (await storageAccounts.get('walletList') ?? []).map(addPrefix);
+      this.activeWallet = addPrefix(await storageAccounts.get('activeWallet') ?? { ...defaultWallet });
+      this.password= await storageAccounts.get('password')
+      this.activeIndex=await storageAccounts.get('activeIndex')
+      this.isFirstMainWallet=await storageAccounts.get('isFirstMainWallet')
+      //  this.selectedLanguage=await storageAccounts.get('language')
+      // console.log( '-------',this.selectedLanguage);
+      
+    },
   }
 });
 

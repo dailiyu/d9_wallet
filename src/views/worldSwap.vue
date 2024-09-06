@@ -15,8 +15,11 @@
         <div class="title">
             {{ t('worldSwap.sparklines') }}
         </div>
-        <div class="chart_box">
-            <div id="chart"></div>
+        <div class="chart_box" >
+            <div  v-show="currentTime=='1d'" id="chart1"  ></div>
+            <div  v-show="currentTime=='7d'" id="chart2"></div>
+            <div   v-show="currentTime=='14d'" id="chart3"></div>
+            <div    v-show="currentTime=='30d'"id="chart4"></div>
             <div class="time_box">
                 <div :class="['time_item', {'active':currentTime==item}]" v-for="(item, index) in timeData" :key="index" @click="chooseTime(item)">
                     {{ item }}
@@ -115,31 +118,57 @@
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import type {flashExchangeData} from "@/types/index"
-// import navBar from '@/components/navBar.vue'
+ import navBar from '@/components/navBarForWorldSwap.vue'
 import ApexCharts from 'apexcharts'
 import useMarketStore from "@/store/market/market"
 import validatePassword from '@/components/validatePassword.vue';
 import { validateInfo } from '@/types/index'
 import inputNumber from '@/components/inputNumber.vue';
-import { timeAgo } from '@/utils';
+import { formatTimestamp, timeAgo } from '@/utils';
 import { useI18n } from 'vue-i18n';
 
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
 
 const marketStore=useMarketStore()
+const swap1DayYData=computed(() => {
+  return marketStore.MaketSwap1DayList.map(item => item.d9_rate);
+});
+const swap7DayYData=computed(() => {
+  return marketStore.MaketSwap7DayList.map(item => item.d9_rate);
+});
+const swap14DayYData=computed(() => {
+  return marketStore.MaketSwap14DayList.map(item => item.d9_rate);
+});
+const swap30DayYData=computed(() => {
+  return marketStore.MaketSwap30DayList.map(item => item.d9_rate);
+});
 
-onMounted(()=>{
-    var options = {
+const swap1DayXData=computed(() => {
+  return marketStore.MaketSwap1DayList.map(item => formatTimestamp(item.timestamp));
+});
+const swap7DayXData=computed(() => {
+  return marketStore.MaketSwap7DayList.map(item => formatTimestamp(item.timestamp));
+});
+const swap14DayXData=computed(() => {
+  return marketStore.MaketSwap14DayList.map(item => formatTimestamp(item.timestamp));
+});
+const swap30DayXData=computed(() => {
+  return marketStore.MaketSwap30DayList.map(item => formatTimestamp(item.timestamp));
+});
+
+
+
+let options1 = ref({
         chart: {
             type: 'area'
         },
         series: [{
             name: 'sales',
-            data: [30,40,35,50,49,60,70,91,125],
+            data: swap1DayYData.value,
             
         }],
         fill: {
@@ -163,7 +192,7 @@ onMounted(()=>{
             show: false
         },
         xaxis: {
-            categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999],
+            categories: swap1DayXData.value,
             labels: {
                 show: false
             }
@@ -176,19 +205,158 @@ onMounted(()=>{
             width: 2,
             dashArray: 0, 
         }
-    }
-
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-    chart.render();
+    })
+let options2 = ref({
+        chart: {
+            type: 'area'
+        },
+        series: [{
+            name: 'sales',
+            data: swap7DayYData.value,
+            
+        }],
+        fill: {
+            colors: ['#b6d1fc', '#fff'],
+            type: 'gradient',
+            gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100],
+            //   gradientToColors: ['#b6d1fc', '#fff']
+            }
+        },
+        dataLabels: {
+        enabled: false
+        },
+        grid: {
+            show: false
+        },
+        yaxis: {
+            show: false
+        },
+        xaxis: {
+            categories: swap7DayXData.value,
+            labels: {
+                show: false
+            }
+        },
+        stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'butt',
+            colors: ['#0065FF'],
+            width: 2,
+            dashArray: 0, 
+        }
+    })
+let options3 = ref({
+        chart: {
+            type: 'area'
+        },
+        series: [{
+            name: 'sales',
+            data: swap14DayYData.value,
+            
+        }],
+        fill: {
+            colors: ['#b6d1fc', '#fff'],
+            type: 'gradient',
+            gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100],
+            //   gradientToColors: ['#b6d1fc', '#fff']
+            }
+        },
+        dataLabels: {
+        enabled: false
+        },
+        grid: {
+            show: false
+        },
+        yaxis: {
+            show: false
+        },
+        xaxis: {
+            categories: swap14DayXData.value,
+            labels: {
+                show: false
+            }
+        },
+        stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'butt',
+            colors: ['#0065FF'],
+            width: 2,
+            dashArray: 0, 
+        }
+    })
+let options4 = ref({
+        chart: {
+            type: 'area'
+        },
+        series: [{
+            name: 'sales',
+            data: swap30DayYData.value,
+            
+        }],
+        fill: {
+            colors: ['#b6d1fc', '#fff'],
+            type: 'gradient',
+            gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100],
+            //   gradientToColors: ['#b6d1fc', '#fff']
+            }
+        },
+        dataLabels: {
+        enabled: false
+        },
+        grid: {
+            show: false
+        },
+        yaxis: {
+            show: false
+        },
+        xaxis: {
+            categories: swap30DayXData.value,
+            labels: {
+                show: false
+            }
+        },
+        stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'butt',
+            colors: ['#0065FF'],
+            width: 2,
+            dashArray: 0, 
+        }
+    })
+   
+onMounted(()=>{
+    let chart1= new ApexCharts(document.querySelector("#chart1"), options1.value);
+    chart1.render();
+    let chart2= new ApexCharts(document.querySelector("#chart2"), options2.value);
+    chart2.render();
+    let chart3= new ApexCharts(document.querySelector("#chart3"), options3.value);
+    chart3.render();
+    let chart4= new ApexCharts(document.querySelector("#chart4"), options4.value);
+    chart4.render();
 })
 
-const timeData = reactive([
-    '1d', '1w', '1m', '6m', '1y', 'all'
-])
+const timeData = ref<string[]>(['1d','7d','14d','30d'])
+ const curChart=ref<'1d'|'7d'|'14d'|'30d'>('1d')
 const currentTime = ref('1d')
 function chooseTime(time:string){
     currentTime.value = time
+    
+
 }
 
 const router = useRouter()
@@ -205,7 +373,6 @@ function toRecords(index:number){
 const showValidatePop = ref(false)
 const showInputPop = ref(false)
 const confirmVote = (info:validateInfo)=>{
-    console.log(info);
     showValidatePop.value = false
     showInputPop.value = true
 }

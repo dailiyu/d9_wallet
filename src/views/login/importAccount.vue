@@ -1,6 +1,6 @@
 <template>
     <ion-page>
-      <navBar :title="t('login.importMethod')" ></navBar>
+      <navBar :title="t('login.importType')" ></navBar>
       <div class="content">
           <van-radio-group v-model="checked" shape="dot" checked-color="#2269F6" icon-size="3.7383vw">
               <van-radio name="mnemonic">{{ t('login.wordImport') }}</van-radio>

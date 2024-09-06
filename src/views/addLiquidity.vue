@@ -43,15 +43,15 @@
             <div class="content_num">
                 <div class="num_item">
                     <div>D9</div>
-                    <div class="number">15,661.92</div>
+                    <div class="number">{{ (marketStore.d9LiquidityToken*percentage).toFixed(4) }}</div>
                 </div>
                 <div class="num_item">
                     <div>USDT</div>
-                    <div class="number" style="color:#0E932E">15,661.92</div>
+                    <div class="number" style="color:#0E932E">{{(marketStore.usdtLiquidityToken*percentage).toFixed(4)}}</div>
                 </div>
                 <div class="num_item">
                     <div>{{ t('worldSwap.liquidityPoolToken') }}</div>
-                    <div class="number" style="color:#8E8C8E">15,661.92</div>
+                    <div class="number" style="color:#8E8C8E">{{ userProfileStore.userLpToken}}</div>
                 </div>
             </div>
 
@@ -61,6 +61,8 @@
                     <div class="c_unit">D9</div>
                     <van-cell-group inset>
                         <van-field
+                        @input="dealD9NumberChange"
+                         @focus="onFocusD9"
                             v-model="d9Number"
                             :placeholder="t('worldSwap.inputAddAmount')"
                             type="number"
@@ -71,13 +73,14 @@
                         <div class="c_num">{{ userProfileStore.d9Balance }}</div>
                     </div>
                 </div>
-            
                 <div class="content_item">
                     <img src="@/assets/home/logo_usdt.png" alt="" class="c_logo">
                     <div class="c_unit">USDT</div>
                     <van-cell-group inset>
                         <van-field
                             v-model="usdtNumber"
+                            @focus="onFocusUsdt"
+                            @input="dealUsdtNumberChange"
                             :placeholder="t('worldSwap.inputAddAmount')"
                             type="number"
                         />
@@ -88,7 +91,6 @@
                     </div>
                 </div>
             </div>
-
             <div v-else>
                 <div class="percentage">{{ value }}%</div>
                 <van-slider v-model="value" bar-height="1.1682vw" active-color="#0065FF" inactive-color="#E7EBF2" disabled>
@@ -145,6 +147,8 @@ const d9Number = ref<number>()
 const usdtNumber=ref<number>()
 const handleType=ref<'add'|'remove'>('add')
 const value = ref<number>(100)
+const curCurrency=ref<'d9'|'usdt'>('d9')
+const percentage=ref(userProfileStore.userLpToken/marketStore.marketTotalLpToken)
 function changeTab(event:IonSegmentCustomEvent<SegmentChangeEventDetail>){
     current.value = event.detail.value as number
 }
@@ -153,13 +157,25 @@ function changeProgress(number:number) {
 }
 
 const addLiquidity=async()=>{
-    const metaData=  await postLiquidMoneyCalculation({from_currency:'D9',to_currency:'USDT',from_amount:200})
-    const usdt=metaData.results.meta_data.usdt
-    const d9=metaData.results.meta_data.d9
-    await postAddLiquidity({
+    if(curCurrency.value='d9'){
+        const metaData=  await postLiquidMoneyCalculation({from_currency:'D9',to_currency:'USDT',from_amount:d9Number.value||0})
+        const usdt=metaData.data.results.meta_data.usdt
+        const d9=metaData.data.results.meta_data.d9
+        await postAddLiquidity({
         usdt_amount:usdt,
         d9_amount:d9
     })
+    }else{
+        const metaData=  await postLiquidMoneyCalculation({from_currency:'USDT',to_currency:'D9',from_amount:usdtNumber.value||0})
+        const usdt=metaData.data.results.meta_data.usdt
+        const d9=metaData.data.results.meta_data.d9
+        await postAddLiquidity({
+        usdt_amount:usdt,
+        d9_amount:d9
+    })
+    }
+ 
+    
 }
 const removeLiquidity=async()=>{
     await postRemoveLiquidity({percent:value.value})
@@ -204,6 +220,33 @@ const confirm=async(info: validateInfo)=>{
   }
 }
 
+
+const dealD9NumberChange=async(event: Event)=>{
+     // 使用 event.target 强制转换为 HTMLInputElement
+    const inputValue = (event.target as HTMLInputElement).value;
+    usdtNumber.value=Number(inputValue)*marketStore.exchangeRateD9ToUsdt
+
+}
+
+const dealUsdtNumberChange=async(event: Event)=>{
+     // 使用 event.target 强制转换为 HTMLInputElement
+    const inputValue = (event.target as HTMLInputElement).value;
+    d9Number.value=Number(inputValue)*marketStore.exchangeRateUsdtToD9
+
+}
+
+const onFocusD9=async()=>{
+   usdtNumber.value=undefined
+   d9Number.value=undefined
+   curCurrency.value='d9'
+}
+
+
+const onFocusUsdt=async()=>{
+    d9Number.value=undefined
+    usdtNumber.value=undefined
+    curCurrency.value='usdt'
+}
 
 </script>
 

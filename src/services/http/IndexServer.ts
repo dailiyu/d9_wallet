@@ -33,13 +33,23 @@ export function postUserD9TransferData(page:number,queryInfo:{from_address:strin
   })
 }
 
-
+//用户usdt转账记录
 export function postUserUsdtTransferData(page:number,queryInfo:{from_address:string,to_address:string}) {
   return httpQueryRequest.post({
     url: `/transfers/usdt/?page=${page}`,
     data:queryInfo
   })
 }
+
+
+//获取最近xx天的闪兑数据
+export function postMarketSwapList(days:number) {
+  return httpQueryRequest.get({
+    url: `/swap/q/transfers/?days=${days}`,
+  
+  })
+}
+
 
 
 

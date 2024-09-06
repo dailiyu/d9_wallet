@@ -159,7 +159,7 @@ const myNodes = ref(
     (nodeData) => nodeData.node_id === accountStore.activeWallet.address
   )
 );
-// import navBar from '@/components/navBar.vue'
+ import navBar from '@/components/navBarForNodeVote.vue'
 const keyWord = ref("");
 const router = useRouter();
 function toVotingDetail() {

@@ -55,6 +55,19 @@ export function formatTimestamp(timestamp: string): string {
 }
 
 
+ export function shuffleArray(arr: string[]): string[] {
+  const result = [...arr]; // 复制数组，避免修改原数组
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); // 生成0到i之间的随机数
+    // 交换元素
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  console.log(result);
+  
+  return result;
+}
+
+
 
 
 
