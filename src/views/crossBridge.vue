@@ -17,7 +17,7 @@
                     <img src="@/assets/home/transfer.png" alt="" class="t_icon">
                 </div>
                 <van-cell-group inset>
-                    <van-field v-model="value" :placeholder="t('crossBridge.inputTransferAmount')" type="number" :style="{'font-size': value?'4.9065vw':'2.8037vw'}" />
+                    <van-field v-model="amount" :placeholder="t('crossBridge.inputTransferAmount')" type="number" :style="{'font-size': value?'4.9065vw':'2.8037vw'}" />
                 </van-cell-group>
                 <div class="trans_text">
                     <div>{{ t('home.balance') }}</div>
@@ -32,7 +32,7 @@
                     <img src="@/assets/discovery/cb_logo.png" alt="" class="d9_icon">
                     <img src="@/assets/home/transfer.png" alt="" class="t_icon">
                 </div>
-                <div class="trans_amount">9,923,012</div>
+                <div class="trans_amount">{{ (amount||0)*0.97 }}</div>
                 <div class="trans_text">
                     {{ t('crossBridge.willReceiveAmount') }}
                 </div>
@@ -72,7 +72,11 @@ import { useI18n } from 'vue-i18n';
 const { t, locale } = useI18n();
 
 const address = ref('')
-const value = ref('')
+const amount = ref<number>()
+
+
+
+
 </script>
 
 <style lang="scss" scoped>

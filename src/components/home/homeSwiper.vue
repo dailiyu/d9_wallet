@@ -111,10 +111,10 @@
               <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="totalType='password'" v-if="totalType=='text'">
               <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="totalType='text'" v-if="totalType=='password'">
             </div>
-            <!-- <div class="point_num">{{ userProfileStore.totalIntegral }}</div> -->
-            <van-cell-group inset>
+            <div class="point_num">{{ userProfileStore.totalIntegral }}</div>
+            <!-- <van-cell-group inset>
               <van-field v-model="totalPoint" :type="totalType" readonly/>
-            </van-cell-group>
+            </van-cell-group> -->
           </div>
           <div class="wallet_detail">
             <div class="title">

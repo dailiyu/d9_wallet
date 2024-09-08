@@ -8,15 +8,18 @@
 
 let BASE_URL = ''
 let QUERY_URL=''
+let CROSSCHAIN_URL = ''
 if (import.meta.env.PROD) {
   // 生产环境
   BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
   QUERY_URL='https://www.q6z4kzhr.uk/api'
+  CROSSCHAIN_URL='https://cross-chain-transfer.d9network.com:3000/api'
 }
 else {
   // 开发环境
   BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
    QUERY_URL='https://www.q6z4kzhr.uk/api'
+   CROSSCHAIN_URL='https://cross-chain-transfer.d9network.com:3000/api/'
 }
 
 // console.log(BASE_URL)
@@ -25,4 +28,4 @@ else {
 // console.log(import.meta.env.VITE_URL)
 
 export const TIME_OUT = 6000000
-export { BASE_URL,QUERY_URL }
+export { BASE_URL,QUERY_URL,CROSSCHAIN_URL }

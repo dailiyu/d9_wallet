@@ -82,8 +82,7 @@ const useAccountStore = defineStore('account', {
     },
     async changeSelectedLanguageAction(language:string){
       this.selectedLanguage=language
-
-      await storageAccounts.set('language',  this.selectedLanguage)
+      await storageAccounts.set('language', language)
     },
     async changeActiveWallet(index: number) {
       this.activeWallet = addPrefix(this.walletList[index] ?? { ...defaultWallet });
@@ -103,7 +102,7 @@ const useAccountStore = defineStore('account', {
       this.password= await storageAccounts.get('password')
       this.activeIndex=await storageAccounts.get('activeIndex')
       this.isFirstMainWallet=await storageAccounts.get('isFirstMainWallet')
-      //  this.selectedLanguage=await storageAccounts.get('language')
+       this.selectedLanguage=await storageAccounts.get('language')
       // console.log( '-------',this.selectedLanguage);
       
     },

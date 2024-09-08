@@ -31,7 +31,11 @@ class StorageManager {
   async get(key: string) {
     try {
       const value = await this.storage.get(key);
-      return typeof value === 'string' ? JSON.parse(value) : value;
+      // 只在字符串是JSON对象或数组时解析
+      if (typeof value === 'string' && (value.startsWith('{') || value.startsWith('['))) {
+        return JSON.parse(value);
+      }
+      return value; // 如果是普通字符串或其他类型，直接返回
     } catch (error) {
       console.error('Error getting value from storage:', error);
       return null;
@@ -58,5 +62,6 @@ class StorageManager {
 // 创建多个 Storage 实例
 export const storageAccounts = new StorageManager('storageAccounts');
 export const storageAddress = new StorageManager('storageAddress');
+
 
 
