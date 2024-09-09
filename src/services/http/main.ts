@@ -131,6 +131,14 @@ export function postProfileGetUserNodeVote() {
 */
 
 
+export function postGlobalComputingPower() {
+  return httpRequest.post({
+    url: '/main/mining/get/return/percent/',
+  })
+
+}
+
+
 
 
 

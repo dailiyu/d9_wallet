@@ -1,7 +1,7 @@
 
 import { postGetReserves,postGetUsdtToOtherRate, postTotalLpToken } from '@/services/http/amm';
 import { postMarketFlashExchangeData, postMarketSwapList, postMarketTransactionData } from '@/services/http/IndexServer';
-import { postGetTotalBurned } from '@/services/http/main';
+import { postGetTotalBurned, postGlobalComputingPower } from '@/services/http/main';
 import { postGetAllVolume } from '@/services/http/mining';
 import { postGetRank } from '@/services/http/node';
 import { defineStore } from 'pinia';
@@ -94,7 +94,8 @@ interface AccountState {
     MaketSwap1DayList:flashExchangeData[],
     MaketSwap7DayList:flashExchangeData[],
     MaketSwap14DayList:flashExchangeData[],
-    MaketSwap30DayList:flashExchangeData[]
+    MaketSwap30DayList:flashExchangeData[],
+    globalComputingPower:number
 }
 
 
@@ -136,7 +137,8 @@ const useMarketStore = defineStore('market', {
     MaketSwap1DayList:[],
     MaketSwap7DayList:[],
     MaketSwap14DayList:[],
-    MaketSwap30DayList:[]
+    MaketSwap30DayList:[],
+    globalComputingPower:0
   }),
   actions: {
    async getExchangeRateAction(){
@@ -199,6 +201,10 @@ const useMarketStore = defineStore('market', {
       console.log(this.flashExchangeDataList);
       
    },
+   async  getGlobalComputingPowerAction(){
+      const metaData=await postGlobalComputingPower()
+      this.globalComputingPower=metaData.data.results
+   },
    async getMarketTotalLpTokenAction(){
       const metaData=await postTotalLpToken()
       this.marketTotalLpToken=metaData.data.results
@@ -228,6 +234,7 @@ const useMarketStore = defineStore('market', {
     this.getMarketTransactionData()
     this.getInitMarketFlashExchangeDataAction()
     this.getMarketTotalLpTokenAction()
+    this.getGlobalComputingPowerAction()
     this.getMaketSwap1DayListAction()
     this.getMaketSwap7DayListAction()
     this.getMaketSwap14DayListAction()

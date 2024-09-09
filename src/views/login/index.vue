@@ -13,7 +13,7 @@ import { IonPage } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 // 使用 useI18n 钩子获取 t 方法和 locale
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const router = useRouter()
 function toCreateAccount(){

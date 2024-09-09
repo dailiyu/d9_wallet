@@ -12,7 +12,7 @@
 
         <div class="destroy">
             <div class="sub_t">{{ t('DPOC.currentGlobalHashRate') }}</div>
-            <div class="d_num">9,021,031.20</div>
+            <div class="d_num">{{ marketStore.globalComputingPower }}</div>
         </div>
 
         <div class="total">
@@ -26,7 +26,7 @@
             </div>
             <div class="total_item">
                 <div class="total_t">{{ t('DPOC.withdrawableTokenAmount') }}</div>
-                <div class="total_num">231,100.00</div>
+                <div class="total_num">{{ baseUutputAccumulation+computingPowerAccelerates(userProfileStore.airdropsNumber) }}</div>
                 <div class="total_text">
                     <div @click="showPasswordPop=true">{{ t('DPOC.withdrawTokens') }}</div>
                     <img src="@/assets/home/arrow-right.png" alt="" class="total_icon">
@@ -52,11 +52,11 @@
             </div>
             <div class="accumulation_item">
                 <div>{{ t('DPOC.basicOutputAccumulation') }}</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ baseUutputAccumulation }}</div>
             </div>
             <div class="accumulation_item">
                 <div>{{ t('DPOC.cumulativeHashRateAcceleration') }}</div>
-                <div class="a_num">7,210.80</div>
+                <div class="a_num">{{ computingPowerAccelerates(userProfileStore.airdropsNumber) }}</div>
             </div>
         </div>
         <div class="amount_box">
@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts" setup>
-import { formatTimestampToMMDDHHMM } from '@/utils';
+import { formatTimestampToMMDDHHMM ,getDaysFromToday} from '@/utils';
 import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
 import useUserProfileStore from '@/store/usersProfile/userProfile';
@@ -90,7 +90,7 @@ import { validateInfo } from "@/types";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import useAccountStore from "@/store/account/account";
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import router from '@/router';
 import { postMiningBurning, postMiningWithdraw } from '@/services/http/main';
 import { useI18n } from 'vue-i18n';
@@ -110,6 +110,30 @@ const accountStore = useAccountStore();
 const showPasswordPop = ref(false);
 const marketStore=useMarketStore();
 const userProfileStore=useUserProfileStore()
+
+const baseUutputAccumulation=computed(()=>{
+    const diffdays=getDaysFromToday(userProfileStore.lastWithdrawal)
+    const baseUutputAccumulation=diffdays* (userProfileStore.amountBurned)*(marketStore.globalComputingPower)
+    return baseUutputAccumulation
+})
+
+
+
+function computingPowerAccelerates(inputNumber: number): number {
+  // 如果输入是0，则返回0
+  if (inputNumber === 0) {
+    return 0;
+  }
+  // 基础值是 0.1
+  let result = 0.1;
+  // 如果输入的数字大于1，则增加 (inputNumber - 1) * 0.01
+  if (inputNumber > 1) {
+    result += (inputNumber - 1) * 0.01;
+  }
+  return result*Number(baseUutputAccumulation.value);
+}
+
+
 
 
 function toMyNode() {

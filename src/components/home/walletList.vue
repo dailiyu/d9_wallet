@@ -13,7 +13,7 @@
             <div></div>
         </div>
         <div v-for="(wallet,index) in walletList">
-            <div class="wallet_item " :class="activeWalletIndex===index?'':'inactive'" @click="selectWallet(index)">
+            <div class="wallet_item " :class="activeWalletIndex==index?'':'inactive'"   @click="selectWallet(index)">
                 <div class="wallet_top">
                     <div>
                         <div class="name">{{ wallet.name }}</div>
@@ -23,7 +23,7 @@
             
                     <!-- <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon" v-if="activeWalletIndex===index"> -->
                 </div>
-                <div class="balance">$ 0.00</div>
+                <div class="balance">$ {{ wallet.value}}</div>
             </div>
 
             <!-- 子账号 -->
@@ -70,7 +70,7 @@
 <script lang="ts" setup>
 import useAccountStore from "@/store/account/account";
 import { obscureString } from "@/utils/index";
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import useUserProfileStore from "@/store/usersProfile/userProfile"
 import { postRefreshUsersProfile } from "@/services/http/main";
 import validatePassword from "@/components/validatePassword.vue";
@@ -81,6 +81,7 @@ import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import { useWalletService } from "@/services/walletService";
 import { walletDate } from "@/types/account";
 import { useI18n } from 'vue-i18n';
+import useMarketStore from "@/store/market/market";
 
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
@@ -94,7 +95,7 @@ const activeWallet = computed(() => accountStore.activeWallet);
 const activeWalletIndex = computed(() => accountStore.activeIndex);
 const showInputStringPop=ref<boolean>(false)
 const selectedIndex = ref<number>();
-
+const marketStore=useMarketStore()
 defineProps({
     showWalletList: {
         type: Boolean,
@@ -110,10 +111,27 @@ function closePop() {
 
 const selectWallet = async (index: number) => {
     await accountStore.changeActiveWallet(index);
-    await postRefreshUsersProfile()
-   await userProfileStore.fetchAllData()
+    await userProfileStore.clearStoreAction()
+     updatedValue()
+     userProfileStore.fetchAllData()
+     postRefreshUsersProfile()
+  
     selectedIndex.value = index;
 };
+
+const updatedValue=async()=>{
+    await userProfileStore.getD9BalanceAction()
+    const d9Balance=userProfileStore.d9Balance
+    await userProfileStore.getUsdtBalanceAction()
+    const usdtBalance=userProfileStore.usdtBalance
+    await marketStore.getExchangeRateAction()
+    const  rate=marketStore.exchangeRateD9ToUsdt
+    const totalValue=(Number(usdtBalance)+(Number(d9Balance))*rate).toFixed(4)
+    console.log(totalValue);
+    
+    await accountStore.updateWalletValueAction(Number(totalValue))
+    await accountStore.updateStorageWalletAction()
+}
 
 // 计算属性：计算walletList中与activeWallet地址匹配的索引值
 // const activeWalletIndex = computed(() => {
@@ -160,7 +178,11 @@ const clickAddSubWallet=async (wallet:walletDate)=>{
     parenWallet.value=wallet
 }
 
-
+onMounted(()=>{
+    const index=accountStore.activeIndex
+    console.log('active',index);
+    selectWallet(index)
+})
 
 function confirmName(){
     showValidatePop.value=true

@@ -69,6 +69,25 @@ export function formatTimestamp(timestamp: string): string {
 
 
 
+export function getDaysFromToday(timestamp: number): number {
+  // 获取当前时间的日期部分（不含时分秒）
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0); // 清除时分秒
+
+  // 将传入的时间戳转换为 Date 对象
+  const inputDate = new Date(timestamp);
+  inputDate.setHours(0, 0, 0, 0); // 清除时分秒
+
+  // 计算两个日期之间的差异（单位：毫秒）
+  const diffInMs = currentDate.getTime() - inputDate.getTime();
+
+  // 将差异转换为天数
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+  return diffInDays;
+}
+
+
 
 
 

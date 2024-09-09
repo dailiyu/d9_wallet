@@ -30,7 +30,8 @@
              <!-- <van-cell-group inset>
                 <van-field v-model="walletBalance" :type="balanceType" readonly/>
              </van-cell-group> -->
-            <span class="number">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</span> 
+            <span class="number" v-if="balanceType=='text'">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</span> 
+            <span class="number" v-if="balanceType=='password'">*****</span> 
           </div>
         </div>
         <div class="wallet-bottom">

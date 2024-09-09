@@ -25,7 +25,8 @@
               </div>
               <div class="wallet_balance">
                 <div class="balance_symbol">$</div>
-                <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
+                <div class="balance_num"  v-if="balanceType=='text'">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
+                <div class="balance_num"  v-if="balanceType=='password'">*****</div>
               </div>
               <div class="buttons">
                 <div class="button_item" @click="transfer">{{ t('home.transfer') }}</div>
@@ -74,11 +75,12 @@
                 </div>
               </div>
               <div class="wallet_balance">
-                <div class="balance_symbol">$</div>
-                <!-- <div class="balance_num">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div> -->
-                <van-cell-group inset>
+                <div class="balance_symbol">$</div>       
+                <div class="balance_num" v-if="balanceType=='text'">{{(Number((userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)) +Number(userProfileStore.usdtBalance)).toFixed(4)}}</div>
+                <div class="balance_num" v-if="balanceType=='password'">*****</div>
+                <!-- <van-cell-group inset>
                   <van-field v-model="walletBalance" :type="balanceType" readonly/>
-                </van-cell-group>
+                </van-cell-group> -->
               </div>
               <div class="buttons">
                 <div class="button_item" @click="toSwap()">{{ t('home.swap') }}</div>
@@ -111,7 +113,8 @@
               <img class="view_pic" src="@/assets/eye_closed_black.png" alt="" @click="totalType='password'" v-if="totalType=='text'">
               <img class="view_pic" src="@/assets/eye_open_black.png" alt="" @click="totalType='text'" v-if="totalType=='password'">
             </div>
-            <div class="point_num">{{ userProfileStore.totalIntegral }}</div>
+            <div class="point_num" v-if="totalType=='text'">{{ userProfileStore.totalIntegral }}</div>
+            <div class="point_num" v-if="totalType=='password'">*****</div>
             <!-- <van-cell-group inset>
               <van-field v-model="totalPoint" :type="totalType" readonly/>
             </van-cell-group> -->
@@ -183,7 +186,7 @@ const walletBalance = (Number((userProfileStore.d9Balance*marketStore.exchangeRa
 const balanceType = ref<FieldType>('text')
 const totalPoint = userProfileStore.totalIntegral
 const totalType = ref<FieldType>('text')
-
+const isShowBalance=ref<boolean>(true)
 onMounted(async() => {
 
 })

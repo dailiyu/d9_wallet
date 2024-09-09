@@ -134,6 +134,7 @@ const useUserProfileStore = defineStore("userProfile", {
       try {
         const metaData = await postReferralsGetDirectCount();
         this.airdropsNumber = metaData.data.results;
+        
       } catch (error) {
         console.log("airdrop", error);
       }
@@ -152,6 +153,8 @@ const useUserProfileStore = defineStore("userProfile", {
       this.balanceDue=metaData.data.results.balance_due
       this.balancePaid=metaData.data.results.balance_paid  
       this.lastWithdrawal=metaData.data.results.last_withdrawal
+      console.log(this.lastWithdrawal);
+      
       this.lastBurn=metaData.data.results.last_burn
     },
     async getMerchantCodeExpiryAction(){
@@ -203,8 +206,39 @@ const useUserProfileStore = defineStore("userProfile", {
     async getUserLpTokenAction(){
       const metaData=await postLiquidityProvider()
       this.userLpToken=metaData.data.results
-      
-      
+    },
+    async clearStoreAction() {
+      this.usdtBalance = 0;
+      this.d9Balance = 0;
+      this.totalIntegral = 0;
+      this.lastConversion = 0;
+      this.expiryDate = 0;
+      this.basicConvertibility = 0;
+      this.acceleratedConvertibility = 0;
+      this.convertibility = 0;
+      this.totalVotes = 0;
+      this.votesSpent = 0;
+      this.rewardsNumber = 0;
+      this.voteList = [];
+      this.airdropsNumber = 0;
+      this.merchantCodeString = "";
+      this.userCodeString = "";
+      this.amountBurned = 0;
+      this.balanceDue = 0;
+      this.balancePaid = 0;
+      this.lastWithdrawal = 0;
+      this.lastBurn = 0;
+      this.merchantCodeExpiry = 0;
+      this.curPage = 1;
+      this.flashExchangeDataList = [];
+      this.haveNext = true;
+      this.d9TransferList = [];
+      this.curD9TransferPage = 1;
+      this.hasD9TransferNext = true;
+      this.usdtTransferList = [];
+      this.curUsdtTransferPage = 1;
+      this.hasUsdtTransferNext = true;
+      this.userLpToken = 0;
     },
     async fetchAllData() {
       this.getUsdtBalanceAction();
@@ -215,7 +249,7 @@ const useUserProfileStore = defineStore("userProfile", {
       this.userQrcodeGenerateAction()
       this.getVoteNumberAction();
       this.getNodeRewardsDataAction();
-      // this.getAirdropNumberAction();
+      this.getAirdropNumberAction();
       this.getBurningPortfolioAction();
       this.getMerchantCodeExpiryAction();
       this.getInitUserUsdtTransferAction()

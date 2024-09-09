@@ -108,10 +108,11 @@ onBeforeRouteLeave((to, from, next) => {
 });
 
 onMounted(async() => {
+  await accountStore.loadLocalCacheAction()
    postRefreshUsersProfile()
    userProfileStore.fetchAllData()
    marketStore.fetchAllData()
-   await postAllowanceMarketMaker({amount:999999999})
+ 
 
  setInterval(() => {
   postRefreshUsersProfile()
