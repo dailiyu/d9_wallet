@@ -94,8 +94,10 @@ const dealChangeAddress=async (address:string)=>{
 
 }
 
-const dealChangeAmount=(inputNumber:number)=>{
+const dealChangeAmount=async(inputNumber:number)=>{
   amount.value=inputNumber
+  console.log(inputNumber);
+  
 }
 
 // 使用 Vue Router 的 beforeRouteLeave 钩子

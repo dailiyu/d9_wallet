@@ -37,14 +37,14 @@
             {{ t('discovery.crossBridge') }}
           </div>
         </div>
-        <div class="item">
+        <!-- <div class="item">
           <div class="icon">
             <img src="@/assets/discovery/fully.png" alt="">
           </div>
           <div class="text">
             {{ t('discovery.moneyCelestial') }}
           </div>
-        </div>
+        </div> -->
         <div class="item" @click="tonodeVoting()">
           <div class="icon">
             <img src="@/assets/discovery/node.png" alt="">

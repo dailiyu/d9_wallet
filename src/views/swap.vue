@@ -157,7 +157,7 @@ const dealD9InputChange=async()=>{
 
 const flashExchangeD9ToUsdt=async()=>{
     await postGetUsdt({amount:d9Amount.value||0})
-    await postRefreshUsersProfile()
+    // await postRefreshUsersProfile()
     await userProfileStore.getUserProfileAction()
 
 }

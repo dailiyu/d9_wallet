@@ -22,7 +22,7 @@
       </div>
       <div class="transfer_item">
         <ion-input
-         @ionInput="onToAddressInputChange" 
+        @ionInput="onToAddressInputChange" 
           style="min-height: 10px; font-size: 2.8037vw"
           :placeholder="t('home.inputAddressTips')"
           :value="toAddress"
@@ -40,7 +40,7 @@
       </div>
       <div class="transfer_item">
         <ion-input
-          @ionInput="onTransferAmountInputChange"
+        @ionInput="onTransferAmountInputChange"
           :value="transferAmount"
           :style="{
             'min-height': '10.0467vw',
@@ -56,7 +56,6 @@
             <img src="@/assets/home/arrow-right.png" alt="" class="arrow_pic" />
           </div>
         </ion-input>
-
         <div class="balance">
           <div class="balance_text">{{ t('home.balance') }}</div>
           <div class="balance_num">{{ userProfileStore.d9Balance }}</div>
@@ -83,7 +82,7 @@
 
       <div class="personal_info">
         <img src="@/assets/home/square_d9.png" alt="" class="logo" />
-        <div>Person (3842)</div>
+        <div>{{ accountStore.activeWallet.name }}</div>
       </div>
     </div>
 
@@ -113,21 +112,23 @@ import { IonInput } from "@ionic/vue";
 import useAccountStore from "@/store/account/account";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
-import { defineProps, watch } from 'vue'
+import { defineProps, onMounted, watch } from 'vue'
 const type = ref("");
 const showPasswordPop = ref(false);
 import { ref } from "vue";
 import { postTransfer } from "@/services/http/balances";
 import ValidatePassword from "../validatePassword.vue";
 import { validateInfo } from "@/types";
-import { postUsdtTransfer } from "@/services/http/usdt";
+import { postAllowanceMarketMaker, postUsdtTransfer } from "@/services/http/usdt";
 import { useI18n } from 'vue-i18n';
+
+
 
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t, locale } = useI18n();
 const userProfileStore = useUserProfileStore();
 const accountStore = useAccountStore();
-const emit = defineEmits(["closeTransferModal","changeAddress","dealChangeAmount"]);
+const emit = defineEmits(["closeTransferModal","changeAddress","changeAmount"]);
 
 // const transferAmount = ref<number>();
 const showUnitPop = ref(false)
@@ -147,27 +148,40 @@ const props = defineProps({
   }
 })
 
+onMounted(()=>{
+  console.log(props.toAddress,props.transferAmount);
+  
+})
+
 // 定义一个事件处理函数
 const onTransferAmountInputChange = (event: Event) => {
   const input = event.target as HTMLInputElement;
-  emit('dealChangeAmount',Number(input.value) )
+  console.log(props.transferAmount);
+  emit('changeAmount',Number(input.value) )
+  console.log(input.value);
+  console.log();
   // transferAmount.value = Number(input.value);
-  
 };
 
 const onToAddressInputChange=(event: Event) => {
   const input = event.target as HTMLInputElement;
+  console.log(props.toAddress);
+  
   // toAddress.value = String(input.value);
-  emit('changeAddress',input.value )
+  console.log(input.value);
+  emit('changeAddress',String(input.value) )
 };
 
 
 const transferD9=async()=>{
   await postTransfer({to_address:props.toAddress||'',amount:props.transferAmount||0})
+  await userProfileStore.fetchAllData()
 }
-
+ 
 const transferUsdt=async()=>{
+  await postAllowanceMarketMaker({amount:props.transferAmount||0})
   await postUsdtTransfer({to_address:props.toAddress||'',amount:props.transferAmount||0})
+  await userProfileStore.fetchAllData()
 }
 
 const changeType=(name:string)=>{
@@ -201,7 +215,7 @@ passwordError.value = t('home.passwordError');
   }
    
     Toast.close();
-    emit('dealChangeAmount',0 )
+    emit('changeAmount',undefined )
     showSuccessToast(transferSuccess.value);
   }else{
     showFailToast(passwordError.value);

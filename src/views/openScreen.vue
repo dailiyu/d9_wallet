@@ -18,10 +18,10 @@ import { useI18n } from 'vue-i18n';
 
 
 onMounted(async()=>{
-  await accountStore.loadLocalCacheAction()
-  console.log(accountStore.selectedLanguage);
+  // await accountStore.loadLocalCacheAction()
+  // console.log(accountStore.selectedLanguage);
   
-  locale.value=accountStore.selectedLanguage
+  // locale.value=accountStore.selectedLanguage
    setTimeout(() => {
    
     if(accountStore.walletList.length>0){
@@ -31,6 +31,9 @@ onMounted(async()=>{
     }
    }, 700);
 })
+
+
+
 
 
   </script>

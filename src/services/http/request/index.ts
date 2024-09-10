@@ -84,7 +84,7 @@ class HttpRequest {
       });
     } catch (error) {
       // 在这里捕获并处理错误
-      showFailToast("操作失败！")
+      showFailToast("Fail！")
       console.error('Post request failed:', error);
       throw error; // 如果需要，可以重新抛出错误
     }

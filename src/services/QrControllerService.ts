@@ -1,7 +1,7 @@
 // src/services/QrControllerService.ts
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { toastController } from '@ionic/vue';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { D9QrCodeData } from '../types';
 import { QrCodeService } from './QrCodeService';
 
@@ -32,7 +32,8 @@ export function useQrController() {
 
     try {
       isScanning.value = true;
-      document.querySelector('body')?.classList.add('barcode-scanner-active');
+    
+      document.querySelector('body')?.classList?.add('barcode-scanner-active');
       
       // 监听 popstate 事件
       window.addEventListener('popstate', handlePopState);
@@ -44,7 +45,7 @@ export function useQrController() {
       await stopScan();
     } finally {
       isScanning.value = false;
-      document.querySelector('body')?.classList.remove('barcode-scanner-active');
+      document.querySelector('body')?.classList?.remove('barcode-scanner-active');
     }
     return undefined;
   };
@@ -68,7 +69,7 @@ export function useQrController() {
 
   const stopScan = async () => {
     await BarcodeScanner.stopScan();
-    document.querySelector('body')?.classList.remove('barcode-scanner-active');
+    document.querySelector('body')?.classList?.remove('barcode-scanner-active');
 
     if (scanListener) {
       await scanListener.remove();
