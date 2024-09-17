@@ -39,10 +39,10 @@
         <div class="node_item">
             <div>
                 <div class="node_name">
-                    TokenPocket
+                    MainNetWork
                 </div>
                 <div class="node_net">
-                    https://trx.mytokenpocket.vip
+                    https://d9.main.network.com
                 </div>
             </div>
             <div class="node_speed">
@@ -54,10 +54,10 @@
         <div class="node_item">
             <div>
                 <div class="node_name">
-                    Community Node-3
+                    Community Node-1
                 </div>
                 <div class="node_net">
-                    https://trx.m
+                    https://d9.node1.community.network.com
                 </div>
             </div>
             <div class="node_speed">
@@ -69,10 +69,10 @@
         <div class="node_item">
             <div>
                 <div class="node_name">
-                    Community Node-4
+                    Community Node-2
                 </div>
                 <div class="node_net">
-                    https://api.trongrid.io
+                    https://d9.node2.community.network.com
                 </div>
             </div>
             <div class="node_speed">
@@ -84,10 +84,10 @@
         <div class="node_item">
             <div>
                 <div class="node_name">
-                    HuaweiCloud
+                    Community Node-3
                 </div>
                 <div class="node_net">
-                    https://d4d0b07a-0995-11ee-92c2..
+                    https://d9.node3.community.network.com
                 </div>
             </div>
             <div class="node_speed">
@@ -95,7 +95,34 @@
                 <div class="speed_num color_red">{{lowSpeed3}} ms</div>
             </div>
         </div>
-
+        <div class="node_item">
+            <div>
+                <div class="node_name">
+                    Community Node-4
+                </div>
+                <div class="node_net">
+                    https://d9.node4.community.network.com
+                </div>
+            </div>
+            <div class="node_speed">
+                <div class="dot bgc_red"></div>
+                <div class="speed_num color_red">{{lowSpeed4}} ms</div>
+            </div>
+        </div>
+        <div class="node_item">
+            <div>
+                <div class="node_name">
+                    Community Node-5
+                </div>
+                <div class="node_net">
+                    https://d9.node5.community.network.com
+                </div>
+            </div>
+            <div class="node_speed">
+                <div class="dot bgc_red"></div>
+                <div class="speed_num color_red">{{lowSpeed5}} ms</div>
+            </div>
+        </div>
         <div class="btn button_active_full">
             {{ t('mySelf.addCustomNode') }}
         </div>
@@ -114,14 +141,18 @@ const fastSpeed = ref<number>(0)
 const lowSpeed1 = ref<number>(0)
 const lowSpeed2 = ref<number>(0)
 const lowSpeed3 = ref<number>(0)
+const lowSpeed4 = ref<number>(0)
+const lowSpeed5 = ref<number>(0)
 let intervalId: ReturnType<typeof setInterval> | undefined;
 onMounted(()=>{
 
     intervalId = setInterval(() => {
         fastSpeed.value = Math.floor(Math.random() * 200)
-        lowSpeed1.value = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
-        lowSpeed2.value = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
-        lowSpeed3.value = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
+        lowSpeed1.value = Math.floor(Math.random() * (500 - 1000 + 1)) + 1000;
+        lowSpeed2.value = Math.floor(Math.random() * (600 - 1000 + 1)) + 1000;
+        lowSpeed3.value = Math.floor(Math.random() * (900 - 1000 + 1)) + 800;
+        lowSpeed4.value = Math.floor(Math.random() * (1100 - 1000 + 1)) + 900;
+        lowSpeed5.value = Math.floor(Math.random() * (1500 - 1000 + 1)) + 1000;
     }, 1000);
     
     
@@ -235,6 +266,7 @@ $red: #CC4949;
     .btn {
         background-color: #BDC5D7;
         margin-top: 17.757vw;
+        margin-bottom: 10vw;
     }
 }
 </style>

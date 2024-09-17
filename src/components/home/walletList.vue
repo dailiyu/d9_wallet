@@ -79,7 +79,7 @@ import validatePassword from "@/components/validatePassword.vue";
 import { validateInfo } from '@/types/index'
 import { useRouter } from "vue-router";
 import inputString from "../inputString.vue";
-import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
+import { showSuccessToast, showFailToast, showLoadingToast, Toast, closeDialog } from "vant";
 import { useWalletService } from "@/services/walletService";
 import { walletDate } from "@/types/account";
 import { useI18n } from 'vue-i18n';
@@ -147,7 +147,8 @@ const parenWallet=ref<walletDate>({
     mnemonic: "",
     publicKey: "",
     secretKey: "",
-    address: ""
+    address: "",
+    path:""
 })
 const passwordError = ref(t('home.passwordError'));
 watch(locale, (newLocale) => {
@@ -166,14 +167,16 @@ const comfirmPassword=async(info: validateInfo)=>{
     }else{
         showFailToast(passwordError.value);
     }
-   
     showValidatePop.value = false
     // showAddPop.value = true
 }
 
 const dealAddSubWallet=async ()=>{
-    const walletData=await preCreateSubWallet(parenWallet.value.mnemonic,'//0')
+    const path= '/'+accountStore.subWalletNumber
+    console.log(path);
     
+    const walletData=await preCreateSubWallet(parenWallet.value.mnemonic,path)
+    accountStore.changeSubWalletNumber(1)
     await accountStore.addWalletAction({...walletData,isSub:true,authority:false,name:walletName.value})
 }
 const clickAddSubWallet=async (wallet:walletDate)=>{

@@ -11,13 +11,13 @@ let QUERY_URL=''
 let CROSSCHAIN_URL = ''
 if (import.meta.env.PROD) {
   // 生产环境
-  BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
+  BASE_URL = 'https://test.d9-dcip-service.com/api'
   QUERY_URL='https://www.q6z4kzhr.uk/api'
   CROSSCHAIN_URL='https://cross-chain-transfer.d9network.com:3000/api'
 }
 else {
   // 开发环境
-  BASE_URL = 'https://d9-test-server.q6z4kzhr.uk/api'
+  BASE_URL = 'https://test.d9-dcip-service.com/api'
    QUERY_URL='https://www.q6z4kzhr.uk/api'
    CROSSCHAIN_URL='https://cross-chain-transfer.d9network.com:3000/api/'
 }

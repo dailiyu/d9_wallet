@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: 'd9_wallet',
+  appName: 'D9 Wallet',
   webDir: 'dist',
   bundledWebRuntime: false,
   plugins: {

@@ -21,7 +21,7 @@
                 </van-cell-group>
                 <div class="trans_text">
                     <div>{{ t('home.balance') }}</div>
-                    <div class="trans_num">{{ profileState.d9Balance }}</div>
+                    <div class="trans_num">{{ profileState.usdtBalance }}</div>
                 </div>
             </div>
             <div class="icon_box">

@@ -47,7 +47,7 @@
                         <div class="current_text">{{ t('home.currentConvertibility') }}</div>
                         <div class="current_num">{{ userProfileStore.convertibility }}</div>
                     </div>
-                    <div class="percentage">100 = 1 D9</div>
+                    <div class="percentage">100 = 1 USDT</div>
                 </div>
                 <div class="btns">
                     <div class="btn1" @click="toMerchantCode">
@@ -92,6 +92,8 @@ import { IonPage } from '@ionic/vue';
 // import navBar from '@/components/navBar.vue'
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
+import { showFailToast } from 'vant';
 
 // 使用 useI18n 钩子获取 t 方法和 locale
 const { t } = useI18n();
@@ -100,8 +102,22 @@ const router = useRouter()
 function toMerchantCode(){
     router.push('/main/merchantCode')
 }
+
+const isOpen=computed(()=>{
+  const now = Date.now();
+  const timeDiff = userProfileStore.merchantCodeExpiry - now
+  return timeDiff>0?true:false
+})
+
 function toPointGift(){
-    router.push('/main/pointGift')
+    if(isOpen.value){
+        router.push('/main/pointGift')
+    }else{
+        showFailToast({
+            message:'请先开通商家码'
+        })
+    }
+  
 }
 </script>
 

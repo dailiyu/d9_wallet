@@ -3,7 +3,7 @@
     <navBar title="钱包管理"></navBar>
     <div class="content">
       <div class="info_box">
-        <img src="" alt="" class="head" />
+        <img src="../assets/myself/avatar.jpg" alt="" class="head" />
         <div class="name">
           <div>{{ accountStore.activeWallet.name }}</div>
           <img
@@ -23,7 +23,7 @@
           />
         </div>
       </div>
-      <div class="export" @click="exportWords" v-if="accountStore.activeWallet.mnemonic&&!accountStore.activeWallet.isSub"> 
+      <div class="export" @click="exportWords" v-if="accountStore.activeWallet.mnemonic&&!accountStore.activeWallet.isSub&&accountStore.activeWallet.path==''"> 
         <div>导出助记词</div>
         <img
           src="@/assets/home/arrow-right-grey.png"

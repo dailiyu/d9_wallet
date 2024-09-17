@@ -11,7 +11,8 @@ interface AccountState {
   temporaryName:string
   activeIndex:number,
   isFirstMainWallet:boolean,
-  selectedLanguage:string
+  selectedLanguage:string,
+  subWalletNumber:number
 }
 
 const defaultWallet: walletDate = {
@@ -40,7 +41,8 @@ const useAccountStore = defineStore('account', {
     temporaryName:'',
     activeIndex:0,
     isFirstMainWallet:true,
-    selectedLanguage:'zh'
+    selectedLanguage:'zh',
+    subWalletNumber:1
   }),
   actions: {
     async addWalletAction(wallet: walletDate) {
@@ -105,13 +107,18 @@ const useAccountStore = defineStore('account', {
     async updateWalletValueAction(value:number){
       this.walletList[this.activeIndex].value=value
     },
+    async changeSubWalletNumber(updateNumber:number){
+      this.subWalletNumber +=updateNumber
+      await storageAccounts.set('subWalletNumber', this.subWalletNumber)
+    },
     async loadLocalCacheAction() {
       this.walletList = (await storageAccounts.get('walletList') ?? []).map(addPrefix);
       this.activeWallet = addPrefix(await storageAccounts.get('activeWallet') ?? { ...defaultWallet });
       this.password= await storageAccounts.get('password')
       this.activeIndex=await storageAccounts.get('activeIndex')
       this.isFirstMainWallet=await storageAccounts.get('isFirstMainWallet')
-      this.selectedLanguage=await storageAccounts.get('language')
+      this.selectedLanguage=await storageAccounts.get('language')||'zh'
+      this.subWalletNumber=await storageAccounts.get('subWalletNumber')||1
       // console.log( '-------',this.selectedLanguage);
       
     },

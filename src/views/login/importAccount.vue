@@ -68,15 +68,9 @@ const { t, locale } = useI18n();
   const importWalletFromMnemonic = async () => {
     try {
       const walletData= await importFromMnemonic(mnemonic.value);
-      if(accountStore.isFirstMainWallet===true){
-          authority.value=true
-      }else{
-        authority.value=false
-      }
-     
-      await accountStore.addWalletAction({...walletData,name:accountStore.temporaryName,authority:authority.value,path:''})
+  
+      await accountStore.addWalletAction({...walletData,name:accountStore.temporaryName,authority:true,path:''})
       await accountStore.changeIsFirstMainWallet(false)
-      authority.value=false
       await accountStore.changeActiveWallet(accountStore.walletList.length-1)
      mnemonic.value=''
 
@@ -89,26 +83,12 @@ const { t, locale } = useI18n();
   };
   
 
-// 解码 Base64 为对象
-const decodeBase64ToObject=<T>(base64String: string): T =>{
-  // 使用 atob 将 Base64 字符串解码为 JSON 字符串
-  const jsonString = atob(base64String);
-  // 将 JSON 字符串转换为对象
-  return JSON.parse(jsonString) as T;
-}
-
-
-  
   const importWalletFromPrivateKey = async () => {
-    
     try {
-      
       const walletData= await importFromSecretKey(privateKey.value);
-  
       await accountStore.addWalletAction({...walletData,name:accountStore.temporaryName,authority:false})
       await accountStore.changeActiveWallet(accountStore.walletList.length-1)
      mnemonic.value=''
-
      isError.value=false
       router.push('/main/home')
   

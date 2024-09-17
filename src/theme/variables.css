@@ -1,2 +1,34 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+
+
+
+
+:root {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* 在深色模式下覆盖样式以保持白天模式 */
+  :root {
+    --ion-background-color: #ffffff !important;
+    --ion-text-color: #000000 !important;
+  }
+}
+
+ion-tab-bar {
+    --background: #ffffff; /* 背景颜色设为白色 */
+    --color: #000000;      /* 字体颜色设为黑色 */
+    --color-selected: #007bff; /* 选中时的字体颜色 */
+  }
+  
+  /* 在深色模式下强制保持白天模式 */
+  @media (prefers-color-scheme: dark) {
+    ion-tab-bar {
+      --background: #ffffff !important; /* 强制背景为白色 */
+      --color: #000000 !important;      /* 强制字体为黑色 */
+      --color-selected: #007bff !important; /* 强制选中时的颜色 */
+    }
+  }
+  

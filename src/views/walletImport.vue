@@ -82,7 +82,6 @@ const importWalletFromMnemonic = async () => {
       authority.value=false
     }
     console.log(accountStore.isFirstMainWallet);
-    
     await accountStore.addWalletAction({...walletData,name:name.value,authority:  authority.value})
     authority.value=false
     await accountStore.changeIsFirstMainWallet(false)

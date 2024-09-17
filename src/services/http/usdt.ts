@@ -155,14 +155,15 @@ export function postAllowanceUsdt(queryInfo: {
   })
 }
 
-// export function postUsdtApprove(queryInfo: {
-//   amount:number
-// }) {
-//   return httpRequest.post({
-//     url: '/usdt/approve/',
-//     data: queryInfo
-//   })
-// }
+export function postUsdtApprove(queryInfo: {
+  amount:number,
+  to_address:string
+}) {
+  return httpRequest.post({
+    url: '/usdt/approve/',
+    data: queryInfo
+  })
+}
 
 
 //获取usdt余额

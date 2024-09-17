@@ -4,7 +4,7 @@
     <!-- <van-popup :show="isShowTransferModal" :style="{ height: '80%'}" position="bottom" :overlay-style="{opacity: 1, backgroundColor: '#0065B2'}" @click-overlay="closeTransferModal"> -->
     <div class="accept_title">
       <img
-        src="@/assets/home/close_white.png"
+        src="@/assets/home/close.png"
         alt=""
         class="close_pic"
         @click="closeTransferModal"
@@ -32,6 +32,7 @@
             alt=""
             class="scan_pic"
             slot="end"
+             @click="startScan"
           />
         </ion-input>
       </div>
@@ -41,7 +42,7 @@
       <div class="transfer_item">
         <ion-input
         @ionInput="onTransferAmountInputChange"
-          :value="transferAmount"
+          :value="transferAmount||undefined"
           :style="{
             'min-height': '10.0467vw',
             'font-size': transferAmount?'7.0093vw':'2.8037vw',
@@ -111,14 +112,16 @@ import useAccountStore from "@/store/account/account";
 import useUserProfileStore from "@/store/usersProfile/userProfile";
 import { showSuccessToast, showFailToast, showLoadingToast, Toast } from "vant";
 import { defineProps, onMounted, watch } from 'vue'
+const { scan, stopScan, isScanning } = useQrController();
 const type = ref("");
 const showPasswordPop = ref(false);
 import { ref } from "vue";
 import { postTransfer } from "@/services/http/balances";
 import ValidatePassword from "../validatePassword.vue";
-import { validateInfo } from "@/types";
-import { postAllowanceIncrease, postAllowanceMarketMaker, postUsdtTransfer } from "@/services/http/usdt";
+import { D9QrCodeData, validateInfo } from "@/types";
+import { postAllowanceIncrease, postAllowanceMarketMaker, postUsdtApprove, postUsdtTransfer } from "@/services/http/usdt";
 import { useI18n } from 'vue-i18n';
+import { useQrController } from "@/services/QrControllerService";
 
 
 
@@ -127,7 +130,7 @@ const { t, locale } = useI18n();
 const userProfileStore = useUserProfileStore();
 const accountStore = useAccountStore();
 const emit = defineEmits(["closeTransferModal","changeAddress","changeAmount"]);
-
+const scannedData = ref<D9QrCodeData | undefined>(undefined);
 // const transferAmount = ref<number>();
 const showUnitPop = ref(false)
 const checked = ref('d9')
@@ -174,18 +177,24 @@ const onToAddressInputChange=(event: Event) => {
 const transferD9=async()=>{
   await postTransfer({to_address:props.toAddress||'',amount:props.transferAmount||0})
   await userProfileStore.fetchAllData()
+  emit('changeAmount',undefined )
+  emit('changeAddress','' )
 }
  
 const transferUsdt=async()=>{
+  await postUsdtApprove({to_address:props.toAddress||'',amount:(props.transferAmount||0)*1000})
   await postAllowanceIncrease({to_address:props.toAddress||'',amount:props.transferAmount||0})
   await postUsdtTransfer({to_address:props.toAddress||'',amount:props.transferAmount||0})
   await userProfileStore.fetchAllData()
+  emit('changeAmount',undefined )
+  emit('changeAddress','' )
 }
 
 const changeType=(name:string)=>{
   checked.value=name
   
 }
+
 const transfering = ref(t('home.transfering'));
 const transferSuccess = ref(t('home.transferSuccess'));
 const passwordError = ref(t('home.passwordError'));
@@ -203,7 +212,7 @@ passwordError.value = t('home.passwordError');
     const Toast = showLoadingToast({
     message: transfering.value,
     forbidClick: false,
-    duration: 30000,
+    duration: 300000,
   });
   showPasswordPop.value=false
   if(checked.value=='d9'){
@@ -223,7 +232,28 @@ passwordError.value = t('home.passwordError');
   showPasswordPop.value = true
  }
 
-
+ const startScan = async () => {
+  try {
+    scannedData.value = undefined;
+    isScanning.value = true;
+    const result = await scan();
+    if (result) {
+      // scannedData.value = result;
+    
+      const accountId=result.accountId
+      const inputMount=result.amount
+      const qrType=result.qrType
+      emit('changeAddress',accountId )
+      
+    
+      
+    }
+  } catch (err) {
+    console.error('Failed to scan QR code:', err);
+  } finally {
+    isScanning.value = false;
+  }
+};
 
 
 </script>
