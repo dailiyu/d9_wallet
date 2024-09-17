@@ -217,7 +217,7 @@ const showWalletList = ref(false)
     align-content: center;
     justify-content: space-between;
     padding: 12.8505vw;
-    color: #fff;
+    color: #ffffff;
     .name {
       font-size: 7.0093vw;
       font-weight: bold;

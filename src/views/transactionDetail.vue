@@ -17,7 +17,7 @@
             <div>{{ userProfileStore.d9TransferList[Number(transferIndex)].from_address }}</div>
             <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.d9TransferList[Number(transferIndex)].from_address)">
         </div>
-        <div class="text_en">(TRX-2)</div>
+    
         
         <div class="title">
             接收方
@@ -26,7 +26,7 @@
             <div>{{ userProfileStore.d9TransferList[Number(transferIndex)].to_address }}</div>
             <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.d9TransferList[Number(transferIndex)].to_address)">
         </div>
-        <div class="text_en">(TRX-7)</div>
+     
         
         <div class="title">
             网络费
@@ -76,7 +76,7 @@
             <div>{{ userProfileStore.usdtTransferList[Number(transferIndex)].from_address }}</div>
             <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress( userProfileStore.usdtTransferList[Number(transferIndex)].from_address )">
         </div>
-        <div class="text_en">(TRX-2)</div>
+     
         
         <div class="title">
             接收方
@@ -85,7 +85,7 @@
             <div>{{ userProfileStore.usdtTransferList[Number(transferIndex)].to_address }}</div>
             <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.usdtTransferList[Number(transferIndex)].to_address)">
         </div>
-        <div class="text_en">(TRX-7)</div>
+  
         
         <div class="title">
             网络费
@@ -99,7 +99,7 @@
             交易哈希
         </div>
         <div class="address">
-            <div>{{userProfileStore.usdtTransferList[Number(transferIndex)].extrinsic_hash  }}</div>
+            <div>{{obscureString(userProfileStore.usdtTransferList[Number(transferIndex)].extrinsic_hash)  }}</div>
             <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(userProfileStore.usdtTransferList[Number(transferIndex)].extrinsic_hash)">
         </div>
         
@@ -131,6 +131,7 @@ import useMarketStore from '@/store/market/market';
 import useAccountStore from "@/store/account/account";
 import { formatTimestamp, obscureString } from '@/utils';
 import { Clipboard } from '@capacitor/clipboard';
+
 import { showSuccessToast } from 'vant';
 const accountStore = useAccountStore();
 const route = useRoute();
@@ -191,7 +192,7 @@ const  userProfileStore= useUserProfileStore();
     width: fit-content;
     text-align: center;
     background-color: #BDC5D7;
-    color: #fff;
+    color: #ffffff;
     border-radius: 4px;
     font-size: 2.8037vw;
     font-weight: 400;

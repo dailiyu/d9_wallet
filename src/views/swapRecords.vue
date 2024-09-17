@@ -15,25 +15,25 @@
             <div class="detail">
                 <div class="detail_item">
                     <div class="detail_text" style="color: #0E932E;">
-                        {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?t('swap.withdrawal'):t('swap.deposit')}} {{marketStore.flashExchangeDataList[swapIndex].usdt_token }} USDT
+                        {{marketStore.flashExchangeDataList[swapIndex]?.actions=='D9ToUSDTConversion'?t('swap.withdrawal'):t('swap.deposit')}} {{marketStore.flashExchangeDataList[swapIndex].usdt_token }} USDT
                     </div>
                     <div class="detail_no">
                         <div>
-                            {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].from_address:marketStore.flashExchangeDataList[swapIndex].to_address}} 
+                            {{marketStore.flashExchangeDataList[swapIndex]?.actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].from_address:marketStore.flashExchangeDataList[swapIndex].to_address}} 
                         </div>
-                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].from_address:marketStore.flashExchangeDataList[swapIndex].to_address)">
+                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(marketStore.flashExchangeDataList[swapIndex]?.actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].from_address:marketStore.flashExchangeDataList[swapIndex].to_address)">
                     </div>
                 </div>
 
                 <div class="detail_item">
                     <div class="detail_text" style="color: #0065B2;">
-                        {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?t('swap.deposit'):t('swap.withdrawal')}} {{marketStore.flashExchangeDataList[swapIndex].d9_token}} D9
+                        {{marketStore.flashExchangeDataList[swapIndex]?.actions=='D9ToUSDTConversion'?t('swap.deposit'):t('swap.withdrawal')}} {{marketStore.flashExchangeDataList[swapIndex].d9_token}} D9
                     </div>
                     <div class="detail_no">
                         <div>
-                            {{marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].to_address:marketStore.flashExchangeDataList[swapIndex].from_address}} 
+                            {{marketStore.flashExchangeDataList[swapIndex]?.actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].to_address:marketStore.flashExchangeDataList[swapIndex].from_address}} 
                         </div>
-                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(marketStore.flashExchangeDataList[swapIndex].actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].to_address:marketStore.flashExchangeDataList[swapIndex].from_address)">
+                        <img src="@/assets/home/copy.png" alt="" class="copy_icon" @click="copyAddress(marketStore.flashExchangeDataList[swapIndex]?.actions=='D9ToUSDTConversion'?marketStore.flashExchangeDataList[swapIndex].to_address:marketStore.flashExchangeDataList[swapIndex].from_address)">
                     </div>
                 </div>
             </div>
@@ -152,7 +152,7 @@ const  copyAddress=async(address:string)=>{
         width: fit-content;
         border-radius: 4px;
         background-color: #BDC5D7;
-        color: #fff;
+        color: #ffffff;
         font-weight: 400;
         font-size: 2.8037vw;
         padding: .2336vw 1.6355vw;

@@ -3,6 +3,7 @@
   "welcome": "Welcome to our application",
   "home": {
     "walletList": "Wallet List",
+    "number":"Serial Number",
     "scan": "Scan",
     "walletBalance": "Wallet Balance",
     "walletManagement": "Wallet Management",
@@ -76,6 +77,7 @@
     "countDown": "Validity Countdown",
     "addTime": "Extend Time",
     "pointGift": "Points Gift",
+    "openMerchant":"Activate Merchant Code",
     "merchantCode": "Merchant Code",
     "chooseTime": "Choose Time",
     "oneMonth": "1 Month",

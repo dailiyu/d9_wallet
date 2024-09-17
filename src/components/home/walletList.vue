@@ -6,7 +6,7 @@
     @close="closePop()"
   >
     <div class="bottom_pop">
-        <div class="title_bar">
+        <div class="title_bar"> 
             <img src="@/assets/home/close.png" alt="" class="close_icon" @click="closePop()">
             <div>{{ t('home.walletList') }}</div>
             <!-- <div class="manage" @click="showValidatePop=true">添加钱包</div> -->
@@ -23,9 +23,11 @@
             
                     <!-- <img src="@/assets/home/money-wallet-fill.png" alt="" class="wallet_icon" v-if="activeWalletIndex===index"> -->
                 </div>
-                <div class="balance">$ {{ wallet.value}}</div>
+                <div class="balance">
+                    <div class="number">编号 {{ index }}</div>
+                    <div>$ {{ wallet.value}}</div>
+                </div>
             </div>
-
             <!-- 子账号 -->
             <!-- <div class="sub_account active">
                 <div class="sub_name">David</div>
@@ -171,6 +173,7 @@ const comfirmPassword=async(info: validateInfo)=>{
 
 const dealAddSubWallet=async ()=>{
     const walletData=await preCreateSubWallet(parenWallet.value.mnemonic,'//0')
+    
     await accountStore.addWalletAction({...walletData,isSub:true,authority:false,name:walletName.value})
 }
 const clickAddSubWallet=async (wallet:walletDate)=>{
@@ -232,6 +235,7 @@ function toImportWallet(){
             background: none;
             .balance {
                 font-size: 4.6729vw;
+               
             }
         }
         .wallet_top {
@@ -255,6 +259,8 @@ function toImportWallet(){
             font-size: 5.6075vw;
             font-weight: 900;
             text-align: right;
+            display: flex;
+            justify-content:space-between;
         }
     }
     .sub_account {

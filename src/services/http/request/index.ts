@@ -61,7 +61,9 @@ class HttpRequest {
 
       const keypair = accountStore.activeWallet.secretKey;
       const accountId = accountStore.activeWallet.address;
-
+      const path=accountStore.activeWallet.path
+     
+      
       console.log({
         ...config,
         method: 'POST',
@@ -69,6 +71,7 @@ class HttpRequest {
           ...config.data,
           keypair: keypair,
           account_id: accountId,
+        
         },
       });
 
@@ -80,6 +83,7 @@ class HttpRequest {
           ...config.data,
           keypair: keypair,
           account_id: accountId,
+          path:path
         },
       });
     } catch (error) {

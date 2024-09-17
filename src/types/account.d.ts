@@ -3,6 +3,7 @@ export interface walletDate {
   publicKey: string;
   secretKey: string;
   address: string;
+  path:string
   authority?:boolean,
   isSub?:boolean,
   name?:string;

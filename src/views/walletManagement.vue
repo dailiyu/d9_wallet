@@ -132,6 +132,14 @@ const confirm = async (info: validateInfo) => {
   showPasswordPop.value = false;
 };
 
+
+const encodeObjectToBase64=(obj: object): string=> {
+  // 将对象转换为 JSON 字符串
+  const jsonString = JSON.stringify(obj);
+  // 使用 btoa 将 JSON 字符串编码为 Base64
+  return btoa(jsonString);
+}
+
 const dealExportMnemonic = async () => {
   const Toast = showLoadingToast({
     message: "导出中...",
@@ -152,7 +160,8 @@ const dealExportSecretKey = async () => {
     duration: 3000,
   });
   await Clipboard.write({
-    string: accountStore.activeWallet.secretKey,
+    string:encodeObjectToBase64({mnemonic: accountStore.activeWallet.mnemonic,path:accountStore.activeWallet.path})
+   
   });
   Toast.close();
   showSuccessToast("导出成功");
@@ -176,9 +185,12 @@ const dealDeleWallet=async()=>{
     duration: 3000,
   });
     await accountStore.deleteWalletAction();
+   
     Toast.close();
     showSuccessToast("删除成功");
-    router.back()
+    if(accountStore.walletList.length==0){
+      router.push('/index')
+    }
 }
 
 const dealChangePassword=async (newPassword1:string,newPassword2:string)=>{
@@ -291,7 +303,7 @@ const copyAddress = async () => {
   .btn {
     border-radius: 9px;
     background-color: #cc4949;
-    color: #fff;
+    color: #ffffff;
     font-weight: 500;
     font-size: 4.2056vw;
     padding: 3.972vw 0;

@@ -19,6 +19,7 @@ const defaultWallet: walletDate = {
   publicKey: '',
   secretKey: '',
   address: '',
+  path:'',
   name:"",
   authority:false,
   isSub:false
@@ -79,6 +80,8 @@ const useAccountStore = defineStore('account', {
     async changeIsFirstMainWallet(isFirst:boolean){
         this.isFirstMainWallet=isFirst
         await storageAccounts.set('isFirstMainWallet',isFirst)
+        console.log( this.isFirstMainWallet);
+        
     },
     async changeSelectedLanguageAction(language:string){
       this.selectedLanguage=language

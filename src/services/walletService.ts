@@ -105,31 +105,38 @@ const importFromSecretKey = async (inputSecretKey: string): Promise<walletDate> 
   };
 
   // 创建子钱包数据
-  const preCreateSubWallet = async (parentMnemonic: string, derivationPath: string): Promise<walletDate> => {
+  const preCreateSubWallet = async (parentMnemonic: string) => {
     await cryptoWaitReady();
-    const uri = `${parentMnemonic}${derivationPath}`;
-    const pair = keyring.createFromUri(uri);
-    publicKey.value = Buffer.from(pair.publicKey).toString('hex');
-    const seed = mnemonicToMiniSecret(parentMnemonic);
-    secretKey.value = Buffer.from(seed).toString('hex');
-    address.value = pair.address;
-    const walletDate: walletDate = {
-      mnemonic: parentMnemonic,
-      publicKey: publicKey.value,
-      secretKey: secretKey.value,
-      address: address.value,
-    };
-    console.log(walletDate);
+    // 初始化 keyring
+    const keyring = new Keyring({ type: 'sr25519' ,ss58Format: 9 });
+    // 使用助记词生成父钱包密钥对
+    const parentPair = keyring.addFromMnemonic(parentMnemonic);
+    // 随机生成派生路径，确保子钱包唯一性
+    const randomDerivationPath = `//${Math.floor(Math.random() * 1000000)}`;  // 生成随机整数作为派生路径
+    console.log(`Generated Derivation Path: ${randomDerivationPath}`);
+    // 使用随机派生路径生成子钱包密钥对
+    const derivedPair = parentPair.derive('/1');
+  
     
-    return walletDate;
+  
+    // // 子钱包的密钥对已经从父钱包派生，因此无需手动处理私钥
+    // const secretKey = Buffer.from(derivedPair.secretKey).toString('hex');  // 使用派生后的密钥对获取私钥
+  
+    // const walletData: walletDate = {
+    //   mnemonic: parentMnemonic,  // 父钱包的助记词
+    //   publicKey: publicKey,      // 子钱包的公钥
+    //   secretKey: secretKey,      // 派生后的子钱包私钥
+    //   address: address,          // 子钱包地址
+    // };
+    console.log(derivedPair,address);
+    //return walletData;
   };
-
   // 添加子钱包
-  const addSubWallet = async (derivationPath: string) => {
-    const parentMnemonic = mnemonic.value || createMnemonic();
-    const subWalletDate = await preCreateSubWallet(parentMnemonic, derivationPath);
-    accountStore.addWalletAction(subWalletDate);
-  };
+  // const addSubWallet = async (derivationPath: string) => {
+  //   const parentMnemonic = mnemonic.value || createMnemonic();
+  //   const subWalletDate = await preCreateSubWallet(parentMnemonic, derivationPath);
+  //   accountStore.addWalletAction(subWalletDate);
+  // };
 
   return {
     mnemonic,
@@ -144,6 +151,6 @@ const importFromSecretKey = async (inputSecretKey: string): Promise<walletDate> 
     removeWallet,
     changeActiveWallet,
     preCreateSubWallet,
-    addSubWallet
+    // addSubWallet
   };
 };

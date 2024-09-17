@@ -197,7 +197,7 @@ const confirm=async(info: validateInfo)=>{
                 border-radius: 100px;
                 font-weight: 400;
                 font-size: 9px;
-                color: #fff;
+                color: #ffffff;
                 margin-left: 2.3364vw;
                 padding: .9346vw 2.8037vw;
             }

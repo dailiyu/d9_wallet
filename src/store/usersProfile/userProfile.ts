@@ -97,14 +97,14 @@ const useUserProfileStore = defineStore("userProfile", {
     async getUsdtBalanceAction() {
       const usdtBalance = await postUsdtBalance();
       this.usdtBalance = usdtBalance.data.results.balance_usdt;
-      console.log(this.usdtBalance);
+      // console.log(this.usdtBalance);
     },
     async getD9BalanceAction() {
       const d9Balance = await postGetD9Balances();
-      console.log(d9Balance);
+      // console.log(d9Balance);
 
       this.d9Balance = d9Balance.data.results.balance_d9;
-      console.log(this.d9Balance);
+      // console.log(this.d9Balance);
     },
     async getUserProfileAction() {
       const metaData = await postGetUserProfile();
@@ -153,7 +153,7 @@ const useUserProfileStore = defineStore("userProfile", {
       this.balanceDue=metaData.data.results.balance_due
       this.balancePaid=metaData.data.results.balance_paid  
       this.lastWithdrawal=metaData.data.results.last_withdrawal
-      console.log(this.lastWithdrawal);
+      // console.log(this.lastWithdrawal);
       
       this.lastBurn=metaData.data.results.last_burn
     },
@@ -163,6 +163,7 @@ const useUserProfileStore = defineStore("userProfile", {
     },
     async getUserFlashExchangeDataAction(){
       const metaData=await postUserFlashExchangeData(this.curPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
+   
       this.curPage=this.curPage+1
       this.flashExchangeDataList=[...this.flashExchangeDataList,...metaData.data.results]
       this.haveNext=metaData.data.next?true:false
@@ -173,39 +174,41 @@ const useUserProfileStore = defineStore("userProfile", {
       this.curD9TransferPage=this.curD9TransferPage+1
       this.d9TransferList=[...this.d9TransferList,...metaData.data.results]
       this.hasD9TransferNext=metaData.data.next?true:false
-      console.log('d9transfer',  this.d9TransferList);
+      // console.log('d9transfer',  this.d9TransferList);
     },
     async getUserUsdtTransferAction(){
       const metaData=await postUserUsdtTransferData(this.curUsdtTransferPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
       this.curUsdtTransferPage=this.curUsdtTransferPage+1
       this.usdtTransferList=[...this.usdtTransferList,...metaData.data.results]
       this.hasUsdtTransferNext=metaData.data.next?true:false
-      console.log('usdttransfer',  this.usdtTransferList);
+      // console.log('usdttransfer',  this.usdtTransferList);
     },
     async getInitUserFlashExchangeDataAction(){
       this.curPage=1
       const metaData=await postUserFlashExchangeData(this.curPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
       this.flashExchangeDataList=metaData.data.results
       this.haveNext=metaData.data.next?true:false
-      console.log('user',this.flashExchangeDataList);
+      // console.log('user',this.flashExchangeDataList);
     },
     async getInitUserD9TransferAction(){
       this.curD9TransferPage=1
       const metaData=await postUserD9TransferData(this.curD9TransferPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
       this.d9TransferList=metaData.data.results
       this.hasD9TransferNext=metaData.data.next?true:false
-      console.log('d9transfer',  this.d9TransferList);
+      // console.log('d9transfer',  this.d9TransferList);
     },
     async getInitUserUsdtTransferAction(){
       this.curUsdtTransferPage=1
       const metaData=await postUserUsdtTransferData(this.curUsdtTransferPage,{'from_address':accountStore.activeWallet.address,"to_address":accountStore.activeWallet.address})
       this.usdtTransferList=metaData.data.results
       this.hasUsdtTransferNext=metaData.data.next?true:false
-      console.log('usdttransfer',  this.usdtTransferList);
+      // console.log('usdttransfer',  this.usdtTransferList);
     },
     async getUserLpTokenAction(){
       const metaData=await postLiquidityProvider()
       this.userLpToken=metaData.data.results
+      console.log(this.userLpToken);
+      
     },
     async clearStoreAction() {
       this.usdtBalance = 0;

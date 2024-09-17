@@ -142,7 +142,7 @@ const showCrossBridgePop = ref(false)
     display: flex;
     justify-content: flex-start; /* 改为flex-start以确保项目靠左对齐 */
     flex-wrap: wrap;
-    background-color: #fff;
+    background-color: #ffffff;
     // width: 90.1869vw;
     border-radius: 3.0374vw;
     margin-top: 3.5047vw;

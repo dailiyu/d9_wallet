@@ -57,10 +57,11 @@ function reset(){
   wordList.selectedWord = []
 }
 
+
 const toNext=async()=>{
   if(stringArraysEqual(wordList.origin,wordList.selectedWord)){
-   await accountStore.changeIsFirstMainWallet(false)
    await accountStore.addWalletAction({...accountStore.temporaryWallet,name:accountStore.temporaryName,authority:true})
+   await accountStore.changeIsFirstMainWallet(false)
    await accountStore.changeActiveWallet(accountStore.walletList.length-1)
     router.push('/main/home')
   }
@@ -112,7 +113,7 @@ const toNext=async()=>{
           &.error {
             color: #cc4949;
             border: 1px solid #cc4949;
-            background-color: #fff;
+            background-color: #ffffff;
           }
         }
     }

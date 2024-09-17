@@ -42,7 +42,7 @@ onMounted(async()=>{
   .main {
     height: 100%;
     text-align: center;
-    background: #fff url('@/assets/login/bg.png');
+    background: #ffffff url('@/assets/login/bg.png');
     background-size: 100% auto;
     display: flex;
     justify-content: center;

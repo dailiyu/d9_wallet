@@ -1,6 +1,6 @@
 <template>
   <ion-page class="main_page">
-    <navBar :title="t('discovery.crossBridge')" iconColor="#fff" bgLink="src/assets/discovery/cb_bg.png"></navBar>
+    <navBar :title="t('discovery.crossBridge')" iconColor="#ffffff" bgLink="src/assets/discovery/cb_bg.png"></navBar>
     <div class="content">
         <div class="title">{{ t('crossBridge.currentWalletAddress') }}</div>
         <div class="w_address">{{ obscureString(accountStore.activeWallet.address) }}</div>
@@ -128,7 +128,7 @@ const amount = ref<number>()
         }
         .transfer_item {
             padding: 3.271vw 3.7383vw;
-            background: #fff;
+            background: #ffffff;
             border-radius: 13px;
             border: 1px solid #E7EBF2;
             display: flex;

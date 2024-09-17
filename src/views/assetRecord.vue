@@ -11,44 +11,51 @@
         <div class="total" v-if="type=='d9'">$ {{(userProfileStore.d9Balance*marketStore.exchangeRateD9ToUsdt).toFixed(4)}}</div>
       </div>
       <van-cell-group inset>
-        <van-field v-model="price" label="价格" input-align="right" readonly >
+        <van-field v-model="price" label="价格" input-align="right" readonly  @click="toSwap">
           <template #right-icon>
             <img src="@/assets/home/arrow-right-grey.png" alt="" class="arrow_icon">
           </template>
         </van-field>
       </van-cell-group>
-      <div class="title">交易记录</div>
-      <div class="record_list" v-if="type=='d9'">
+      <div class="title" >交易记录</div>
+      <div class="record_list" v-if="type=='d9'&&userProfileStore.d9TransferList.length>0">
         <div class="list_item" v-for="(item,index) in userProfileStore.d9TransferList"   @click="toDetail(index)"  >
-          <img src="@/assets/home/sell.png" alt="" class="sell_icon" v-if="item.to_address!==accountStore.activeWallet.address">
-          <img src="@/assets/home/buy.png" alt="" class="sell_icon" v-else>
+          <img src="@/assets/home/sell.png" alt="" class="sell_icon" v-if="item.to_address!==accountStore.activeWallet.address&&item.to_address!=item.from_address">
+          <img src="@/assets/home/buy.png" alt="" class="sell_icon" v-if="item.to_address==accountStore.activeWallet.address&&item.to_address!=item.from_address">
+          <img src="@/assets/home/cycle.jpg" alt="" class="sell_icon" v-if="item.to_address==item.from_address">
           <!-- <img src="@/assets/home/buy.png" alt="" class="sell_icon"> -->
           <div class="list_info">
-            <div class="no" v-if="item.to_address!==accountStore.activeWallet.address">{{ obscureString(item.to_address) }}</div>
-            <div class="no" v-else>{{ obscureString(item.from_address) }}</div>
+            <div class="no" v-if="item.to_address!==accountStore.activeWallet.address&&item.to_address!=item.from_address">{{ obscureString(item.to_address) }}</div>
+            <div class="no" v-if="item.to_address==accountStore.activeWallet.address&&item.to_address!=item.from_address">{{ obscureString(item.from_address) }}</div>
+            <div class="no" v-if="item.to_address==item.from_address">转给自己</div>
             <div class="time">{{ formatTimestamp(item.timestamp) }}</div>
           </div>
-          <div class="sell_money">{{ item.to_address==accountStore.activeWallet.address?'+':'-'}}
+          <div class="sell_money" v-if="item.to_address==item.from_address">
             {{ item.d9_token }}</div>
-          <!-- <div class="buy_money">+233,487.00</div> -->
+          <div class="sell_money" v-else>{{ item.to_address==accountStore.activeWallet.address?'+':'-'}}
+            {{ item.d9_token }}</div>
         </div>
         <div style="width: 100%; text-align: center;margin-top: 4vw 0;" @click="loadMore" v-show="userProfileStore.hasD9TransferNext">加载更多...</div>
       </div>
-      <div class="record_list"  v-if="type=='usdt'">
+      <div class="record_list"  v-if="type=='usdt'&&userProfileStore.usdtTransferList.length>0">
         <div class="list_item" v-for="(item,index) in userProfileStore.usdtTransferList"   @click="toDetail(index)"  >
-          <img src="@/assets/home/sell.png" alt="" class="sell_icon" v-if="item.to_address!==accountStore.activeWallet.address">
-          <img src="@/assets/home/buy.png" alt="" class="sell_icon" v-else>
+          <img src="@/assets/home/sell.png" alt="" class="sell_icon" v-if="item.to_address!==accountStore.activeWallet.address&&item.to_address!=item.from_address">
+          <img src="@/assets/home/buy.png" alt="" class="sell_icon" v-if="item.to_address==accountStore.activeWallet.address&&item.to_address!=item.from_address">
+          <img src="@/assets/home/cycle.jpg" alt="" class="sell_icon" v-if="item.to_address==item.from_address">
           <!-- <img src="@/assets/home/buy.png" alt="" class="sell_icon"> -->
           <div class="list_info">
-            <div class="no" v-if="item.to_address!==accountStore.activeWallet.address">{{ obscureString(item.to_address) }}</div>
-            <div class="no" v-else>{{ obscureString(item.from_address) }}</div>
+            <div class="no" v-if="item.to_address!==accountStore.activeWallet.address&&item.to_address!=item.from_address">{{ obscureString(item.to_address) }}</div>
+            <div class="no" v-if="item.to_address==accountStore.activeWallet.address&&item.to_address!=item.from_address">{{ obscureString(item.from_address) }}</div>
+            <div class="no" v-if="item.to_address==item.from_address">转给自己</div>
             <div class="time">{{ formatTimestamp(item.timestamp) }}</div>
           </div>
-          <div class="sell_money">{{ item.to_address==accountStore.activeWallet.address?'+':'-'}}
-            {{ item.usdt_token }}</div>
-          <!-- <div class="buy_money">+233,487.00</div> -->
+          <div class="sell_money" v-if="item.to_address==item.from_address">
+            {{ item.d9_token }}</div>
+          <div class="sell_money" v-else>{{ item.to_address==accountStore.activeWallet.address?'+':'-'}}
+            {{ item.d9_token }}</div>
+         
         </div>
-        <div style="width: 100%; text-align: center;margin-top: 4vw 0;" @click="loadMore" v-show="userProfileStore.hasUsdtTransferNext">加载更多...</div>
+        <div style="width: 100%; text-align: center;margin: 4vw 0;" @click="loadMore" v-show="userProfileStore.hasUsdtTransferNext">加载更多...</div>
       </div>
       <div class="btns">
         <div class="transfer button_active_plain" @click="transfer">转账</div>
@@ -84,6 +91,10 @@ function toDetail(index:number){
   router.push({name:'transactionDetail',params:{transferIndex:Number(index),transferType:String(type)}})
 }
 
+
+const toSwap=async()=>{
+  router.push('/main/worldSwap')
+}
 
 const loadMore=()=>{
   if(type=='d9'){

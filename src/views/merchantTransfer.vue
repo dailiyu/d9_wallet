@@ -1,6 +1,6 @@
 <template>
 <ion-page class="main_page">
-    <navBar :title="t('burnMining.merchantTransfer')" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
+    <navBar :title="t('burnMining.merchantTransfer')" iconColor="ffffff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
     <div class="content">
         <div class="title">{{ t('burnMining.merchantAccount') }}</div>
         <!-- <div class="address">

@@ -76,10 +76,14 @@ const importWalletFromMnemonic = async () => {
   try {
     const walletData= await importFromMnemonic(mnemonic.value);
     await  accountStore.addtemporaryNameAction(name.value)
-    if(accountStore.isFirstMainWallet){
+    if(accountStore.isFirstMainWallet==true){
         authority.value=true
+    }else{
+      authority.value=false
     }
-    await accountStore.addWalletAction({...walletData,name:name.value,authority:authority.value})
+    console.log(accountStore.isFirstMainWallet);
+    
+    await accountStore.addWalletAction({...walletData,name:name.value,authority:  authority.value})
     authority.value=false
     await accountStore.changeIsFirstMainWallet(false)
     await accountStore.changeActiveWallet(accountStore.walletList.length-1)

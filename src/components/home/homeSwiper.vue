@@ -319,7 +319,7 @@ position: relative;
 .swipe_item2{
   padding-right: 19.8598vw;
   .swiper_item {
-    background: #fff url('@/assets/home/card_bg_2.png');
+    background: #ffffff url('@/assets/home/card_bg_2.png');
     background-size: 100% auto;
   }
 }
@@ -330,7 +330,7 @@ position: relative;
         height: 128.7383vw;
         border-radius: 25px;
         box-shadow: 0px 3px 20px 1px rgba(4,44,110,0.16);
-        background: #fff url('@/assets/home/card_bg.png');
+        background: #ffffff url('@/assets/home/card_bg.png');
         background-size: 100% auto;
         transition: all 0.5s;
         transform-style: preserve-3d;
@@ -349,7 +349,7 @@ position: relative;
             line-height: 3.5047vw;
             border-radius: 9px;
             background-color: #0065B2;
-            color: #fff;
+            color: #ffffff;
             font-size: 1.692vw;
             text-align: center;
           }
@@ -359,7 +359,7 @@ position: relative;
           bottom: 0;
           left: 0;
           right: 0;
-          background-color: #fff;
+          background-color: #ffffff;
           padding: 7.0093vw 6.3084vw;
           border-radius: 25px;
           .wallet_text {
@@ -408,14 +408,14 @@ position: relative;
               .van-cell {
                 padding: 0;
                 background-color: transparent;
-                color: #fff;
+                color: #ffffff;
               }
             }
             :deep(.van-cell__value) {
               font-size: 8.4112vw;
             }
             :deep(.van-field__control) {
-              color: #000;
+              color: #000000;
             }
           }
           .buttons {
@@ -434,7 +434,7 @@ position: relative;
               text-align: center;
               margin-right: 3.5047vw;
               &:last-child {
-                color: #fff;
+                color: #ffffff;
                 background-color: #0065FF;
                 margin-right: 0;
               }
@@ -526,7 +526,7 @@ position: relative;
               border-bottom: 1px solid #E7EBF2;
               &:last-child {
                 border: none;
-                color: #000;
+                color: #000000;
                 padding-bottom: 0;
                 padding-top: 2.8037vw;
               }
@@ -553,7 +553,7 @@ position: relative;
               }
               .rate_num {
                 border-radius: 100px;
-                color: #fff;
+                color: #ffffff;
                 background-color: #BDC5D7;
                 // width: 13.785vw;
                 // height: 3.972vw;
@@ -570,7 +570,7 @@ position: relative;
             height: 12.6168vw;
             // line-height: 12.6168vw;
             border-radius: 9px;
-            color: #fff;
+            color: #ffffff;
             font-size: 4.2056vw;
             font-weight: 500;
             margin: 0 auto;
@@ -582,7 +582,7 @@ position: relative;
           }
         }
         .item2 {
-          background-color: #fff;
+          background-color: #ffffff;
           width: 100%;
           height: 100%;
           border-radius: 25px;
@@ -613,7 +613,7 @@ position: relative;
             .van-cell {
               padding: 0;
               background-color: transparent;
-              color: #fff;
+              color: #ffffff;
             }
           }
           :deep(.van-cell__value) {
@@ -621,7 +621,7 @@ position: relative;
             font-weight: 500;
           }
           :deep(.van-field__control) {
-            color: #000;
+            color: #000000;
           }
         }
       }

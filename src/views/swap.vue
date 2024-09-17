@@ -40,7 +40,7 @@
             </div>
             <div class="text_item">
                 <div>{{ t('swap.tradePrice') }}</div>
-                <div class="text_num">1 USDT ≈ 14.0355 D9</div>
+                <div class="text_num">1 USDT ≈ {{ marketStore.exchangeRateUsdtToD9 }} D9</div>
             </div>
             <div class="text_item">
                 <div>{{ t('swap.fee') }}</div>
@@ -58,29 +58,38 @@
             </div>
         </div>
 
-        <div class="record_item" @click="toRecords(0)">
+        <div class="record_item" @click="toRecords(0)" v-if="userProfileStore?.flashExchangeDataList.length>0">
             <div class="text">
                 <div>{{ t('swap.success') }}</div>
-                <div class="time">{{ formatTimestamp(userProfileStore.flashExchangeDataList[0].timestamp) }}</div>
+                <div class="time">{{ formatTimestamp(userProfileStore?.flashExchangeDataList[0]?.timestamp) }}</div>
             </div>
             <div class="type_item">
-                <div class="type_left">
+                <div class="type_left" v-if=" userProfileStore.flashExchangeDataList[0].actions=='D9ToUSDTConversion'">
                     <img src="@/assets/home/logo_d9.png" alt="" class="text_icon">
                     <div>D9</div>
+                </div>
+                <div class="type_left" v-else>
+                    <img src="@/assets/home/logo_usdt.png" alt="" class="text_icon">
+                    <div>USDT</div>
                 </div>
                 <div class="type_middle">
                     <div class="line"></div>
                     <van-icon name="play" color="#0065FF" />
                     <div class="line"></div>
                 </div>
-                <div class="type_left">
+                <div class="type_left"  v-if=" userProfileStore.flashExchangeDataList[0].actions=='D9ToUSDTConversion'">
                     <div>USDT</div>
                     <img src="@/assets/home/logo_usdt.png" alt="" class="text_icon">
                 </div>
+                <div class="type_left"v-else>
+                    <div>D9</div>
+                    <img src="@/assets/home/logo_d9.png" alt="" class="text_icon">
+                   
+                </div>
             </div>
             <div class="num">
-                <div>{{userProfileStore.flashExchangeDataList[0].d9_token }}</div>
-                <div class="num_usdt">{{ userProfileStore.flashExchangeDataList[0].usdt_token}}</div>
+                <div :class="userProfileStore.flashExchangeDataList[0].actions=='D9ToUSDTConversion'? '':'num_usdt'">{{  userProfileStore.flashExchangeDataList[0].actions=='D9ToUSDTConversion'?userProfileStore.flashExchangeDataList[0].d9_token:userProfileStore.flashExchangeDataList[0].usdt_token }}</div>
+                <div :class="userProfileStore.flashExchangeDataList[0].actions=='D9ToUSDTConversion'? 'num_usdt':''">{{ userProfileStore.flashExchangeDataList[0].actions=='D9ToUSDTConversion'?userProfileStore.flashExchangeDataList[0].usdt_token:userProfileStore.flashExchangeDataList[0].d9_token}}</div>
             </div>
         </div>
     </div>
@@ -194,8 +203,8 @@ const confirm=async(info: validateInfo)=>{
         await flashExchangeUsdtToD9()
     }
     Toast.close();
-    d9Amount.value=0
-    usdtAmount.value=0
+    d9Amount.value=undefined
+    usdtAmount.value=undefined
     await  userProfileStore.fetchAllData()
     showSuccessToast(swapSuccess.value);
   }else{

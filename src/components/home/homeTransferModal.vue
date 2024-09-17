@@ -58,10 +58,8 @@
         </ion-input>
         <div class="balance">
           <div class="balance_text">{{ t('home.balance') }}</div>
-          <div class="balance_num">{{ userProfileStore.d9Balance }}</div>
-          <div class="balance_num" v-show="false">
-            {{ userProfileStore.usdtBalance }}
-          </div>
+          <div class="balance_num">{{checked == 'd9' ? userProfileStore.d9Balance:userProfileStore.usdtBalance }}</div>
+         
         </div>
       </div>
       <div class="transfer_title">
@@ -73,7 +71,7 @@
           <div class="fee_num">
             <img src="@/assets/home/square_d9.png" alt="" class="logo" />
             <div class="fee_unit">D9</div>
-            <div>{{ Number(transferAmount)*0.003 }}</div>
+            <div>{{null }}</div>
           </div>
         </div>
       </div>
@@ -119,7 +117,7 @@ import { ref } from "vue";
 import { postTransfer } from "@/services/http/balances";
 import ValidatePassword from "../validatePassword.vue";
 import { validateInfo } from "@/types";
-import { postAllowanceMarketMaker, postUsdtTransfer } from "@/services/http/usdt";
+import { postAllowanceIncrease, postAllowanceMarketMaker, postUsdtTransfer } from "@/services/http/usdt";
 import { useI18n } from 'vue-i18n';
 
 
@@ -179,7 +177,7 @@ const transferD9=async()=>{
 }
  
 const transferUsdt=async()=>{
-  await postAllowanceMarketMaker({amount:props.transferAmount||0})
+  await postAllowanceIncrease({to_address:props.toAddress||'',amount:props.transferAmount||0})
   await postUsdtTransfer({to_address:props.toAddress||'',amount:props.transferAmount||0})
   await userProfileStore.fetchAllData()
 }
@@ -260,7 +258,7 @@ ion-modal::part(backdrop) {
   font-size: 4.9065vw;
   margin-bottom: 18.2243vw;
   margin-top: 9.3458vw;
-  color: #fff;
+  color: #ffffff;
   .close_pic {
     position: absolute;
     left: 7.7103vw;
@@ -272,7 +270,7 @@ ion-modal::part(backdrop) {
 .transfer_modal {
   padding: 16.3551vw 0;
   overflow-y: scroll;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 25px 25px 0 0;
   .transfer_title {
     display: flex;
@@ -363,7 +361,7 @@ ion-modal::part(backdrop) {
     line-height: 12.6168vw;
     border-radius: 9px;
     background-color: #0065ff;
-    color: #fff;
+    color: #ffffff;
     text-align: center;
     margin: 22.4299vw auto 17.0561vw;
   }

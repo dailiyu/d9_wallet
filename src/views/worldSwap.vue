@@ -1,6 +1,6 @@
 <template>
   <ion-page class="main_page">
-    <navBar title="WorldSwap" iconColor="#fff" bgLink="src/assets/discovery/ws_bg.png"></navBar>
+    <navBar title="WorldSwap" iconColor="#ffffff" bgLink="src/assets/discovery/ws_bg.png"></navBar>
     <div class="content">
         <div class="title">
             {{ t('worldSwap.totalLiquidity') }}
@@ -90,17 +90,17 @@
         </van-row>
         <van-row :gutter="[6, 0]" class="grid_table" @click="toRecords(index)" v-for="(item,index) in marketStore.flashExchangeDataList">
             <van-col span="5">
-                <div class="type padding" style="color: #CD4E45;" v-show="item.actions=='USDTToD9Conversion'">Buy</div>
-                <div class="type padding" style="color: #32C390;"  v-show="item.actions=='D9ToUSDTConversion'">Sell</div>
+                <div class="type padding" style="color: #CD4E45;" v-show="item?.actions=='USDTToD9Conversion'">Buy</div>
+                <div class="type padding" style="color: #32C390;"  v-show="item?.actions=='D9ToUSDTConversion'">Sell</div>
             </van-col>
             <van-col span="5">
-                <div class="amount padding">${{ item.usdt_token }}</div>
+                <div class="amount padding">${{ item?.usdt_token }}</div>
             </van-col>
             <van-col span="5">
-                <div class="time padding">{{ item.d9_token }}</div>
+                <div class="time padding">{{ item?.d9_token }}</div>
             </van-col>
             <van-col span="5">
-                <div class="time padding">{{ timeAgo(item.timestamp) }}</div>
+                <div class="time padding">{{ timeAgo(item?.timestamp) }}</div>
             </van-col>
             <van-col span="4">
                 <div class="padding">
@@ -148,16 +148,16 @@ const swap30DayYData=computed(() => {
 });
 
 const swap1DayXData=computed(() => {
-  return marketStore.MaketSwap1DayList.map(item => formatTimestamp(item.timestamp));
+  return marketStore.MaketSwap1DayList.map(item => formatTimestamp(item?.timestamp));
 });
 const swap7DayXData=computed(() => {
-  return marketStore.MaketSwap7DayList.map(item => formatTimestamp(item.timestamp));
+  return marketStore.MaketSwap7DayList.map(item => formatTimestamp(item?.timestamp));
 });
 const swap14DayXData=computed(() => {
-  return marketStore.MaketSwap14DayList.map(item => formatTimestamp(item.timestamp));
+  return marketStore.MaketSwap14DayList.map(item => formatTimestamp(item?.timestamp));
 });
 const swap30DayXData=computed(() => {
-  return marketStore.MaketSwap30DayList.map(item => formatTimestamp(item.timestamp));
+  return marketStore.MaketSwap30DayList.map(item => formatTimestamp(item?.timestamp));
 });
 
 
@@ -172,7 +172,7 @@ let options1 = ref({
             
         }],
         fill: {
-            colors: ['#b6d1fc', '#fff'],
+            colors: ['#b6d1fc', '#ffffff'],
             type: 'gradient',
             gradient: {
             shadeIntensity: 1,
@@ -216,7 +216,7 @@ let options2 = ref({
             
         }],
         fill: {
-            colors: ['#b6d1fc', '#fff'],
+            colors: ['#b6d1fc', '#ffffff'],
             type: 'gradient',
             gradient: {
             shadeIntensity: 1,
@@ -260,7 +260,7 @@ let options3 = ref({
             
         }],
         fill: {
-            colors: ['#b6d1fc', '#fff'],
+            colors: ['#b6d1fc', '#ffffff'],
             type: 'gradient',
             gradient: {
             shadeIntensity: 1,
@@ -304,7 +304,7 @@ let options4 = ref({
             
         }],
         fill: {
-            colors: ['#b6d1fc', '#fff'],
+            colors: ['#b6d1fc', '#ffffff'],
             type: 'gradient',
             gradient: {
             shadeIntensity: 1,
@@ -402,7 +402,7 @@ const loadingMore=async()=>{
     .total {
         .total_num {
             height: 20.0935vw;
-            background-color: #fff;
+            background-color: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -413,7 +413,7 @@ const loadingMore=async()=>{
         }
         .btns {
             border-radius: 0 0 13px 13px;
-            color: #fff;
+            color: #ffffff;
             padding: 1.6355vw 0;
             background-color: #0065FF;
             display: flex;
@@ -431,12 +431,12 @@ const loadingMore=async()=>{
         }
     }
     .chart_box {
-        background-color: #fff;
+        background-color: #ffffff;
         border-radius: 13px;
         margin-bottom: 5.8411vw;
         .time_box {
             padding: 0 2.3364vw 4.6729vw;
-            background-color: #fff;
+            background-color: #ffffff;
             display: flex;
             border-radius: 13px;
             .time_item {
@@ -455,7 +455,7 @@ const loadingMore=async()=>{
                 }
                 &.active {
                     background-color: #000;
-                    color: #fff;
+                    color: #ffffff;
                     border-radius: 9px;
                 }
             }
@@ -470,7 +470,7 @@ const loadingMore=async()=>{
             min-height: 21.1589vw;
             margin-right: 2.3364vw;
             border-radius: 13px;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 4.2056vw 5.1402vw;
             &:last-child {
                 margin-right: 0;
@@ -502,7 +502,7 @@ const loadingMore=async()=>{
     }
     .currency {
         border-radius: 13px;
-        background-color: #fff;
+        background-color: #ffffff;
         padding: 5.3738vw;
         display: flex;
         align-items: center;
@@ -535,7 +535,7 @@ const loadingMore=async()=>{
         background-color: #BDC5D7;
         font-weight: 400;
         font-size: 2.8037vw;
-        color: #fff;
+        color: #ffffff;
         padding: .9346vw 0;
         text-align: center;
     }

@@ -105,7 +105,7 @@ setError.value = t('home.setError');
 const showInputNumberPop = ref(false)
 const confirm =async (num:number)=>{
    try {
-    await userProfileStore.merchantQrcodeGenerateAction(num)
+    await userProfileStore.userQrcodeGenerateAction(num)
     qrCodeUrl.value = await QRCode.toDataURL(userProfileStore.merchantCodeString);
     showSuccessToast(setSuccess.value)
    } catch (error) {
@@ -144,7 +144,7 @@ ion-modal::part(backdrop) {
     padding: 16.3551vw 0;
     overflow-y: scroll;
     text-align: center;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 0 0 25px 25px;
     .accept_title {
         position: relative;
@@ -187,7 +187,7 @@ ion-modal::part(backdrop) {
     }
 }
 .receive_info {
-    color: #fff;
+    color: #ffffff;
     font-size:4.2056vw;
     margin-top: 12.8505vw;
     display: flex;

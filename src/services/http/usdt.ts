@@ -63,8 +63,9 @@ export function postAllowanceDecrease(queryInfo: {
   })
 }
 
-//??
+//个人/通用增加津贴      
 export function postAllowanceIncrease(queryInfo: {
+  to_address:string
   amount:number
 }) {
   return httpRequest.post({
@@ -154,23 +155,23 @@ export function postAllowanceUsdt(queryInfo: {
   })
 }
 
-export function postUsdtApprove(queryInfo: {
-  amount:number
-}) {
-  return httpRequest.post({
-    url: '/usdt/approve/',
-    data: queryInfo
-  })
-}
+// export function postUsdtApprove(queryInfo: {
+//   amount:number
+// }) {
+//   return httpRequest.post({
+//     url: '/usdt/approve/',
+//     data: queryInfo
+//   })
+// }
 
 
 //获取usdt余额
-export function postGetBalances() {
-  return httpRequest.post({
-    url: '/usdt/approve/',
+// export function postGetBalances() {
+//   return httpRequest.post({
+//     url: '/usdt/approve/',
  
-  })
-}
+//   })
+// }
 /*
 {
     "results": {
@@ -180,12 +181,12 @@ export function postGetBalances() {
 */
 
 //???
-export function postTotalSupply() {
-  return httpRequest.post({
-    url: '/usdt/approve/',
+// export function postTotalSupply() {
+//   return httpRequest.post({
+//     url: '/usdt/approve/',
  
-  })
-}
+//   })
+// }
 /*
 {
     "results": 1000000000000
@@ -199,7 +200,7 @@ export function postUsdtTransfer(queryInfo: {
   to_address:string
 }) {
   return httpRequest.post({
-    url: '/usdt/approve/',
+    url: '/usdt/transfer/',
     data: queryInfo
   })
 }

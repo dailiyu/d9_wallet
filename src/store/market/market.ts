@@ -190,7 +190,7 @@ const useMarketStore = defineStore('market', {
       this.curPage=this.curPage+1
       this.flashExchangeDataList=[...this.flashExchangeDataList,...metaData.data.results]
       this.haveNext=metaData.data.next?true:false
-      console.log(this.flashExchangeDataList);
+      // console.log(this.flashExchangeDataList);
       
    },
    async getInitMarketFlashExchangeDataAction(){
@@ -198,7 +198,7 @@ const useMarketStore = defineStore('market', {
       const metaData=await postMarketFlashExchangeData(this.curPage)
       this.flashExchangeDataList=metaData.data.results
       this.haveNext=metaData.data.next?true:false
-      console.log(this.flashExchangeDataList);
+      // console.log(this.flashExchangeDataList);
       
    },
    async  getGlobalComputingPowerAction(){
@@ -208,6 +208,8 @@ const useMarketStore = defineStore('market', {
    async getMarketTotalLpTokenAction(){
       const metaData=await postTotalLpToken()
       this.marketTotalLpToken=metaData.data.results
+      console.log( this.marketTotalLpToken);
+      
    },
    async getMaketSwap1DayListAction(){
       const metaData=await postMarketSwapList(1)

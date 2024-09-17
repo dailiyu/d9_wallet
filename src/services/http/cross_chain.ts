@@ -34,7 +34,7 @@ export function getTransactionID(address:string) {
     toAddress: string
     amount: number
     fromChain: ChainEnum
-    toChain: ChainEnum
+    toChain: ChainEnum   
   }){
     return httpCrossChainRequest.post({
       url: '/transfer/dispatch',

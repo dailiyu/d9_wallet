@@ -2,7 +2,7 @@
   <ion-page class="main_page">
     <navBar
       :title="t('discovery.nodeVoting')"
-      iconColor="#fff"
+      iconColor="#ffffff"
       bgLink="src/assets/discovery/node_bg.png"
     ></navBar>
     <div class="content">

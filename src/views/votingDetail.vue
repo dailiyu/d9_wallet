@@ -91,7 +91,7 @@ const confirmNumber = (num:string)=>{
         background-color: #BDC5D7;
         font-weight: 400;
         font-size: 2.8037vw;
-        color: #fff;
+        color: #ffffff;
         padding: .9346vw 0;
         text-align: center;
     }

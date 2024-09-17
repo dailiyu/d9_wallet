@@ -3,6 +3,7 @@
     "welcome": "欢迎使用我们的应用程序",
     "home": {
       "walletList": "钱包列表",
+      "number":"编号",
       "scan": "扫一扫",
       "walletBalance": "钱包余额",
       "walletManagement": "钱包管理",
@@ -76,6 +77,7 @@
       "countDown": "有效期倒计时",
       "addTime": "增加时效",
       "pointGift": "积分赠送",
+      "openMerchant":"开通商家码",
       "merchantCode": "商家码",
       "chooseTime": "选择时间",
       "oneMonth": "1个月",

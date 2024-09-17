@@ -44,7 +44,7 @@ function back (){
     font-size: 4.9065vw;
     font-weight: 500;
     padding-top: 9.3458vw;
-    background-color: #fff;
+    background-color: #ffffff;
     z-index: 10;
     .nav_item {
       position: relative;

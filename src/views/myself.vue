@@ -232,16 +232,16 @@ function toWalletManagement(){
             .van-cell {
               padding: 0;
               background-color: transparent;
-              color: #fff;
+              color: #ffffff;
             }
           }
           :deep(.van-cell__value) {
             font-size: 7.0093vw;
-            color: #fff;
+            color: #ffffff;
             margin-left: .7009vw;
           }
           :deep(.van-field__control) {
-            color: #fff;
+            color: #ffffff;
           }
         }
       }

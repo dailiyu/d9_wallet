@@ -241,7 +241,7 @@ function toPointGift(){
                     text-align: center;
                     font-family: 'HYYaKuHeiW';
                     font-size: 4.2056vw;
-                    color: #fff;
+                    color: #ffffff;
                     width: 30.8411vw;
                     div {
                         font-family: 'HYYaKuHeiW';
@@ -267,10 +267,10 @@ function toPointGift(){
                     text-align: center;
                     font-family: 'HYYaKuHeiW';
                     font-size: 4.2056vw;
-                    color: #fff;
+                    color: #ffffff;
                     width: 30.8411vw;
                     font-size: 4.2056vw;
-                    color: #fff;
+                    color: #ffffff;
                     div {
                         font-family: 'HYYaKuHeiW';
                         position: absolute;

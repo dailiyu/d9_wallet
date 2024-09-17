@@ -1,6 +1,6 @@
 <template>
     <ion-page class="main_page">
-    <navBar title="DPOC" iconColor="#fff" ></navBar>
+    <navBar title="DPOC" iconColor="#ffffff" ></navBar>
     <div class="content">
         <div class="title">{{ t('DPOC.totalMiningAmount') }}</div>
         <div class="amount">{{ marketStore.poolsTotalNumber }}</div>
@@ -102,6 +102,7 @@ const showInputNumberPop = ref(false)
 const confirmNumber = (num:number)=>{
     if(num<100) return showFailToast('最少数量为100')
     burningNumber.value=num
+    showInputNumberPop.value=false
     showPasswordPop.value=true
 }
 
@@ -261,7 +262,7 @@ const dealWithdraw=async ()=>{
             border-radius: 13px;
             background-color: #3FBBFA;
             padding: 3.0374vw 4.2056vw;
-            color: #fff;
+            color: #ffffff;
             font-weight: 400;
             font-size: 2.8037vw;
             margin-right: 2.8037vw;

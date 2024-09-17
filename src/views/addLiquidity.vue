@@ -51,7 +51,7 @@
                 </div>
                 <div class="num_item">
                     <div>{{ t('worldSwap.liquidityPoolToken') }}</div>
-                    <div class="number" style="color:#8E8C8E">{{ userProfileStore.userLpToken}}</div>
+                    <div class="number" style="color:#8E8C8E">{{ userProfileStore.userLpToken||0}}</div>
                 </div>
             </div>
 
@@ -122,7 +122,7 @@
 
 <script lang="ts" setup>
 import { IonPage } from '@ionic/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { postAddLiquidity, postLiquidMoneyCalculation, postRemoveLiquidity } from '@/services/http/amm';
 // import navBar from '@/components/navBar.vue'
 import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/vue';
@@ -148,7 +148,9 @@ const usdtNumber=ref<number>()
 const handleType=ref<'add'|'remove'>('add')
 const value = ref<number>(100)
 const curCurrency=ref<'d9'|'usdt'>('d9')
-const percentage=ref(userProfileStore.userLpToken/marketStore.marketTotalLpToken)
+const percentage=computed(()=>{
+    return userProfileStore.userLpToken/marketStore.marketTotalLpToken||0
+})
 function changeTab(event:IonSegmentCustomEvent<SegmentChangeEventDetail>){
     current.value = event.detail.value as number
 }
@@ -165,6 +167,7 @@ const addLiquidity=async()=>{
         usdt_amount:usdt,
         d9_amount:d9
     })
+    
     }else{
         const metaData=  await postLiquidMoneyCalculation({from_currency:'USDT',to_currency:'D9',from_amount:usdtNumber.value||0})
         const usdt=metaData.data.results.meta_data.usdt
@@ -198,8 +201,9 @@ const confirm=async(info: validateInfo)=>{
             showPasswordPop.value=false
                 await addLiquidity()
                 Toast.close();
-                usdtNumber.value=0
-                d9Number.value=0
+                usdtNumber.value=undefined
+                d9Number.value=undefined
+             await   userProfileStore.fetchAllData()
                 showSuccessToast(operateSuccess.value);
         }else if(handleType.value=='remove'){
             const Toast = showLoadingToast({
@@ -210,8 +214,9 @@ const confirm=async(info: validateInfo)=>{
             showPasswordPop.value=false
                 await removeLiquidity()
                 Toast.close();
-                usdtNumber.value=0
-                d9Number.value=0
+                usdtNumber.value=undefined
+                d9Number.value=undefined
+              await  userProfileStore.fetchAllData()
                 showSuccessToast(operateSuccess.value);
         }
    
@@ -253,7 +258,7 @@ const onFocusUsdt=async()=>{
 <style lang="scss" scoped>
 :deep(.navBar) {
     background-color: #F8F8F8;
-    color: #fff;
+    color: #ffffff;
 }
 .content {
     background-color: #F8F8F8;
@@ -264,7 +269,7 @@ const onFocusUsdt=async()=>{
     }
     .total_box {
         border-radius: 13px;
-        background-color: #fff;
+        background-color: #ffffff;
         padding: 6.3084vw 5.1402vw 4.2056vw;
         margin-bottom: 3.5047vw;
         .total_num {
@@ -331,7 +336,7 @@ const onFocusUsdt=async()=>{
         height: 58.1776vw;
         margin-top: 3.5047vw;
         border-radius: 13px;
-        background-color: #fff;
+        background-color: #ffffff;
         padding: 2.8037vw 4.6729vw;
         .content_title {
             font-weight: 500;
@@ -420,7 +425,7 @@ const onFocusUsdt=async()=>{
         .custom-button {
             width: 3.271vw;
             height: 3.271vw;
-            color: #fff;
+            color: #ffffff;
             font-size: 10px;
             line-height: 18px;
             text-align: center;

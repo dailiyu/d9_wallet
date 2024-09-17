@@ -1,6 +1,6 @@
 <template>
 <ion-page class="main_page">
-    <navBar :title="t('burnMining.merchantCode')" iconColor="#fff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
+    <navBar :title="t('burnMining.merchantCode')" iconColor="#ffffff" bgLink="src/assets/discovery/code-bg.png" ></navBar>
     <div class="content">
         <div class="title">{{ t('burnMining.countDown') }}</div>
         <div class="time_box" v-if="isOpen">
@@ -27,8 +27,10 @@
        
           <img :src="qrCodeUrl" alt="" :class="{'qr_code':true,'qr_codeFilter':!isOpen}" >
 
-        <div class="address" @click="toMerchangTransfer">{{ obscureString(accountStore.activeWallet.address)  }}</div>
-        <div class="btn button_active_full" @click="toPointGift">{{ t('burnMining.pointGift') }}</div>
+        <div class="address"  >{{ obscureString(accountStore.activeWallet.address)  }}</div>
+       
+        <div class="btn button_active_full" @click="toPointGift"   v-if="isOpen">{{ t('burnMining.pointGift') }}</div>
+        <div class="btn button_active_full" @click="isShow=true"    v-else>{{ t('burnMining.openMerchant') }}</div>
     </div>
 
     <van-popup
@@ -222,7 +224,7 @@ const confirm=async (info:validateInfo)=>{
         align-items: center;
         justify-content: center;
         
-        color: #fff;
+        color: #ffffff;
         .time_num {
             font-size: 5.6075vw;
             font-weight: Bold;

@@ -113,7 +113,7 @@ const showValidatePop = ref(false)
         }
     }
     .node {
-        background-color: #fff;
+        background-color: #ffffff;
         border-radius: 13px;
         border: 1px solid #E7EBF2;
         display: flex;
@@ -152,7 +152,7 @@ const showValidatePop = ref(false)
         border-radius: 13px;
         border: 1px solid #E7EBF2;
         padding: 4.4393vw;
-        background-color: #fff;
+        background-color: #ffffff;
         margin-top: 2.5701vw;
         margin-bottom: 4.4393vw;
         display: flex;
